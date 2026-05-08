@@ -39,6 +39,18 @@ The first SDK slice includes:
 - `SignalStatusResult`
 - `SignalConsentScopeRow`
 - `SignalCardFace`
+- `SignalAppShell`
+- `SignalScreen`
+- `SignalTextField`
+- `SignalAmountField`
+- `SignalIbanField`
+- `SignalSegmentedControl`
+- `SignalTile`
+- `SignalVoucherTile`
+- `SignalServiceTile`
+- `SignalSectionHeader`
+- `SignalEmptyState`
+- `SignalNotificationRow`
 
 ## Theme Model
 
@@ -61,6 +73,26 @@ SignalTheme {
         balance = "1,000,000 د.ل",
         onClick = { }
     )
+}
+```
+
+App shell:
+
+```kotlin
+SignalAppShell(
+    title = "الرئيسية",
+    activeRoot = "home",
+    navItems = navItems,
+    onRootSelected = { route -> },
+) {
+    SignalScreen {
+        SignalBankingRow(
+            title = "حوالة واردة",
+            metadata = "PAY-3921 · أمس 16:08",
+            amount = "+450 د.ل",
+            tone = SignalRowTone.Success
+        )
+    }
 }
 ```
 

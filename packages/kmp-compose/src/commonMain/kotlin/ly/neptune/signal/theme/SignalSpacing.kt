@@ -25,5 +25,6 @@ object SignalSize {
     val touchTarget = 44.dp
     val iconButton = 44.dp
     val navHeight = 88.dp
+    val fieldHeight = 56.dp
+    val tileMinHeight = 112.dp
 }
-

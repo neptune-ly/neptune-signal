@@ -65,6 +65,15 @@ Phase 1 status:
 - Status result: started.
 - Consent scope row: started.
 - Card face: started.
+- App shell: started.
+- Text field: started.
+- Amount field: started.
+- IBAN field: started.
+- Segmented control: started.
+- Voucher tile: started.
+- Service tile: started.
+- Notification row: started.
+- Empty state: started.
 
 Phase 2:
 

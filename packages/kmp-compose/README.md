@@ -27,6 +27,18 @@ Initial component priority:
 - `SignalStatusResult`
 - `SignalConsentScopeRow`
 - `SignalCardFace`
+- `SignalAppShell`
+- `SignalScreen`
+- `SignalTextField`
+- `SignalAmountField`
+- `SignalIbanField`
+- `SignalSegmentedControl`
+- `SignalTile`
+- `SignalVoucherTile`
+- `SignalServiceTile`
+- `SignalSectionHeader`
+- `SignalEmptyState`
+- `SignalNotificationRow`
 
 ## Current Usage
 
@@ -63,5 +75,8 @@ This release is a foundation package, not the full final app kit. It gives the n
 - Account surfaces.
 - Status/receipt pattern.
 - Card face pattern.
+- Form field patterns.
+- Tile patterns for vouchers and services.
+- Shell/navigation pattern.
 
 The SDK will grow from the mobile demo components into a full production component library.

@@ -34,6 +34,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <a href="../index.html"><img class="logo" src="../assets/logo/neptune-logo-color.png" alt="Neptune."></a>
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
+<a class="" href="../standard/philosophy.html">Philosophy</a>
 <a class="active" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -69,9 +70,11 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <li>Risk or approval.</li>
 <li>Next step.</li>
 </ul>
+<p>Signal is not decoration. It is the most important visible fact or action at that moment.</p>
 <h2>2. Respect Banking Density</h2>
 <p>Banking UI is used repeatedly. It should be calm, dense, and clear.</p>
 <p>Do not add decorative blocks when a row, section, or action would explain the work better.</p>
+<p>Dense does not mean cluttered. It means every element earns its place.</p>
 <h2>3. Make White-Label Structural</h2>
 <p>Bank colors can change. Neptune. quality should not.</p>
 <p>The theme changes color. The standard keeps:</p>
@@ -104,7 +107,23 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <li>Card list does not fetch balances.</li>
 <li>Card details can fetch balance and latest card transactions.</li>
 <li>Async payment waits route to a status page instead of blocking forever.</li>
-</ul></div>
+</ul>
+<h2>6. Build Once, Implement Everywhere</h2>
+<p>Components are standard contracts first. KMP, Flutter, native iOS, native Android, and web implementations should share the same anatomy and behavior.</p>
+<p>Platform-specific polish is allowed. Platform-specific contradiction is not.</p>
+<h2>7. Make Trust Visible</h2>
+<p>Banking customers need evidence.</p>
+<p>Show:</p>
+<ul>
+<li>Reference numbers.</li>
+<li>Status.</li>
+<li>Fees.</li>
+<li>Account source.</li>
+<li>Merchant or receiver.</li>
+<li>Date and time.</li>
+<li>Support/report action where needed.</li>
+</ul>
+<p>Do not hide the information needed for a customer to trust the result.</p></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

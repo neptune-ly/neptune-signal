@@ -11,6 +11,7 @@ DOCS = ROOT / "docs"
 NAV = [
     ("Overview", "index.html"),
     ("Standard 0.1", "standard/index.html"),
+    ("Philosophy", "standard/philosophy.html"),
     ("Principles", "standard/principles.html"),
     ("Compatibility", "standard/compatibility.html"),
     ("Versioning", "standard/versioning.html"),

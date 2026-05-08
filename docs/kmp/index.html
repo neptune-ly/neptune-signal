@@ -34,6 +34,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <a href="../index.html"><img class="logo" src="../assets/logo/neptune-logo-color.png" alt="Neptune."></a>
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
+<a class="" href="../standard/philosophy.html">Philosophy</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -85,6 +86,18 @@ ly.neptune.signal.patterns</code></pre>
 <li><code>SignalStatusResult</code></li>
 <li><code>SignalConsentScopeRow</code></li>
 <li><code>SignalCardFace</code></li>
+<li><code>SignalAppShell</code></li>
+<li><code>SignalScreen</code></li>
+<li><code>SignalTextField</code></li>
+<li><code>SignalAmountField</code></li>
+<li><code>SignalIbanField</code></li>
+<li><code>SignalSegmentedControl</code></li>
+<li><code>SignalTile</code></li>
+<li><code>SignalVoucherTile</code></li>
+<li><code>SignalServiceTile</code></li>
+<li><code>SignalSectionHeader</code></li>
+<li><code>SignalEmptyState</code></li>
+<li><code>SignalNotificationRow</code></li>
 </ul>
 <h2>Theme Model</h2>
 <pre><code class="language-kotlin">data class SignalTheme(
@@ -101,6 +114,22 @@ ly.neptune.signal.patterns</code></pre>
         balance = &quot;1,000,000 د.ل&quot;,
         onClick = { }
     )
+}</code></pre>
+<p>App shell:</p>
+<pre><code class="language-kotlin">SignalAppShell(
+    title = &quot;الرئيسية&quot;,
+    activeRoot = &quot;home&quot;,
+    navItems = navItems,
+    onRootSelected = { route -&gt; },
+) {
+    SignalScreen {
+        SignalBankingRow(
+            title = &quot;حوالة واردة&quot;,
+            metadata = &quot;PAY-3921 · أمس 16:08&quot;,
+            amount = &quot;+450 د.ل&quot;,
+            tone = SignalRowTone.Success
+        )
+    }
 }</code></pre>
 <p>White-label theme:</p>
 <pre><code class="language-kotlin">SignalTheme(

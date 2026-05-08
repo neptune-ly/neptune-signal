@@ -56,6 +56,8 @@ Initial Maven coordinates:
 ly.neptune.signal:kmp-compose:0.1.0
 ```
 
+The package currently includes theme, shell, navigation, buttons, rows, forms, tiles, account surfaces, status results, and card face primitives.
+
 ## Principles
 
 - Arabic-first, multilingual by design.

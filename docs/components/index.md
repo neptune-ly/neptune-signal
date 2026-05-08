@@ -42,6 +42,15 @@ Every component must define:
 | Consent Scope Row | Draft 0.1 | Planned | Planned | Planned | Planned |
 | Status Result | Draft 0.1 | Planned | Planned | Planned | Planned |
 | Language Selector | Draft 0.1 | Planned | Planned | Planned | Planned |
+| App Shell SDK | Draft 0.1 | Started | Planned | Planned | Planned |
+| Text Field | Draft 0.1 | Started | Planned | Planned | Planned |
+| Amount Field | Draft 0.1 | Started | Planned | Planned | Planned |
+| IBAN Field | Draft 0.1 | Started | Planned | Planned | Planned |
+| Segmented Control SDK | Draft 0.1 | Started | Planned | Planned | Planned |
+| Voucher Tile SDK | Draft 0.1 | Started | Planned | Planned | Planned |
+| Service Tile SDK | Draft 0.1 | Started | Planned | Planned | Planned |
+| Notification Row | Draft 0.1 | Started | Planned | Planned | Planned |
+| Empty State | Draft 0.1 | Started | Planned | Planned | Planned |
 
 ## Families
 
@@ -98,6 +107,36 @@ Every component must define:
 - Loading state.
 - Empty state.
 - Pending async state.
+
+## KMP 0.1 Started APIs
+
+The current SDK package includes:
+
+```kotlin
+SignalTheme
+SignalAppShell
+SignalScreen
+SignalButton
+SignalIconButton
+SignalTopBar
+SignalBottomNav
+SignalBankingRow
+SignalAccountRow
+SignalAccountHeader
+SignalTextField
+SignalAmountField
+SignalIbanField
+SignalSegmentedControl
+SignalTile
+SignalVoucherTile
+SignalServiceTile
+SignalStatusResult
+SignalConsentScopeRow
+SignalCardFace
+SignalSectionHeader
+SignalEmptyState
+SignalNotificationRow
+```
 
 ## Demo Source
 
