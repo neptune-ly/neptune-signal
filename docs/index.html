@@ -65,6 +65,8 @@
     .hero {
       min-height: 650px;
       display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: clamp(28px, 6vw, 88px);
       align-items: center;
       padding: 76px clamp(24px, 6vw, 96px);
       color: white;
@@ -73,7 +75,7 @@
         repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 56px);
       overflow: hidden;
     }
-    .hero img {
+    .hero-logo {
       width: min(620px, 100%);
       height: auto;
       margin-bottom: 34px;
@@ -124,6 +126,226 @@
       text-decoration: none;
     }
     .btn.primary { color: white; background: var(--coral); border-color: var(--coral); }
+    .signal-stage {
+      position: relative;
+      min-height: 460px;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+    .signal-stage::before {
+      content: "";
+      position: absolute;
+      width: min(540px, 88vw);
+      aspect-ratio: 1;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.06), transparent 0 1px, transparent 42px),
+        radial-gradient(circle at 50% 50%, rgba(0,168,174,.18), transparent 0 22%, transparent 50%);
+      border-radius: 50%;
+      opacity: .9;
+      transform: rotate(-18deg);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .signal-lockup {
+      display: grid;
+      justify-items: center;
+      gap: 22px;
+    }
+    .signal-mark {
+      position: relative;
+      width: clamp(188px, 25vw, 274px);
+      height: clamp(188px, 25vw, 274px);
+      display: grid;
+      place-items: center;
+      animation: signalMarkIn .72s cubic-bezier(.18,.82,.22,1) both;
+      overflow: visible;
+    }
+    .signal-mark::before,
+    .signal-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .signal-mark::before {
+      inset: 9%;
+      border: 1px solid rgba(234,78,78,.74);
+      transform: scaleX(1.38) rotate(-18deg);
+      animation: signalOrbitMove 2.8s cubic-bezier(.45,0,.2,1) infinite;
+    }
+    .signal-mark::after {
+      inset: 28%;
+      border: 1px solid rgba(240,206,157,.46);
+      transform: scaleX(1.14) rotate(16deg);
+      opacity: .78;
+    }
+    .signal-planet {
+      position: relative;
+      width: 42%;
+      height: 42%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 34% 28%, rgba(255,255,255,.44), transparent 0 11%, transparent 34%),
+        radial-gradient(circle at 72% 78%, rgba(0,168,174,.52), transparent 0 20%, transparent 52%),
+        linear-gradient(145deg, var(--coral), #B93939);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%;
+      box-shadow: 0 30px 74px rgba(0,0,0,.25);
+      overflow: hidden;
+      animation: signalPlanetSettle .86s cubic-bezier(.18,.82,.22,1) both, signalPlanetFloat 3.4s ease-in-out .86s infinite;
+    }
+    .signal-planet::before,
+    .signal-planet::after {
+      content: "";
+      position: absolute;
+      inset-inline: -25%;
+      border-top: 2px solid rgba(255,255,255,.58);
+      border-radius: 50%;
+      transform: rotate(-18deg);
+    }
+    .signal-planet::before { top: 31%; height: 28%; }
+    .signal-planet::after { bottom: 24%; height: 32%; border-top-width: 1px; opacity: .44; }
+    .signal-dot {
+      position: absolute;
+      top: 20%;
+      right: 19%;
+      width: 12px;
+      height: 12px;
+      background: var(--coral);
+      border: 3px solid var(--navy);
+      border-radius: 50%;
+      animation: signalPulse 1.45s ease-in-out infinite;
+    }
+    .moon-orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--diameter);
+      height: var(--diameter);
+      margin-left: calc(var(--diameter) / -2);
+      margin-top: calc(var(--diameter) / -2);
+      border: 1px solid rgba(234,78,78,.075);
+      border-radius: 50%;
+      transform: scaleX(var(--x, 1.18)) rotate(var(--tilt, -18deg));
+      animation: moonOrbit var(--speed) linear infinite;
+      pointer-events: none;
+    }
+    .moon-orbit i {
+      position: absolute;
+      top: 50%;
+      right: -2px;
+      width: var(--size, 3px);
+      height: var(--size, 3px);
+      background: var(--moon, rgba(255,255,255,.78));
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(234,78,78,.34);
+      transform: translateY(-50%);
+    }
+    .moon-orbit.triton i {
+      width: 8px;
+      height: 8px;
+      background: #F0CE9D;
+      box-shadow: 0 0 12px rgba(240,206,157,.45);
+    }
+    .moon-orbit.retrograde { animation-name: moonOrbitRetro; }
+    .m1 { --diameter: 48%; --speed: 4.8s; --size: 2px; --tilt: -10deg; }
+    .m2 { --diameter: 56%; --speed: 5.5s; --size: 2px; --tilt: 16deg; }
+    .m3 { --diameter: 64%; --speed: 6.2s; --size: 2px; --tilt: -24deg; }
+    .m4 { --diameter: 72%; --speed: 7.1s; --size: 2.4px; --tilt: 8deg; }
+    .m5 { --diameter: 80%; --speed: 8.3s; --size: 2.5px; --tilt: -32deg; }
+    .m6 { --diameter: 88%; --speed: 9.4s; --size: 2px; --tilt: 24deg; }
+    .m7 { --diameter: 98%; --speed: 10.8s; --size: 3.2px; --tilt: -14deg; }
+    .m8 { --diameter: 108%; --speed: 12.2s; --tilt: 20deg; }
+    .m9 { --diameter: 118%; --speed: 14.6s; --size: 3px; --tilt: -38deg; }
+    .m10 { --diameter: 128%; --speed: 16.8s; --size: 2px; --tilt: 30deg; }
+    .m11 { --diameter: 138%; --speed: 18.6s; --size: 2.2px; --tilt: -6deg; }
+    .m12 { --diameter: 148%; --speed: 20.4s; --size: 2px; --tilt: 36deg; }
+    .m13 { --diameter: 158%; --speed: 22.8s; --size: 2px; --tilt: -42deg; }
+    .m14 { --diameter: 168%; --speed: 25.2s; --size: 2px; --tilt: 12deg; }
+    .m15 { --diameter: 178%; --speed: 27.8s; --size: 1.8px; --tilt: -28deg; }
+    .m16 { --diameter: 188%; --speed: 31s; --size: 1.8px; --tilt: 44deg; }
+    .signal-copy {
+      display: grid;
+      gap: 8px;
+      text-align: center;
+      animation: signalCopyIn .62s cubic-bezier(.18,.82,.22,1) .18s both;
+    }
+    .signal-wordmark {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      line-height: 1;
+    }
+    .signal-brand {
+      font-size: 30px;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+    .signal-brand::after {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin-inline-start: 3px;
+      background: var(--coral);
+      border-radius: 50%;
+      vertical-align: baseline;
+      transform: translateY(-1px);
+    }
+    .signal-product {
+      color: rgba(255,255,255,.74);
+      font-size: 15px;
+      font-weight: 860;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .signal-tagline {
+      color: rgba(255,255,255,.68);
+      font-size: 13px;
+      font-weight: 760;
+    }
+    .signal-tagline b {
+      color: white;
+      font-weight: 920;
+    }
+    @keyframes signalMarkIn {
+      0% { opacity: 0; transform: translateY(12px) scale(.88); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes signalPlanetSettle {
+      0% { opacity: 0; transform: scale(.72) rotate(-10deg); filter: blur(5px); }
+      62% { opacity: 1; transform: scale(1.04) rotate(0); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+    }
+    @keyframes signalPlanetFloat {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+      50% { transform: translate3d(0, -4px, 0) rotate(4deg); }
+    }
+    @keyframes signalOrbitMove {
+      0% { transform: scaleX(1.38) rotate(-18deg); opacity: .72; }
+      50% { opacity: 1; }
+      100% { transform: scaleX(1.38) rotate(342deg); opacity: .72; }
+    }
+    @keyframes signalPulse {
+      0% { transform: scale(.72); opacity: .6; }
+      50% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(.94); opacity: .86; }
+    }
+    @keyframes moonOrbit {
+      from { transform: scaleX(var(--x, 1.18)) rotate(var(--tilt, -18deg)) rotate(0); }
+      to { transform: scaleX(var(--x, 1.18)) rotate(var(--tilt, -18deg)) rotate(360deg); }
+    }
+    @keyframes moonOrbitRetro {
+      from { transform: scaleX(var(--x, 1.18)) rotate(var(--tilt, -18deg)) rotate(360deg); }
+      to { transform: scaleX(var(--x, 1.18)) rotate(var(--tilt, -18deg)) rotate(0); }
+    }
+    @keyframes signalCopyIn {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
     section {
       padding: 56px clamp(24px, 6vw, 96px);
       border-bottom: 1px solid var(--line);
@@ -194,7 +416,16 @@
     @media (max-width: 900px) {
       .shell { grid-template-columns: 1fr; }
       aside { position: static; height: auto; }
+      .hero { grid-template-columns: 1fr; }
+      .signal-stage { min-height: 360px; order: -1; }
       .row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .signal-stage *, .signal-stage *::before, .signal-stage *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
     }
   </style>
 </head>
@@ -217,7 +448,7 @@
     <main>
       <header class="hero">
         <div>
-          <img src="./assets/logo/neptune-logo-color.png" alt="Neptune.">
+          <img class="hero-logo" src="./assets/logo/neptune-logo-color.png" alt="Neptune.">
           <span class="eyebrow">Neptune. Signal Standard 0.1.0</span>
           <h1>Design language, component standard, and SDK roadmap for Neptune. fintech products.</h1>
           <p class="lead">One platform-neutral standard. Multiple implementation SDKs over time. KMP first, then Flutter, native iOS, native Android, and web.</p>
@@ -225,6 +456,34 @@
             <a class="btn primary" href="./demos/mobile/prototype.html">Open mobile demo</a>
             <a class="btn" href="./components/index.html">View components</a>
             <a class="btn" href="./sdk/index.html">SDK architecture</a>
+          </div>
+        </div>
+        <div class="signal-stage" aria-label="Neptune. Signal animation">
+          <div class="signal-lockup">
+            <div class="signal-mark" aria-hidden="true">
+              <div class="signal-planet"></div>
+              <span class="signal-dot"></span>
+              <span class="moon-orbit m1"><i></i></span>
+              <span class="moon-orbit m2"><i></i></span>
+              <span class="moon-orbit m3"><i></i></span>
+              <span class="moon-orbit m4"><i></i></span>
+              <span class="moon-orbit m5"><i></i></span>
+              <span class="moon-orbit m6"><i></i></span>
+              <span class="moon-orbit m7"><i></i></span>
+              <span class="moon-orbit m8 triton retrograde"><i></i></span>
+              <span class="moon-orbit m9"><i></i></span>
+              <span class="moon-orbit m10"><i></i></span>
+              <span class="moon-orbit m11"><i></i></span>
+              <span class="moon-orbit m12"><i></i></span>
+              <span class="moon-orbit m13"><i></i></span>
+              <span class="moon-orbit m14"><i></i></span>
+              <span class="moon-orbit m15"><i></i></span>
+              <span class="moon-orbit m16"><i></i></span>
+            </div>
+            <div class="signal-copy">
+              <div class="signal-wordmark"><span class="signal-brand">Neptune</span><span class="signal-product">Signal</span></div>
+              <span class="signal-tagline">Powered by <b>Neptune.</b> Fintech</span>
+            </div>
           </div>
         </div>
       </header>
