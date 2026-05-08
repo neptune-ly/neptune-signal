@@ -33,8 +33,10 @@ Do not show these values with trailing dots or any other unclear abbreviation.
 - Keep currency attached to the amount.
 - Use tabular number styling for amounts where supported.
 - Place copy and share actions next to the exact value they affect.
-- If a value cannot fit on one line, wrap it or move it to a detail surface.
+- In dense detail headers, prefer one-line grouped identifiers with horizontal overflow before forcing a two-line break.
+- If a value still cannot fit safely, wrap it or move it to a detail surface.
 - Compact rows should not pretend to show the full value.
+- Lists use semantic compact labels, not partial strings. Use `IBAN ending 0101`, `MTCN ending 7890`, or `Voucher PIN ending 1120`.
 
 ## Copy and Share
 

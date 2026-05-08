@@ -1,6 +1,6 @@
-# Mobile Banking Demo 0.1.1
+# Mobile Banking Demo 0.2.0
 
-The mobile banking demo is an implementation example of Neptune. Signal Standard 0.1.1.
+The mobile banking demo is an implementation example of Neptune. Signal Standard 0.2.0.
 
 It is not the standard itself.
 
@@ -28,10 +28,10 @@ Interactive public demo:
 ./prototype.html
 ```
 
-Original internal prototype source:
+History:
 
 ```text
-/Users/mtellesy/GitHub/nexus.mw/docs/design/neptune-banking-core-v8-neptune-signal.html
+This public demo replaces the internal exploratory prototype and is now the canonical mobile reference for Neptune. Signal 0.2.
 ```
 
 ## Relationship to Standard

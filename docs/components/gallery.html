@@ -112,17 +112,21 @@
       <a href="../index.html"><img class="logo" src="../assets/logo/neptune-logo-color.png" alt="Neptune."></a>
       <nav aria-label="Documentation">
         <a href="../index.html">Overview</a>
-        <a href="../standard/index.html">Standard 0.1</a>
+        <a href="../standard/index.html">Standard 0.2</a>
+        <a href="../standard/m3-extension.html">M3 Extension</a>
         <a href="../standard/philosophy.html">Philosophy</a>
         <a href="../standard/information-presentation.html">Information</a>
         <a href="../standard/principles.html">Principles</a>
         <a href="../standard/compatibility.html">Compatibility</a>
         <a href="../standard/versioning.html">Versioning</a>
-        <a href="../foundations/tokens.html">Foundations</a>
+        <a href="../foundations/tokens.html">Tokens</a>
+        <a href="../foundations/color-roles.html">Color Roles</a>
         <a href="../foundations/typography.html">Typography</a>
         <a href="../foundations/layout.html">Layout</a>
+        <a href="../foundations/surfaces.html">Surfaces</a>
         <a href="index.html">Components</a>
         <a class="active" href="gallery.html">Component Gallery</a>
+        <a href="anatomy.html">Anatomy</a>
         <a href="buttons.html">Buttons</a>
         <a href="forms.html">Forms</a>
         <a href="banking-row.html">Banking Row</a>
@@ -141,11 +145,46 @@
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
+        <span class="kicker">Neptune. Signal Standard 0.2.0</span>
         <h1>Component Gallery</h1>
-        <p class="lead">This is the working catalog for teams building with Neptune. Signal. Each component has a preview and KMP Compose code that can be copied after installing the SDK. Future Flutter, native, and web SDKs must keep the same component contract.</p>
+        <p class="lead">This is the working catalog for teams building with Neptune. Signal. It follows a Material-style component page model: preview, anatomy, states, tokens, accessibility, and KMP Compose code that can be copied after installing the SDK.</p>
 
         <div class="grid">
+          <section class="component" id="theme-roles">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:12px">
+                <div class="value-line"><span><b>primary</b><span class="value">Bank identity and main action role</span></span><span class="status-pill">#07315F</span></div>
+                <div class="value-line"><span><b>secondary</b><span class="value">Operational signal and support role</span></span><span class="status-pill">#00A8AE</span></div>
+                <div class="value-line"><span><b>tertiary</b><span class="value">Neptune. pulse, risk, and rare emphasis</span></span><span class="status-pill">#EB4E4D</span></div>
+                <div class="value-line compact"><span><b>surfaceContainer</b><span class="value">Lists, fields, sheets, and dense panels</span></span><span class="status-pill neutral">M3 role</span></div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Theme Roles</h2>
+              <p>Material-compatible roles mapped to Neptune. and white-label bank tokens. Components read roles, not raw brand colors.</p>
+              <div class="meta"><span class="chip">Color roles</span><span class="chip">White label</span><span class="chip">KMP theme</span></div>
+              <ul class="rules">
+                <li>Primary maps to bank identity and selected state.</li>
+                <li>Secondary supports operations without competing with primary.</li>
+                <li>Tertiary is the Neptune. signature accent and must stay rare.</li>
+                <li>Status colors stay protected from bank branding.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-theme">Copy code</button></div>
+<pre><code id="code-theme">val bankTheme = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFFA71930),
+    secondary = Color(0xFF07315F),
+    accent = Color(0xFFC89B3C),
+    ink = Color(0xFF071C2E)
+)
+
+SignalTheme(colors = bankTheme) {
+    BankingApp()
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
           <section class="component" id="app-shell">
             <div class="preview">
               <div class="phone-card">
@@ -238,7 +277,7 @@ SignalTheme {
 SignalIconButton(
     onClick = onCopyIban
 ) {
-    SignalCopyIcon()
+    SignalCopyGlyph()
 }</code></pre>
               </div>
             </div>
@@ -315,6 +354,11 @@ SignalValueLine(
                   <div><div class="row-title">حوالة LyPay واردة</div><div class="row-sub">PAY-3921 · أمس 16:08</div></div>
                   <div class="amount">+450 د.ل</div>
                 </div>
+                <div class="bank-row">
+                  <div class="mark"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16"/><path d="M8 15h4"/></svg></div>
+                  <div><div class="row-title">الحساب الجاري</div><div class="row-sub">جاري · نشط · IBAN ending 0101</div></div>
+                  <div class="amount">1,000,000 د.ل</div>
+                </div>
               </div>
             </div>
             <div class="spec">
@@ -328,22 +372,24 @@ SignalValueLine(
               </ul>
               <div class="codeblock">
                 <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-rows">Copy code</button></div>
-                <pre><code id="code-rows">SignalBankingRow(
-    title = "حوالة LyPay واردة",
-    metadata = "PAY-3921 · أمس 16:08",
-    amount = "+450 د.ل",
-    tone = SignalRowTone.Success,
-    onClick = onOpenTransaction
-)
-
-SignalAccountRow(
-    name = "الحساب الجاري",
-    accountType = "جاري",
-    status = "نشط",
-    iban = "LY810240010100006712020101",
-    balance = "د.ل 1,000,000",
-    onClick = onOpenAccount
-)</code></pre>
+                <pre><code id="code-rows">SignalListGroup {
+    SignalTransactionRow(
+        title = "حوالة LyPay واردة",
+        metadata = "PAY-3921 · أمس 16:08",
+        amount = "+450 د.ل",
+        incoming = true,
+        onClick = onOpenTransaction
+    )
+    SignalListDivider()
+    SignalAccountSummaryRow(
+        name = "الحساب الجاري",
+        accountType = "جاري",
+        status = "نشط",
+        compactIdentifier = "IBAN ending 0101",
+        balance = "د.ل 1,000,000",
+        onClick = onOpenAccount
+    )
+}</code></pre>
               </div>
             </div>
           </section>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Component: Buttons | Neptune. Signal</title>
+  <title>Foundations: Surfaces | Neptune. Signal</title>
   <style>
 :root{
   --npt-navy:#07315F;
@@ -172,7 +172,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <a class="" href="../foundations/color-roles.html">Color Roles</a>
 <a class="" href="../foundations/typography.html">Typography</a>
 <a class="" href="../foundations/layout.html">Layout</a>
-<a class="" href="../foundations/surfaces.html">Surfaces</a>
+<a class="active" href="../foundations/surfaces.html">Surfaces</a>
 <a class="" href="../foundations/shape.html">Shape</a>
 <a class="" href="../foundations/iconography.html">Iconography</a>
 <a class="" href="../components/index.html">Components</a>
@@ -180,7 +180,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <a class="" href="../components/anatomy.html">Anatomy</a>
 <a class="" href="../components/app-shell.html">App Shell</a>
 <a class="" href="../components/navigation.html">Navigation</a>
-<a class="active" href="../components/buttons.html">Buttons</a>
+<a class="" href="../components/buttons.html">Buttons</a>
 <a class="" href="../components/forms.html">Forms</a>
 <a class="" href="../components/banking-row.html">Banking Row</a>
 <a class="" href="../components/account.html">Accounts</a>
@@ -200,37 +200,25 @@ tr:first-child th,tr:first-child td{border-top:0}
     <main class="content">
       <article>
         <span class="kicker">Neptune. Signal Standard 0.2.0</span>
-        <div class="doc-card"><h1>Component: Buttons</h1>
-<h2>Types</h2>
-<ul>
-<li>Primary.</li>
-<li>Secondary.</li>
-<li>Destructive.</li>
-<li>Icon.</li>
-<li>Icon plus label.</li>
-<li>Segmented control button.</li>
-</ul>
+        <div class="doc-card"><h1>Foundations: Surfaces</h1>
+<p>Surface design is how Neptune. Signal gets a modern Material-informed feel without becoming a stack of cards.</p>
+<h2>Surface Ladder</h2>
+<table><thead><tr><th>Surface</th><th>Token</th><th>Usage</th></tr></thead><tbody><tr><td>Paper</td><td><code>surface</code></td><td>Main screen surface</td></tr><tr><td>Low container</td><td><code>surfaceContainerLow</code></td><td>Scroll background, grouped quiet sections</td></tr><tr><td>Container</td><td><code>surfaceContainer</code></td><td>Rows, fields, vouchers, list groups</td></tr><tr><td>High container</td><td><code>surfaceContainerHigh</code></td><td>Bottom navigation, sheets, sticky controls</td></tr><tr><td>Highest container</td><td><code>surfaceContainerHighest</code></td><td>Modal content, selected controls, dense panels</td></tr><tr><td>Primary surface</td><td><code>primary</code></td><td>Secure account hero, filled primary action, selected nav</td></tr></tbody></table>
+<h2>Elevation</h2>
+<p>Neptune. Signal uses restrained elevation:</p>
+<table><thead><tr><th>Level</th><th>Use</th></tr></thead><tbody><tr><td>0</td><td>Flat rows, lists, app background</td></tr><tr><td>1</td><td>Interactive rows and fields</td></tr><tr><td>2</td><td>Bottom navigation and app bars</td></tr><tr><td>3</td><td>Sheets and menus</td></tr><tr><td>4</td><td>Dialogs and focused confirmation surfaces</td></tr><tr><td>5</td><td>Temporary morph overlays only</td></tr></tbody></table>
 <h2>Rules</h2>
 <ul>
-<li>Primary buttons use <code>bank.primary</code>.</li>
-<li>Destructive buttons use danger/risk styling.</li>
-<li>Icon-only buttons require accessible labels.</li>
-<li>Buttons should not change size between loading and completed states.</li>
-<li>Loading buttons must preserve the action label or provide a clear processing state.</li>
+<li>Use fewer surfaces than typical fintech dashboards.</li>
+<li>Prefer lists and sections over card piles.</li>
+<li>Do not put cards inside cards.</li>
+<li>Use stroke and container color before heavy shadows.</li>
+<li>Important financial receipt screens may use a full-width surface because receipts need room.</li>
+<li>Detail pages should not repeat the same account card from the home carousel. They should transform the source into a new header layout.</li>
 </ul>
-<h2>Sizes</h2>
-<table><thead><tr><th>Size</th><th>Height</th><th>Radius</th><th>Usage</th></tr></thead><tbody><tr><td>Small</td><td>36</td><td>999</td><td>Compact controls</td></tr><tr><td>Medium</td><td>44</td><td>999</td><td>Forms and sheets</td></tr><tr><td>Large</td><td>56</td><td>22-999</td><td>Primary actions</td></tr></tbody></table>
-<h2>KMP API</h2>
-<pre><code class="language-kotlin">@Composable
-fun SignalButton(
-    label: String,
-    onClick: () -&gt; Unit,
-    modifier: Modifier = Modifier,
-    variant: SignalButtonVariant = SignalButtonVariant.Primary,
-    enabled: Boolean = true,
-    loading: Boolean = false,
-    icon: SignalIcon? = null
-)</code></pre></div>
+<h2>State Layers</h2>
+<table><thead><tr><th>State</th><th>Alpha</th></tr></thead><tbody><tr><td>Hover</td><td>0.08</td></tr><tr><td>Focus</td><td>0.12</td></tr><tr><td>Press</td><td>0.12</td></tr><tr><td>Drag</td><td>0.16</td></tr><tr><td>Disabled container</td><td>0.12</td></tr><tr><td>Disabled content</td><td>0.38</td></tr></tbody></table>
+<p>State layers must use the role color of the component, not an arbitrary color.</p></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

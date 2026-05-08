@@ -10,6 +10,7 @@
 
 ## 0.2.x
 
+- Add Material-compatible role model.
 - Expand component documentation.
 - Define button, field, sheet, modal, list, tab, search, filter, and date components.
 - Add visual QA checklist.
@@ -41,4 +42,3 @@
 - Responsive layout rules.
 - Table, dashboard, and analytics patterns.
 - Admin and operations console standards.
-

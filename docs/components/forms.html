@@ -5,27 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Component: Forms and Inputs | Neptune. Signal</title>
   <style>
-:root{--navy:#1A335E;--coral:#EA4E4E;--teal:#00A8AE;--paper:#F7FAF9;--ink:#071C2E;--muted:#60747C;--line:#D7E5E8;--soft:#EEF6F6;--code:#0B213F}
+:root{
+  --npt-navy:#07315F;
+  --npt-teal:#00A8AE;
+  --npt-coral:#EB4E4D;
+  --npt-beige:#F0CE9D;
+  --npt-sky:#3BC1EE;
+  --primary:#07315F;
+  --on-primary:#FFFFFF;
+  --primary-container:#E8F1FF;
+  --on-primary-container:#061D38;
+  --secondary:#006D72;
+  --secondary-container:#D8F6F7;
+  --tertiary:#EB4E4D;
+  --surface:#FAFCFC;
+  --surface-container-low:#F4F8F8;
+  --surface-container:#EEF5F5;
+  --surface-container-high:#E7F0F1;
+  --surface-container-highest:#DDE8EA;
+  --on-surface:#071C2E;
+  --on-surface-variant:#60747C;
+  --outline:#C8D8DD;
+  --outline-variant:#E0EAED;
+  --code:#09213D;
+  --shadow:0 22px 72px rgba(7,49,95,.10);
+}
 *{box-sizing:border-box}
-body{margin:0;color:var(--ink);background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-a{color:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:280px minmax(0,1fr)}
-aside{position:sticky;top:0;height:100vh;padding:28px 22px;background:#fff;border-right:1px solid var(--line);overflow:auto}
-.logo{width:210px;height:auto;display:block;margin-bottom:28px}
-nav{display:grid;gap:6px}nav a{padding:10px 12px;color:var(--muted);border-radius:12px;font-size:14px;font-weight:820;text-decoration:none}
-nav a:hover,nav a.active{color:var(--navy);background:var(--soft)}
-.content{min-width:0;padding:56px clamp(24px,6vw,96px) 80px}
-.kicker{display:inline-flex;min-height:34px;align-items:center;padding:0 13px;color:#fff;background:var(--coral);border-radius:999px;font-size:13px;font-weight:950}
-article{max-width:1050px}.doc-card{padding:34px;background:#fff;border:1px solid var(--line);border-radius:28px}
-h1{margin:18px 0 20px;color:var(--navy);font-size:clamp(42px,6vw,74px);line-height:.94;letter-spacing:0}
-h2{margin:40px 0 14px;color:var(--navy);font-size:32px;line-height:1.05}h3{margin:28px 0 10px;color:var(--navy);font-size:22px}
-p{color:var(--muted);font-size:16px;line-height:1.62;font-weight:650}strong,b{color:var(--navy)}
-ul,ol{color:var(--muted);font-size:16px;line-height:1.58;font-weight:650;padding-left:24px}li{margin:6px 0}
-pre{overflow:auto;padding:18px 20px;color:#EAF6F7;background:var(--code);border-radius:18px;border:1px solid rgba(255,255,255,.08)}
-code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}p code,li code,td code{padding:2px 6px;color:var(--navy);background:var(--soft);border-radius:8px}
-table{width:100%;margin:18px 0;border-collapse:separate;border-spacing:0;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:18px}
-th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertical-align:top}th{color:var(--navy);background:var(--soft);font-weight:950}td{color:var(--muted);font-weight:650}tr:first-child th,tr:first-child td{border-top:0}
-.footer-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.btn{min-height:42px;display:inline-grid;place-items:center;padding:0 16px;color:#fff;background:var(--navy);border-radius:999px;text-decoration:none;font-weight:950}.btn.secondary{color:var(--navy);background:var(--soft)}
-@media(max-width:900px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}.content{padding:32px 18px}.doc-card{padding:24px}h1{font-size:42px}}
+body{
+  margin:0;
+  color:var(--on-surface);
+  background:
+    radial-gradient(circle at 82% 8%, rgba(0,168,174,.12), transparent 0 24rem),
+    linear-gradient(180deg,#fff 0%,var(--surface) 36%,#F1F6F7 100%);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+a{color:inherit}
+.shell{min-height:100vh;display:grid;grid-template-columns:304px minmax(0,1fr)}
+aside{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:24px 18px;
+  background:rgba(255,255,255,.86);
+  border-right:1px solid var(--outline-variant);
+  backdrop-filter:blur(22px);
+  overflow:auto;
+}
+.logo{width:214px;height:auto;display:block;margin:0 0 24px}
+nav{display:grid;gap:4px}
+nav a{
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+  color:var(--on-surface-variant);
+  border-radius:20px;
+  font-size:14px;
+  font-weight:780;
+  text-decoration:none;
+}
+nav a:hover{color:var(--primary);background:var(--surface-container-low)}
+nav a.active{
+  color:var(--primary);
+  background:var(--primary-container);
+  box-shadow:inset 4px 0 0 var(--npt-coral);
+}
+.content{min-width:0;padding:56px clamp(24px,6vw,104px) 88px}
+article{max-width:1120px}
+.kicker{
+  display:inline-flex;
+  min-height:36px;
+  align-items:center;
+  gap:8px;
+  padding:0 14px;
+  color:var(--on-primary);
+  background:var(--npt-coral);
+  border-radius:999px;
+  font-size:13px;
+  font-weight:900;
+}
+.doc-card{
+  margin-top:18px;
+  padding:clamp(24px,4vw,42px);
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--outline-variant);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+}
+h1{
+  margin:0 0 20px;
+  color:var(--primary);
+  font-size:clamp(40px,6vw,72px);
+  line-height:.96;
+  letter-spacing:0;
+}
+h2{margin:42px 0 14px;color:var(--primary);font-size:32px;line-height:1.08}
+h3{margin:30px 0 10px;color:var(--primary);font-size:22px}
+p{color:var(--on-surface-variant);font-size:16px;line-height:1.66;font-weight:650}
+strong,b{color:var(--primary)}
+ul,ol{color:var(--on-surface-variant);font-size:16px;line-height:1.6;font-weight:650;padding-left:24px}
+li{margin:7px 0}
+pre{
+  overflow:auto;
+  padding:18px 20px;
+  color:#EAF7F8;
+  background:var(--code);
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.08);
+}
+code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}
+p code,li code,td code{
+  padding:2px 7px;
+  color:var(--primary);
+  background:var(--primary-container);
+  border-radius:9px;
+}
+table{
+  width:100%;
+  margin:20px 0;
+  border-collapse:separate;
+  border-spacing:0;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid var(--outline-variant);
+  border-radius:22px;
+}
+th,td{padding:15px 16px;text-align:left;border-top:1px solid var(--outline-variant);vertical-align:top}
+th{color:var(--primary);background:var(--surface-container);font-weight:920}
+td{color:var(--on-surface-variant);font-weight:650}
+tr:first-child th,tr:first-child td{border-top:0}
+.footer-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.btn{
+  min-height:44px;
+  display:inline-grid;
+  place-items:center;
+  padding:0 18px;
+  color:#fff;
+  background:var(--primary);
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:900;
+}
+.btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  aside{position:static;height:auto}
+  .content{padding:30px 16px 60px}
+  .doc-card{padding:22px}
+  h1{font-size:40px}
+}
 </style>
 </head>
 <body>
@@ -33,35 +161,45 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     <aside>
       <a href="../index.html"><img class="logo" src="../assets/logo/neptune-logo-color.png" alt="Neptune."></a>
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
-<a class="" href="../standard/index.html">Standard 0.1</a>
+<a class="" href="../standard/index.html">Standard 0.2</a>
+<a class="" href="../standard/m3-extension.html">M3 Extension</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
 <a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
-<a class="" href="../foundations/tokens.html">Foundations</a>
+<a class="" href="../foundations/tokens.html">Tokens</a>
+<a class="" href="../foundations/color-roles.html">Color Roles</a>
 <a class="" href="../foundations/typography.html">Typography</a>
 <a class="" href="../foundations/layout.html">Layout</a>
+<a class="" href="../foundations/surfaces.html">Surfaces</a>
+<a class="" href="../foundations/shape.html">Shape</a>
+<a class="" href="../foundations/iconography.html">Iconography</a>
 <a class="" href="../components/index.html">Components</a>
 <a class="" href="../components/gallery.html">Component Gallery</a>
+<a class="" href="../components/anatomy.html">Anatomy</a>
+<a class="" href="../components/app-shell.html">App Shell</a>
+<a class="" href="../components/navigation.html">Navigation</a>
 <a class="" href="../components/buttons.html">Buttons</a>
 <a class="active" href="../components/forms.html">Forms</a>
 <a class="" href="../components/banking-row.html">Banking Row</a>
 <a class="" href="../components/account.html">Accounts</a>
+<a class="" href="../components/status-result.html">Status Result</a>
 <a class="" href="../sdk/index.html">SDK Model</a>
 <a class="" href="../platforms/index.html">Platforms</a>
+<a class="" href="../kmp/index.html">KMP</a>
 <a class="" href="../motion/index.html">Motion</a>
 <a class="" href="../patterns/banking.html">Banking Patterns</a>
+<a class="" href="../patterns/app-structure.html">App Structure</a>
 <a class="" href="../patterns/identity-consent.html">Identity Consent</a>
 <a class="" href="../accessibility/index.html">Accessibility</a>
 <a class="" href="../white-label/index.html">White Label</a>
 <a class="" href="../figma/index.html">Figma</a>
-<a class="" href="../kmp/index.html">KMP</a>
 <a class="" href="../demos/mobile/prototype.html">Mobile Demo</a></nav>
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
+        <span class="kicker">Neptune. Signal Standard 0.2.0</span>
         <div class="doc-card"><h1>Component: Forms and Inputs</h1>
 <p>Forms must be clear, short, and resilient to Arabic and long financial identifiers.</p>
 <h2>Field Types</h2>

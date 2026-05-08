@@ -27,7 +27,7 @@ fun SignalAppShell(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colors.surfacePaper),
+            .background(colors.surface),
     ) {
         SignalTopBar(
             title = title,
@@ -54,10 +54,9 @@ fun SignalScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(SignalTheme.colors.surfacePaper)
+            .background(SignalTheme.colors.surface)
             .padding(ly.neptune.signal.theme.SignalSpacing.x4),
     ) {
         content()
     }
 }
-

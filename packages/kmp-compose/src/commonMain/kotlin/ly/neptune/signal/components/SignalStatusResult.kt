@@ -1,5 +1,6 @@
 package ly.neptune.signal.components
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSpacing
@@ -59,15 +61,15 @@ fun SignalStatusResult(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceCard, RoundedCornerShape(SignalRadius.xl))
-            .border(BorderStroke(1.dp, colors.borderDefault), RoundedCornerShape(SignalRadius.xl))
+            .background(colors.surfaceContainerLowest, RoundedCornerShape(SignalRadius.xl))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(SignalRadius.xl))
             .padding(SignalSpacing.x5),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x4),
     ) {
         SignalStatusMark(state = state, color = stateColor)
-        Text(text = title, color = colors.bankPrimary, style = typography.pageTitle)
-        Text(text = reference, color = colors.textSecondary, style = typography.rowTitle)
+        Text(text = title, color = colors.primary, style = typography.headlineMedium)
+        Text(text = reference, color = colors.onSurfaceVariant, style = typography.rowTitle)
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
@@ -104,8 +106,23 @@ fun SignalStatusMark(
     ) {
         when (state) {
             SignalResultState.Waiting -> CircularProgressIndicator(color = Color.White, strokeWidth = 3.dp)
-            SignalResultState.Success -> Text(text = "OK", color = Color.White, style = SignalTheme.typography.pageTitle)
-            SignalResultState.Failure -> Text(text = "!", color = Color.White, style = SignalTheme.typography.displayBalance)
+            SignalResultState.Success -> Canvas(Modifier.size(54.dp)) {
+                drawLine(
+                    color = Color.White,
+                    start = androidx.compose.ui.geometry.Offset(size.width * 0.18f, size.height * 0.52f),
+                    end = androidx.compose.ui.geometry.Offset(size.width * 0.42f, size.height * 0.76f),
+                    strokeWidth = 5.dp.toPx(),
+                    cap = StrokeCap.Round,
+                )
+                drawLine(
+                    color = Color.White,
+                    start = androidx.compose.ui.geometry.Offset(size.width * 0.42f, size.height * 0.76f),
+                    end = androidx.compose.ui.geometry.Offset(size.width * 0.84f, size.height * 0.22f),
+                    strokeWidth = 5.dp.toPx(),
+                    cap = StrokeCap.Round,
+                )
+            }
+            SignalResultState.Failure -> Text(text = "!", color = Color.White, style = SignalTheme.typography.displayLarge)
         }
     }
 }

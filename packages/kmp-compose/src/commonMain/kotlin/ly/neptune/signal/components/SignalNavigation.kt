@@ -1,6 +1,7 @@
 package ly.neptune.signal.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -94,7 +95,8 @@ fun SignalBottomNav(
             Column(
                 modifier = Modifier
                     .clip(RoundedCornerShape(SignalRadius.lg))
-                    .background(if (active) colors.surfaceSoft else Color.Transparent)
+                    .background(if (active) colors.primaryContainer else Color.Transparent)
+                    .clickable { onSelected(item.key) }
                     .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -102,11 +104,10 @@ fun SignalBottomNav(
                 Box(contentAlignment = Alignment.Center) { item.icon() }
                 Text(
                     text = item.label,
-                    color = if (active) colors.bankPrimary else colors.textSecondary,
+                    color = if (active) colors.primary else colors.onSurfaceVariant,
                     style = typography.statusPill,
                 )
             }
         }
     }
 }
-

@@ -5,4 +5,4 @@ plugins {
 }
 
 group = "ly.neptune.signal"
-version = "0.1.1"
+version = "0.2.0"

@@ -72,8 +72,8 @@ fun SignalValueLine(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceCard, RoundedCornerShape(SignalRadius.md))
-            .border(BorderStroke(1.dp, colors.borderDefault), RoundedCornerShape(SignalRadius.md))
+            .background(colors.surfaceContainerLowest, RoundedCornerShape(SignalRadius.md))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(SignalRadius.md))
             .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
         verticalAlignment = Alignment.CenterVertically,
@@ -82,10 +82,10 @@ fun SignalValueLine(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
         ) {
-            Text(text = label, color = colors.textSecondary, style = typography.rowMeta)
+            Text(text = label, color = colors.onSurfaceVariant, style = typography.rowMeta)
             Text(
                 text = valueText,
-                color = colors.textPrimary,
+                color = colors.onSurface,
                 style = valueStyle,
                 maxLines = if (compactMode == SignalValueCompactMode.SemanticCompact) 1 else Int.MAX_VALUE,
                 overflow = TextOverflow.Clip,
@@ -119,7 +119,7 @@ fun SignalValueLine(
 
 @Composable
 fun SignalCopyGlyph(modifier: Modifier = Modifier) {
-    val color = SignalTheme.colors.bankPrimary
+    val color = SignalTheme.colors.primary
     Canvas(modifier = modifier.size(18.dp)) {
         val stroke = Stroke(width = 2.dp.toPx())
         val radius = CornerRadius(3.dp.toPx(), 3.dp.toPx())
@@ -142,7 +142,7 @@ fun SignalCopyGlyph(modifier: Modifier = Modifier) {
 
 @Composable
 fun SignalShareGlyph(modifier: Modifier = Modifier) {
-    val color = SignalTheme.colors.bankPrimary
+    val color = SignalTheme.colors.primary
     Canvas(modifier = modifier.size(18.dp)) {
         val stroke = Stroke(width = 2.dp.toPx())
         val start = Offset(size.width * 0.2f, size.height * 0.62f)

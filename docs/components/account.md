@@ -12,7 +12,9 @@ Content:
 - Balance or masked state.
 - Direction-aware chevron.
 
-No summary block is shown above the list in v0.1.
+No summary block is shown above the list. Accounts is a real list of all accounts, not a repeated Home carousel.
+
+KMP provides both `SignalAccountRow` for the common IBAN-backed case and `SignalAccountSummaryRow` when the product already computed the compact identifier.
 
 ## Account Detail Header
 
@@ -26,10 +28,13 @@ Content:
 - Full alias with copy/share if available.
 - More info action.
 
+The visual should feel like the selected account row expanded into a detail state. It should not repeat the exact Home account card inside the details page.
+
 ## Information Rules
 
 - Account lists optimize scanning and use semantic compact identifiers.
 - Account details show the full IBAN and alias.
+- Detail headers should try to keep the grouped IBAN on one readable line with horizontal overflow before wrapping.
 - Masking is intentional privacy behavior, not a layout shortcut.
 - Copy actions always copy the full underlying value.
 

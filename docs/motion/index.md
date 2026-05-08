@@ -1,8 +1,18 @@
 # Motion
 
-Motion in Neptune. Signal is native and implementation-ready.
+Motion in Neptune. Signal follows Material motion principles while staying native, lightweight, and finance-safe.
 
 No Lottie, no video dependency, no heavy animation files.
+
+## Motion Philosophy
+
+Motion must make the system feel alive and explain continuity:
+
+- Account card opens into account details using a container transform.
+- Voucher tile opens into a purchase detail screen.
+- Waiting, success, and failure use the same result grammar.
+- Motion never hides a financial result or delays access to critical data.
+- Reduced motion keeps meaning without decorative movement.
 
 ## Timing
 
@@ -24,6 +34,8 @@ Used when opening account details.
 3. Surface lifts.
 4. Surface expands into header.
 5. Page content settles.
+
+The detail page must not show the exact same account card again. The source surface becomes a new header layout so the transition feels like one object opening, not a duplicate card appearing.
 
 ## Result Motion
 
@@ -49,4 +61,3 @@ When reduced motion is enabled:
 - Disable morph overlays.
 - Keep opacity changes under 150ms.
 - Preserve navigation meaning.
-

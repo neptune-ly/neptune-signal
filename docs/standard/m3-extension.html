@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Component: Buttons | Neptune. Signal</title>
+  <title>Material 3 Extension Model | Neptune. Signal</title>
   <style>
 :root{
   --npt-navy:#07315F;
@@ -162,7 +162,7 @@ tr:first-child th,tr:first-child td{border-top:0}
       <a href="../index.html"><img class="logo" src="../assets/logo/neptune-logo-color.png" alt="Neptune."></a>
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.2</a>
-<a class="" href="../standard/m3-extension.html">M3 Extension</a>
+<a class="active" href="../standard/m3-extension.html">M3 Extension</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
 <a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
@@ -180,7 +180,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <a class="" href="../components/anatomy.html">Anatomy</a>
 <a class="" href="../components/app-shell.html">App Shell</a>
 <a class="" href="../components/navigation.html">Navigation</a>
-<a class="active" href="../components/buttons.html">Buttons</a>
+<a class="" href="../components/buttons.html">Buttons</a>
 <a class="" href="../components/forms.html">Forms</a>
 <a class="" href="../components/banking-row.html">Banking Row</a>
 <a class="" href="../components/account.html">Accounts</a>
@@ -200,37 +200,37 @@ tr:first-child th,tr:first-child td{border-top:0}
     <main class="content">
       <article>
         <span class="kicker">Neptune. Signal Standard 0.2.0</span>
-        <div class="doc-card"><h1>Component: Buttons</h1>
-<h2>Types</h2>
+        <div class="doc-card"><h1>Material 3 Extension Model</h1>
+<p>Neptune. Signal is a financial product layer on top of Material 3 principles. The goal is not to make Neptune apps look like Google apps. The goal is to inherit proven platform logic, then add Neptune&#x27;s banking rules.</p>
+<p>Official reference points:</p>
 <ul>
-<li>Primary.</li>
-<li>Secondary.</li>
-<li>Destructive.</li>
-<li>Icon.</li>
-<li>Icon plus label.</li>
-<li>Segmented control button.</li>
+<li><a href="https://m3.material.io/get-started">Material 3 Get Started</a></li>
+<li><a href="https://m3.material.io/styles/color/roles">Material 3 Color Roles</a></li>
+<li><a href="https://m3.material.io/styles/typography/type-scale-tokens">Material 3 Typography</a></li>
+<li><a href="https://m3.material.io/styles/motion/overview">Material 3 Motion</a></li>
 </ul>
-<h2>Rules</h2>
+<h2>What We Reuse</h2>
+<table><thead><tr><th>Material idea</th><th>Signal implementation</th></tr></thead><tbody><tr><td>Color roles</td><td><code>primary</code>, <code>secondary</code>, <code>tertiary</code>, <code>surface</code>, <code>surfaceContainer</code>, <code>outline</code>, <code>error</code>, and inverse roles exist in tokens and SDKs.</td></tr><tr><td>Type scale</td><td>Signal keeps display, headline, title, body, and label roles, then adds banking-specific roles.</td></tr><tr><td>State layers</td><td>Press, focus, drag, selected, disabled, and loading states use consistent alpha and timing.</td></tr><tr><td>Navigation patterns</td><td>Bottom navigation, top app bars, sheets, lists, and form patterns follow familiar mobile platform behavior.</td></tr><tr><td>Motion system</td><td>Route changes, container transforms, result states, and reduced-motion behavior use native CSS or platform animation APIs.</td></tr><tr><td>Accessibility</td><td>Minimum touch targets, semantic labels, contrast, directionality, and clear focus states are mandatory.</td></tr></tbody></table>
+<h2>What Signal Adds</h2>
+<table><thead><tr><th>Banking need</th><th>Signal rule</th></tr></thead><tbody><tr><td>Critical values</td><td>Amounts, IBANs, aliases, voucher PINs, serials, MTCNs, references, and consent IDs never use vague truncation.</td></tr><tr><td>White-label banks</td><td>Bank colors can change, but anatomy, spacing, motion, and information hierarchy cannot drift.</td></tr><tr><td>Arabic-first products</td><td>Arabic RTL is a first-class layout, not a translation afterthought. English and French must preserve the same component contract.</td></tr><tr><td>Performance-aware finance</td><td>Heavy values are fetched only where useful. Card list does not show live balance. Details screens can fetch details.</td></tr><tr><td>Transaction trust</td><td>Status screens show what happened, what is pending, what can be copied or shared, and where to report a problem.</td></tr><tr><td>Consent and identity</td><td>OpenWave and NPT Alias flows show scopes, duration, account access, recurring mandates, and revocation clearly.</td></tr></tbody></table>
+<h2>Decision Rule</h2>
+<p>When a product team is unsure, use this order:</p>
+<ol>
+<li>Start with the Material 3 interaction pattern the user already knows.</li>
+<li>Apply Neptune. Signal tokens, density, Arabic layout, and banking hierarchy.</li>
+<li>Apply financial information rules.</li>
+<li>Confirm the component can be implemented in KMP without heavy runtime cost.</li>
+<li>Confirm the same contract can later map to Flutter, SwiftUI, Android Compose, and web.</li>
+</ol>
+<h2>Not Allowed</h2>
 <ul>
-<li>Primary buttons use <code>bank.primary</code>.</li>
-<li>Destructive buttons use danger/risk styling.</li>
-<li>Icon-only buttons require accessible labels.</li>
-<li>Buttons should not change size between loading and completed states.</li>
-<li>Loading buttons must preserve the action label or provide a clear processing state.</li>
-</ul>
-<h2>Sizes</h2>
-<table><thead><tr><th>Size</th><th>Height</th><th>Radius</th><th>Usage</th></tr></thead><tbody><tr><td>Small</td><td>36</td><td>999</td><td>Compact controls</td></tr><tr><td>Medium</td><td>44</td><td>999</td><td>Forms and sheets</td></tr><tr><td>Large</td><td>56</td><td>22-999</td><td>Primary actions</td></tr></tbody></table>
-<h2>KMP API</h2>
-<pre><code class="language-kotlin">@Composable
-fun SignalButton(
-    label: String,
-    onClick: () -&gt; Unit,
-    modifier: Modifier = Modifier,
-    variant: SignalButtonVariant = SignalButtonVariant.Primary,
-    enabled: Boolean = true,
-    loading: Boolean = false,
-    icon: SignalIcon? = null
-)</code></pre></div>
+<li>Copying Material colors or making the product look generic.</li>
+<li>Creating decorative banking cards where a dense row or receipt would be clearer.</li>
+<li>Treating bank brand colors as permission to redesign the app.</li>
+<li>Hiding critical values behind <code>...</code>.</li>
+<li>Adding heavy animation files for basic transitions.</li>
+<li>Creating a component that cannot be described as a platform-neutral contract.</li>
+</ul></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

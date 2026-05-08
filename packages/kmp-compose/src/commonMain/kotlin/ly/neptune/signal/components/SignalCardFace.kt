@@ -23,7 +23,7 @@ fun SignalCardFace(
     maskedNumber: String,
     modifier: Modifier = Modifier,
     holderName: String? = null,
-    background: Color = SignalTheme.colors.bankPrimary,
+    background: Color = SignalTheme.colors.primary,
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
@@ -36,12 +36,11 @@ fun SignalCardFace(
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x6),
     ) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            Text(text = scheme, color = colors.textInverse, style = typography.sectionTitle)
+            Text(text = scheme, color = colors.onPrimary, style = typography.sectionTitle)
         }
-        Text(text = maskedNumber, color = colors.textInverse, style = typography.pageTitle)
+        Text(text = maskedNumber, color = colors.onPrimary, style = typography.pageTitle)
         if (holderName != null) {
-            Text(text = holderName, color = colors.textInverse.copy(alpha = 0.72f), style = typography.rowMeta)
+            Text(text = holderName, color = colors.onPrimary.copy(alpha = 0.72f), style = typography.rowMeta)
         }
     }
 }
-

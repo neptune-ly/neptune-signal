@@ -30,7 +30,7 @@ fun SignalSegmentedControl(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(999.dp))
-            .background(colors.surfaceSoft)
+            .background(colors.surfaceContainer)
             .padding(SignalSpacing.x1),
     ) {
         segments.forEach { segment ->
@@ -39,10 +39,10 @@ fun SignalSegmentedControl(
                 text = segment.label,
                 modifier = Modifier
                     .clip(RoundedCornerShape(999.dp))
-                    .background(if (selected) colors.surfaceCard else colors.surfaceSoft)
+                    .background(if (selected) colors.surfaceContainerLowest else colors.surfaceContainer)
                     .clickable { onSelected(segment.key) }
                     .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
-                color = if (selected) colors.bankPrimary else colors.textSecondary,
+                color = if (selected) colors.primary else colors.onSurfaceVariant,
                 style = SignalTheme.typography.statusPill,
             )
         }

@@ -9,9 +9,9 @@ MAJOR.MINOR.PATCH
 ## Standard Versions
 
 ```text
+0.2.0  Material-compatible foundations, color roles, surfaces, component anatomy, and SDK theme roles.
 0.1.1  Information presentation update for critical banking values.
 0.1.0  Initial public standard for mobile banking foundations.
-0.2.0  Component kit expansion.
 0.3.0  KMP Compose alpha.
 0.4.0  Figma component library alpha.
 1.0.0  Stable mobile banking standard.
@@ -23,7 +23,7 @@ MAJOR.MINOR.PATCH
 Demos version separately because they are examples, not the standard itself.
 
 ```text
-Mobile Banking Demo 0.1.1
+Mobile Banking Demo 0.2.0
 Internet Banking Demo 0.1.0
 Merchant Portal Demo 0.1.0
 Admin Console Demo 0.1.0

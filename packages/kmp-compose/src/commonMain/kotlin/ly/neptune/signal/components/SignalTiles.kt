@@ -42,16 +42,16 @@ fun SignalTile(
             .then(click)
             .fillMaxWidth()
             .heightIn(min = SignalSize.tileMinHeight)
-            .background(colors.surfaceCard, shape)
-            .border(BorderStroke(1.dp, colors.borderDefault), shape)
+            .background(colors.surfaceContainerLowest, shape)
+            .border(BorderStroke(1.dp, colors.outlineVariant), shape)
             .padding(SignalSpacing.x4),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (leading != null) Box(contentAlignment = Alignment.Center) { leading() }
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(SignalSpacing.x1)) {
-            Text(text = title, color = colors.textPrimary, style = typography.rowTitle, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text(text = subtitle, color = colors.textSecondary, style = typography.rowMeta, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(text = title, color = colors.onSurface, style = typography.rowTitle, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = subtitle, color = colors.onSurfaceVariant, style = typography.rowMeta, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
         trailing?.invoke()
     }
@@ -91,4 +91,3 @@ fun SignalServiceTile(
         leading = icon,
     )
 }
-

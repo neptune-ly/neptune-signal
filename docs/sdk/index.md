@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("ly.neptune.signal:kmp-compose:0.1.1")
+    implementation("ly.neptune.signal:kmp-compose:0.2.0")
 }
 ```
 
@@ -70,6 +70,25 @@ fun BankingHome() {
 }
 ```
 
+## Material-Compatible Theme
+
+Neptune. Signal 0.2.0 exposes Material-compatible roles and banking aliases.
+
+```kotlin
+val andalusTheme = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF07315F),
+    secondary = Color(0xFF00A8AE),
+    accent = Color(0xFFEB4E4D),
+    ink = Color(0xFF071C2E),
+)
+
+SignalTheme(colors = andalusTheme) {
+    BankingHome()
+}
+```
+
+Use Material role names when mapping into platform primitives, then use Signal component names for banking UI.
+
 ## Component Copy Model
 
 Every component page should provide:
@@ -87,8 +106,8 @@ Every component page should provide:
 ## Version Model
 
 ```text
-Neptune. Signal Standard 0.1.1
-KMP SDK 0.1.1
+Neptune. Signal Standard 0.2.0
+KMP SDK 0.2.0
 Flutter SDK planned
 iOS SDK planned
 Android SDK planned
@@ -120,8 +139,13 @@ SignalButton
 SignalIconButton
 SignalTopBar
 SignalBottomNav
+SignalListGroup
+SignalListItem
+SignalListDivider
 SignalBankingRow
+SignalTransactionRow
 SignalAccountRow
+SignalAccountSummaryRow
 SignalAccountHeader
 SignalAmountField
 SignalIbanField
@@ -138,12 +162,19 @@ Phase 1 status:
 
 - Tokens: started.
 - Theme: started.
+- Material-compatible color roles: started.
+- Material-compatible typography roles: started.
+- Surface and state layer tokens: started.
 - Buttons: started.
 - Icon buttons: started.
 - Top app bar: started.
 - Bottom navigation: started.
+- List group: started.
+- List item: started.
 - Banking row: started.
+- Transaction row: started.
 - Account row: started.
+- Account summary row: started.
 - Account header: started.
 - Status result: started.
 - Consent scope row: started.
@@ -161,14 +192,12 @@ Phase 1 status:
 
 Phase 2:
 
-- Forms.
-- Sheets.
-- Segmented controls.
-- Transaction rows.
-- Voucher tiles.
-- Card faces.
-- Consent scope rows.
+- Modal bottom sheets.
+- Search and select fields.
+- OTP/passcode field.
+- Account request forms.
 - Language selector.
+- Visual regression test fixtures.
 
 Phase 3:
 
@@ -212,5 +241,5 @@ Initial Maven coordinates:
 ```text
 group: ly.neptune.signal
 artifact: kmp-compose
-version: 0.1.1
+version: 0.2.0
 ```

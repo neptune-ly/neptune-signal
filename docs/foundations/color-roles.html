@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Component: Buttons | Neptune. Signal</title>
+  <title>Foundations: Color Roles | Neptune. Signal</title>
   <style>
 :root{
   --npt-navy:#07315F;
@@ -169,7 +169,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
 <a class="" href="../foundations/tokens.html">Tokens</a>
-<a class="" href="../foundations/color-roles.html">Color Roles</a>
+<a class="active" href="../foundations/color-roles.html">Color Roles</a>
 <a class="" href="../foundations/typography.html">Typography</a>
 <a class="" href="../foundations/layout.html">Layout</a>
 <a class="" href="../foundations/surfaces.html">Surfaces</a>
@@ -180,7 +180,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <a class="" href="../components/anatomy.html">Anatomy</a>
 <a class="" href="../components/app-shell.html">App Shell</a>
 <a class="" href="../components/navigation.html">Navigation</a>
-<a class="active" href="../components/buttons.html">Buttons</a>
+<a class="" href="../components/buttons.html">Buttons</a>
 <a class="" href="../components/forms.html">Forms</a>
 <a class="" href="../components/banking-row.html">Banking Row</a>
 <a class="" href="../components/account.html">Accounts</a>
@@ -200,37 +200,39 @@ tr:first-child th,tr:first-child td{border-top:0}
     <main class="content">
       <article>
         <span class="kicker">Neptune. Signal Standard 0.2.0</span>
-        <div class="doc-card"><h1>Component: Buttons</h1>
-<h2>Types</h2>
+        <div class="doc-card"><h1>Foundations: Color Roles</h1>
+<p>Color in Neptune. Signal follows Material 3 role thinking, then maps those roles to Neptune and white-label bank brands.</p>
+<h2>Role Model</h2>
+<table><thead><tr><th>Role</th><th>Default</th><th>Purpose</th></tr></thead><tbody><tr><td><code>primary</code></td><td>Neptune navy</td><td>Primary actions, selected navigation, secure account surfaces</td></tr><tr><td><code>onPrimary</code></td><td>White</td><td>Text and icons on primary</td></tr><tr><td><code>primaryContainer</code></td><td>Pale navy container</td><td>Selected surfaces, subtle branded backgrounds</td></tr><tr><td><code>secondary</code></td><td>Neptune teal</td><td>Supporting actions and operational signal</td></tr><tr><td><code>secondaryContainer</code></td><td>Pale teal container</td><td>Supporting selected state and low emphasis controls</td></tr><tr><td><code>tertiary</code></td><td>Neptune coral</td><td>Signature accent, risk, interruption, and brand pulse</td></tr><tr><td><code>tertiaryContainer</code></td><td>Pale coral container</td><td>Soft risk or attention surfaces</td></tr><tr><td><code>surface</code></td><td>Paper white</td><td>Main app surface</td></tr><tr><td><code>surfaceContainer</code></td><td>Soft blue-gray</td><td>Grouped panels and screen backgrounds</td></tr><tr><td><code>surfaceContainerHigh</code></td><td>Deeper container</td><td>Bottom navigation, sheets, elevated panels</td></tr><tr><td><code>outline</code></td><td>Cool gray</td><td>Strokes on rows, fields, separators</td></tr><tr><td><code>error</code></td><td>Signal danger</td><td>Failed transactions and validation errors</td></tr></tbody></table>
+<h2>Neptune Defaults</h2>
+<pre><code class="language-text">primary              #07315F
+secondary            #00A8AE
+tertiary             #EB4E4D
+surface              #FAFCFC
+surfaceContainer     #EEF5F5
+outline              #C8D8DD
+onSurface            #071C2E
+onSurfaceVariant     #60747C</code></pre>
+<h2>White-Label Mapping</h2>
+<p>Bank colors enter through the bank layer, then generate Material-compatible roles:</p>
+<pre><code class="language-text">bank.primary   -&gt; primary
+bank.secondary -&gt; secondary
+bank.accent    -&gt; tertiary
+bank.ink       -&gt; onSurface
+bank.surface   -&gt; surface</code></pre>
+<p>ATIB can use red as primary. NCB can use green. Yaqeen can use brown/gold. Andalus can use its own primary. The product should still feel like Neptune. Signal because spacing, hierarchy, copy behavior, motion, and components do not change.</p>
+<h2>Usage Rules</h2>
 <ul>
-<li>Primary.</li>
-<li>Secondary.</li>
-<li>Destructive.</li>
-<li>Icon.</li>
-<li>Icon plus label.</li>
-<li>Segmented control button.</li>
+<li>Do not use accent color randomly. Accent is for signature moments, risk, and attention.</li>
+<li>Do not make every icon teal or every selected state coral.</li>
+<li>Use primary for the main system state and root navigation.</li>
+<li>Use secondary for helpful operational signals.</li>
+<li>Use tertiary for the Neptune. pulse, risk, alerts, or one small signature mark.</li>
+<li>Status colors override brand colors when meaning matters.</li>
+<li>Contrast must be checked after every bank theme is created.</li>
 </ul>
-<h2>Rules</h2>
-<ul>
-<li>Primary buttons use <code>bank.primary</code>.</li>
-<li>Destructive buttons use danger/risk styling.</li>
-<li>Icon-only buttons require accessible labels.</li>
-<li>Buttons should not change size between loading and completed states.</li>
-<li>Loading buttons must preserve the action label or provide a clear processing state.</li>
-</ul>
-<h2>Sizes</h2>
-<table><thead><tr><th>Size</th><th>Height</th><th>Radius</th><th>Usage</th></tr></thead><tbody><tr><td>Small</td><td>36</td><td>999</td><td>Compact controls</td></tr><tr><td>Medium</td><td>44</td><td>999</td><td>Forms and sheets</td></tr><tr><td>Large</td><td>56</td><td>22-999</td><td>Primary actions</td></tr></tbody></table>
-<h2>KMP API</h2>
-<pre><code class="language-kotlin">@Composable
-fun SignalButton(
-    label: String,
-    onClick: () -&gt; Unit,
-    modifier: Modifier = Modifier,
-    variant: SignalButtonVariant = SignalButtonVariant.Primary,
-    enabled: Boolean = true,
-    loading: Boolean = false,
-    icon: SignalIcon? = null
-)</code></pre></div>
+<h2>Anti-Patterns</h2>
+<table><thead><tr><th>Anti-pattern</th><th>Fix</th></tr></thead><tbody><tr><td>Primary color changes only the page background</td><td>Map primary into buttons, selected nav, headers, and state rings.</td></tr><tr><td>Mixed random icon colors</td><td>Icon colors come from role and row tone.</td></tr><tr><td>Accent overuse</td><td>Reserve tertiary for the signal moment.</td></tr><tr><td>Bank theme changes component shape</td><td>Only color roles change. Anatomy stays fixed.</td></tr><tr><td>Low contrast brand color</td><td>Generate a darker accessible role or use container roles.</td></tr></tbody></table></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

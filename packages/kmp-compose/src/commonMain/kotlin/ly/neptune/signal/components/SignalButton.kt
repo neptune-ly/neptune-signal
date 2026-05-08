@@ -51,7 +51,7 @@ fun SignalButton(
             if (loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.padding(end = SignalSpacing.x2),
-                    color = if (variant == SignalButtonVariant.Primary) colors.textInverse else colors.bankPrimary,
+                    color = if (variant == SignalButtonVariant.Primary) colors.onPrimary else colors.primary,
                     strokeWidth = 2.dp,
                 )
             } else if (leading != null) {
@@ -68,10 +68,10 @@ fun SignalButton(
             enabled = enabled && !loading,
             shape = shape,
             colors = ButtonDefaults.buttonColors(
-                containerColor = colors.bankPrimary,
-                contentColor = colors.textInverse,
-                disabledContainerColor = colors.surfaceSoft,
-                disabledContentColor = colors.textSecondary,
+                containerColor = colors.primary,
+                contentColor = colors.onPrimary,
+                disabledContainerColor = colors.surfaceContainer,
+                disabledContentColor = colors.onSurfaceVariant.copy(alpha = 0.38f),
             ),
             content = { content() },
         )
@@ -81,10 +81,10 @@ fun SignalButton(
             modifier = minModifier,
             enabled = enabled && !loading,
             shape = shape,
-            border = BorderStroke(1.dp, colors.borderDefault),
+            border = BorderStroke(1.dp, colors.outline),
             colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = colors.bankPrimary,
-                disabledContentColor = colors.textSecondary,
+                contentColor = colors.primary,
+                disabledContentColor = colors.onSurfaceVariant.copy(alpha = 0.38f),
             ),
             content = { content() },
         )
@@ -95,10 +95,10 @@ fun SignalButton(
             enabled = enabled && !loading,
             shape = shape,
             colors = ButtonDefaults.buttonColors(
-                containerColor = colors.danger,
-                contentColor = Color.White,
-                disabledContainerColor = colors.surfaceSoft,
-                disabledContentColor = colors.textSecondary,
+                containerColor = colors.error,
+                contentColor = colors.onError,
+                disabledContainerColor = colors.surfaceContainer,
+                disabledContentColor = colors.onSurfaceVariant.copy(alpha = 0.38f),
             ),
             content = { content() },
         )
@@ -122,4 +122,3 @@ fun SignalIconButton(
         content = content,
     )
 }
-

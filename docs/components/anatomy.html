@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Component: Buttons | Neptune. Signal</title>
+  <title>Component Anatomy | Neptune. Signal</title>
   <style>
 :root{
   --npt-navy:#07315F;
@@ -177,10 +177,10 @@ tr:first-child th,tr:first-child td{border-top:0}
 <a class="" href="../foundations/iconography.html">Iconography</a>
 <a class="" href="../components/index.html">Components</a>
 <a class="" href="../components/gallery.html">Component Gallery</a>
-<a class="" href="../components/anatomy.html">Anatomy</a>
+<a class="active" href="../components/anatomy.html">Anatomy</a>
 <a class="" href="../components/app-shell.html">App Shell</a>
 <a class="" href="../components/navigation.html">Navigation</a>
-<a class="active" href="../components/buttons.html">Buttons</a>
+<a class="" href="../components/buttons.html">Buttons</a>
 <a class="" href="../components/forms.html">Forms</a>
 <a class="" href="../components/banking-row.html">Banking Row</a>
 <a class="" href="../components/account.html">Accounts</a>
@@ -200,37 +200,64 @@ tr:first-child th,tr:first-child td{border-top:0}
     <main class="content">
       <article>
         <span class="kicker">Neptune. Signal Standard 0.2.0</span>
-        <div class="doc-card"><h1>Component: Buttons</h1>
-<h2>Types</h2>
+        <div class="doc-card"><h1>Component Anatomy</h1>
+<p>Every Neptune. Signal component is documented like a product standard, not only like sample code.</p>
+<h2>Required Contract</h2>
+<p>Each component page must include:</p>
 <ul>
-<li>Primary.</li>
-<li>Secondary.</li>
-<li>Destructive.</li>
-<li>Icon.</li>
-<li>Icon plus label.</li>
-<li>Segmented control button.</li>
+<li>Purpose.</li>
+<li>Anatomy.</li>
+<li>Variants.</li>
+<li>States.</li>
+<li>Tokens.</li>
+<li>Motion.</li>
+<li>Content rules.</li>
+<li>Accessibility.</li>
+<li>RTL and LTR behavior.</li>
+<li>KMP API.</li>
+<li>Future SDK mapping.</li>
+<li>Figma component properties.</li>
 </ul>
-<h2>Rules</h2>
+<h2>Anatomy Template</h2>
+<pre><code class="language-text">Component
+  container
+  leading slot
+  primary label
+  secondary metadata
+  critical value
+  trailing action
+  state layer
+  feedback region</code></pre>
+<p>Not every component uses every part. The anatomy names stay consistent so SDKs and Figma variants can map cleanly.</p>
+<h2>States</h2>
+<p>All interactive components must define:</p>
 <ul>
-<li>Primary buttons use <code>bank.primary</code>.</li>
-<li>Destructive buttons use danger/risk styling.</li>
-<li>Icon-only buttons require accessible labels.</li>
-<li>Buttons should not change size between loading and completed states.</li>
-<li>Loading buttons must preserve the action label or provide a clear processing state.</li>
+<li>Default.</li>
+<li>Hover or focus where platform supports it.</li>
+<li>Pressed.</li>
+<li>Selected.</li>
+<li>Disabled.</li>
+<li>Loading when async work starts.</li>
+<li>Error when user action fails.</li>
+<li>Success or completed when a transaction resolves.</li>
 </ul>
-<h2>Sizes</h2>
-<table><thead><tr><th>Size</th><th>Height</th><th>Radius</th><th>Usage</th></tr></thead><tbody><tr><td>Small</td><td>36</td><td>999</td><td>Compact controls</td></tr><tr><td>Medium</td><td>44</td><td>999</td><td>Forms and sheets</td></tr><tr><td>Large</td><td>56</td><td>22-999</td><td>Primary actions</td></tr></tbody></table>
-<h2>KMP API</h2>
-<pre><code class="language-kotlin">@Composable
-fun SignalButton(
-    label: String,
-    onClick: () -&gt; Unit,
-    modifier: Modifier = Modifier,
-    variant: SignalButtonVariant = SignalButtonVariant.Primary,
-    enabled: Boolean = true,
-    loading: Boolean = false,
-    icon: SignalIcon? = null
-)</code></pre></div>
+<h2>Content Rules</h2>
+<ul>
+<li>Critical values use <code>SignalValueLine</code> or an equivalent value slot.</li>
+<li>Copy or share actions sit next to the exact value they affect.</li>
+<li>Metadata can truncate only when it is not essential for customer action.</li>
+<li>Arabic, English, and French labels must fit without changing component height unexpectedly.</li>
+</ul>
+<h2>Accessibility Rules</h2>
+<ul>
+<li>Interactive target is at least 44 by 44 dp.</li>
+<li>Icon-only buttons have labels.</li>
+<li>Status changes are announced.</li>
+<li>Focus order follows visual order.</li>
+<li>High contrast mode keeps action and status meaning.</li>
+</ul>
+<h2>SDK Mapping</h2>
+<table><thead><tr><th>Standard name</th><th>KMP</th><th>Flutter</th><th>SwiftUI</th><th>Android Compose</th><th>Web</th></tr></thead><tbody><tr><td>SignalButton</td><td><code>SignalButton</code></td><td><code>SignalButton</code></td><td><code>SignalButton</code></td><td><code>SignalButton</code></td><td><code>signal-button</code></td></tr><tr><td>SignalValueLine</td><td><code>SignalValueLine</code></td><td><code>SignalValueLine</code></td><td><code>SignalValueLine</code></td><td><code>SignalValueLine</code></td><td><code>signal-value-line</code></td></tr><tr><td>SignalAccountRow</td><td><code>SignalAccountRow</code></td><td><code>SignalAccountRow</code></td><td><code>SignalAccountRow</code></td><td><code>SignalAccountRow</code></td><td><code>signal-account-row</code></td></tr><tr><td>SignalStatusResult</td><td><code>SignalStatusResult</code></td><td><code>SignalStatusResult</code></td><td><code>SignalStatusResult</code></td><td><code>SignalStatusResult</code></td><td><code>signal-status-result</code></td></tr></tbody></table></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

@@ -34,7 +34,7 @@ fun SignalAccountHeader(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.bankPrimary, RoundedCornerShape(SignalRadius.lg))
+            .background(colors.primary, RoundedCornerShape(SignalRadius.lg))
             .padding(SignalSpacing.x4),
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
     ) {
@@ -42,12 +42,12 @@ fun SignalAccountHeader(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(text = accountName, color = colors.textInverse, style = typography.sectionTitle)
+            Text(text = accountName, color = colors.onPrimary, style = typography.sectionTitle)
             actions()
         }
         Text(
             text = if (masked) "••••••" else balance,
-            color = colors.textInverse,
+            color = colors.onPrimary,
             style = typography.displayBalance,
             maxLines = 1,
         )

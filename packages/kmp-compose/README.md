@@ -1,6 +1,6 @@
 # Neptune. Signal KMP Compose SDK
 
-Status: active start. Version: `0.1.1`.
+Status: active start. Version: `0.2.0`.
 
 This is the first target implementation for Neptune. Signal.
 
@@ -21,8 +21,13 @@ Initial component priority:
 - `SignalIconButton`
 - `SignalTopBar`
 - `SignalBottomNav`
+- `SignalListGroup`
+- `SignalListItem`
+- `SignalListDivider`
 - `SignalBankingRow`
+- `SignalTransactionRow`
 - `SignalAccountRow`
+- `SignalAccountSummaryRow`
 - `SignalAccountHeader`
 - `SignalStatusResult`
 - `SignalConsentScopeRow`
@@ -66,7 +71,7 @@ SignalTheme(
 }
 ```
 
-## Scope of 0.1.1
+## Scope of 0.2.0
 
 This release is a foundation package, not the full final app kit. It gives the next mobile project a stable starting point for:
 

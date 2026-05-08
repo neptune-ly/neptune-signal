@@ -16,6 +16,6 @@
     <path d="M302 163H438" stroke="#00A8AE" stroke-width="9" stroke-linecap="round"/>
     <path d="M458 163H522" stroke="#EB4E4D" stroke-width="9" stroke-linecap="round"/>
     <circle cx="542" cy="163" r="9" fill="#EB4E4D"/>
-    <text x="0" y="238" fill="#60747C" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="650">Design Language Standard 0.1</text>
+    <text x="0" y="238" fill="#60747C" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="650">Design Language Standard 0.2</text>
   </g>
 </svg>

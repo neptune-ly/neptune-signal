@@ -11,7 +11,19 @@ Inter
 System Arabic fallback
 ```
 
-## Type Roles
+## Material-Compatible Type Roles
+
+Signal keeps the Material 3 type-scale structure so implementation teams can map cleanly into platform APIs.
+
+| Material role | Signal use |
+| --- | --- |
+| Display | Large financial state, balance, campaign headline when needed |
+| Headline | Page-level confirmation, receipt outcome, onboarding title |
+| Title | App bar, section, card, sheet, and form group titles |
+| Body | Descriptions, support copy, consent explanation |
+| Label | Buttons, chips, tabs, navigation labels, form labels |
+
+## Banking Type Roles
 
 | Role | Size | Weight | Line | Usage |
 | --- | ---: | ---: | ---: | --- |
@@ -24,6 +36,18 @@ System Arabic fallback
 | Status Pill | 9.5-11 | 850-950 | 1.1 | Active, pending, failed |
 | Receipt Title | 22-28 | 900-950 | 1.15 | Success/failure states |
 | Legal/Support | 11-13 | 650-800 | 1.45 | Consent scope, support copy |
+
+## 0.2.0 KMP Defaults
+
+| SDK role | Size | Weight | Usage |
+| --- | ---: | ---: | --- |
+| `displayLarge` | 44 | 950 | Large financial hero only |
+| `headlineMedium` | 28 | 950 | Result title and major detail title |
+| `titleLarge` | 20 | 950 | Page app bar title |
+| `titleMedium` | 16 | 900 | Section and card title |
+| `bodyMedium` | 14 | 650 | Supporting text |
+| `labelLarge` | 15 | 950 | Primary buttons |
+| `labelSmall` | 11 | 850 | Status, nav, compact metadata |
 
 ## Rules
 

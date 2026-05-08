@@ -2,6 +2,8 @@
 
 Neptune. Signal components are platform-neutral specifications. KMP is the first implementation target, but the component contract should also work for Flutter, native iOS, native Android, and web SDKs.
 
+Components follow Material 3 implementation expectations for state, shape, touch target, typography, and accessibility. Signal adds banking data rules, white-label behavior, Arabic-first layout, and performance constraints.
+
 ## Use the Catalog
 
 The component catalog is the working documentation surface for product teams:
@@ -30,6 +32,8 @@ Every component must define:
 - Future SDK mapping.
 - Figma component properties.
 
+[Open the component anatomy model](anatomy.html)
+
 ## Critical Value Components
 
 Critical banking values use `SignalValueLine` or an equivalent platform component.
@@ -52,28 +56,30 @@ Compact rows use semantic labels like `IBAN ending 0101`; detail and receipt sur
 
 | Component | Standard | KMP | Flutter | Native | Web |
 | --- | --- | --- | --- | --- | --- |
-| App Shell | Draft 0.1 | Started | Planned | Planned | Planned |
-| Top App Bar | Draft 0.1 | Started | Planned | Planned | Planned |
-| Bottom Navigation | Draft 0.1 | Started | Planned | Planned | Planned |
-| Button | Draft 0.1 | Started | Planned | Planned | Planned |
-| Icon Button | Draft 0.1 | Started | Planned | Planned | Planned |
-| Segmented Control | Draft 0.1 | Started | Planned | Planned | Planned |
-| Banking Row | Draft 0.1 | Started | Planned | Planned | Planned |
-| Account Row | Draft 0.1 | Started | Planned | Planned | Planned |
-| Account Header | Draft 0.1 | Started | Planned | Planned | Planned |
-| Transaction Row | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Card Face | Draft 0.1 | Started | Planned | Planned | Planned |
-| Voucher Tile | Draft 0.1 | Started | Planned | Planned | Planned |
-| Service Tile | Draft 0.1 | Started | Planned | Planned | Planned |
-| Form Field | Draft 0.1 | Started | Planned | Planned | Planned |
-| Amount Field | Draft 0.1 | Started | Planned | Planned | Planned |
-| IBAN Field | Draft 0.1 | Started | Planned | Planned | Planned |
-| Consent Scope Row | Draft 0.1 | Started | Planned | Planned | Planned |
-| Status Result | Draft 0.1 | Started | Planned | Planned | Planned |
-| Value Line | Draft 0.1.1 | Started | Planned | Planned | Planned |
-| Language Selector | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Notification Row | Draft 0.1 | Started | Planned | Planned | Planned |
-| Empty State | Draft 0.1 | Started | Planned | Planned | Planned |
+| App Shell | Draft 0.2 | Started | Planned | Planned | Planned |
+| Top App Bar | Draft 0.2 | Started | Planned | Planned | Planned |
+| Bottom Navigation | Draft 0.2 | Started | Planned | Planned | Planned |
+| Button | Draft 0.2 | Started | Planned | Planned | Planned |
+| Icon Button | Draft 0.2 | Started | Planned | Planned | Planned |
+| Segmented Control | Draft 0.2 | Started | Planned | Planned | Planned |
+| List Group | Draft 0.2 | Started | Planned | Planned | Planned |
+| Banking Row | Draft 0.2 | Started | Planned | Planned | Planned |
+| Transaction Row | Draft 0.2 | Started | Planned | Planned | Planned |
+| Account Row | Draft 0.2 | Started | Planned | Planned | Planned |
+| Account Summary Row | Draft 0.2 | Started | Planned | Planned | Planned |
+| Account Header | Draft 0.2 | Started | Planned | Planned | Planned |
+| Card Face | Draft 0.2 | Started | Planned | Planned | Planned |
+| Voucher Tile | Draft 0.2 | Started | Planned | Planned | Planned |
+| Service Tile | Draft 0.2 | Started | Planned | Planned | Planned |
+| Form Field | Draft 0.2 | Started | Planned | Planned | Planned |
+| Amount Field | Draft 0.2 | Started | Planned | Planned | Planned |
+| IBAN Field | Draft 0.2 | Started | Planned | Planned | Planned |
+| Consent Scope Row | Draft 0.2 | Started | Planned | Planned | Planned |
+| Status Result | Draft 0.2 | Started | Planned | Planned | Planned |
+| Value Line | Draft 0.2 | Started | Planned | Planned | Planned |
+| Language Selector | Draft 0.2 | Planned | Planned | Planned | Planned |
+| Notification Row | Draft 0.2 | Started | Planned | Planned | Planned |
+| Empty State | Draft 0.2 | Started | Planned | Planned | Planned |
 
 ## Families
 
@@ -99,6 +105,7 @@ Compact rows use semantic labels like `IBAN ending 0101`; detail and receipt sur
 - Banking row.
 - Transaction row.
 - Account row.
+- Account summary row.
 - Card transaction row.
 - Consent row.
 - Notification row.
@@ -131,7 +138,7 @@ Compact rows use semantic labels like `IBAN ending 0101`; detail and receipt sur
 - Empty state.
 - Pending async state.
 
-## KMP 0.1 Started APIs
+## KMP 0.2 Started APIs
 
 The current SDK package includes:
 
@@ -143,8 +150,13 @@ SignalButton
 SignalIconButton
 SignalTopBar
 SignalBottomNav
+SignalListGroup
+SignalListItem
+SignalListDivider
 SignalBankingRow
+SignalTransactionRow
 SignalAccountRow
+SignalAccountSummaryRow
 SignalAccountHeader
 SignalTextField
 SignalAmountField
@@ -164,6 +176,6 @@ SignalNotificationRow
 
 ## Demo Source
 
-The first component set is extracted from the Mobile Banking Demo 0.1:
+The first component set is extracted from the Mobile Banking Demo 0.2:
 
 [Open interactive mobile demo](../demos/mobile/prototype.html)

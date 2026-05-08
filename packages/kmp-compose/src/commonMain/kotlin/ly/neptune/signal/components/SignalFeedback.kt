@@ -29,7 +29,7 @@ fun SignalSectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = title, color = SignalTheme.colors.bankPrimary, style = SignalTheme.typography.sectionTitle)
+        Text(text = title, color = SignalTheme.colors.primary, style = SignalTheme.typography.sectionTitle)
         action?.invoke()
     }
 }
@@ -46,14 +46,14 @@ fun SignalEmptyState(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceCard, RoundedCornerShape(SignalRadius.xl))
-            .border(BorderStroke(1.dp, colors.borderDefault), RoundedCornerShape(SignalRadius.xl))
+            .background(colors.surfaceContainerLowest, RoundedCornerShape(SignalRadius.xl))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(SignalRadius.xl))
             .padding(SignalSpacing.x6),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
     ) {
-        Text(text = title, color = colors.bankPrimary, style = typography.pageTitle, textAlign = TextAlign.Center)
-        Text(text = message, color = colors.textSecondary, style = typography.rowMeta, textAlign = TextAlign.Center)
+        Text(text = title, color = colors.primary, style = typography.pageTitle, textAlign = TextAlign.Center)
+        Text(text = message, color = colors.onSurfaceVariant, style = typography.rowMeta, textAlign = TextAlign.Center)
         action?.invoke()
     }
 }
@@ -75,4 +75,3 @@ fun SignalNotificationRow(
         onClick = onClick,
     )
 }
-

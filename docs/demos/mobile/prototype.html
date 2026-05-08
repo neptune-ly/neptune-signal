@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Neptune. OS v8 Neptune. Signal Prototype</title>
+  <title>Neptune. Signal Mobile Banking Demo 0.2.0</title>
   <style>
     :root {
       --npt-coral: #EB4E4D;
@@ -23,6 +23,18 @@
       --bank-secondary: var(--npt-teal);
       --bank-ink: var(--ink);
       --bank-accent: var(--npt-teal);
+      --md-primary: var(--bank-primary);
+      --md-on-primary: #ffffff;
+      --md-primary-container: #e8f1ff;
+      --md-secondary: var(--bank-secondary);
+      --md-secondary-container: #d8f6f7;
+      --md-tertiary: var(--npt-coral);
+      --md-tertiary-container: #ffe5e4;
+      --md-surface: #fafcfc;
+      --md-surface-container: #eef5f5;
+      --md-surface-container-high: #e7f0f1;
+      --md-outline: #c8d8dd;
+      --md-outline-variant: #e0eaed;
       --radius: 8px;
       --radius-lg: 14px;
       --shadow: 0 20px 58px rgba(7, 49, 95, .14);
@@ -210,13 +222,13 @@
       transform-origin: center;
       transform: translateY(0) scale(1);
       transition:
-        top .42s cubic-bezier(.16,1,.3,1),
-        left .42s cubic-bezier(.16,1,.3,1),
-        width .42s cubic-bezier(.16,1,.3,1),
-        height .42s cubic-bezier(.16,1,.3,1),
-        border-radius .42s cubic-bezier(.16,1,.3,1),
-        transform .42s cubic-bezier(.16,1,.3,1),
-        opacity .18s ease;
+        top .52s cubic-bezier(.16,1,.3,1),
+        left .52s cubic-bezier(.16,1,.3,1),
+        width .52s cubic-bezier(.16,1,.3,1),
+        height .52s cubic-bezier(.16,1,.3,1),
+        border-radius .52s cubic-bezier(.16,1,.3,1),
+        transform .52s cubic-bezier(.16,1,.3,1),
+        opacity .2s ease;
     }
     .morph-layer.to-page {
       top: 44px !important;
@@ -228,22 +240,22 @@
     }
     .morph-layer.fading { opacity: 0; }
     .morph-layer.account-morph.to-page {
-      top: 92px !important;
+      top: 104px !important;
       left: 0 !important;
       width: 100% !important;
-      height: 146px !important;
+      height: 164px !important;
       background: var(--bank-primary);
       border-radius: 0;
       box-shadow: none;
       opacity: .96;
-      transform: translateY(-10px) scale(1.012);
+      transform: translateY(-6px) scale(1.01);
     }
     .morph-account {
       height: 100%;
       display: grid;
       align-content: center;
       gap: 8px;
-      padding: 18px;
+      padding: 18px 20px;
       color: white;
       text-align: start;
     }
@@ -262,12 +274,12 @@
       font-weight: 820;
     }
     .morph-layer.account-morph.fading {
-      top: 74px !important;
+      top: 98px !important;
       left: 0 !important;
       width: 100% !important;
-      height: 150px !important;
+      height: 166px !important;
       opacity: 0;
-      transform: translateY(-18px) scale(1);
+      transform: translateY(-10px) scale(1);
     }
     .morph-layer.account-morph .account-tools,
     .morph-layer.account-morph .account-id,
@@ -465,7 +477,12 @@
 
     .list {
       display: grid;
-      gap: 8px;
+      gap: 0;
+      padding: 4px;
+      background: color-mix(in srgb, var(--bank-primary) 4%, white);
+      border: 1px solid var(--primary-line);
+      border-radius: 20px;
+      overflow: hidden;
     }
     .row {
       width: 100%;
@@ -480,6 +497,27 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       text-align: start;
+      transition: background .16s ease, transform .16s ease, border-color .16s ease;
+    }
+    .list .row {
+      border: 0;
+      border-bottom: 1px solid var(--ledger-line);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .list .row:first-child {
+      border-start-start-radius: 16px;
+      border-start-end-radius: 16px;
+    }
+    .list .row:last-child {
+      border-bottom: 0;
+      border-end-start-radius: 16px;
+      border-end-end-radius: 16px;
+    }
+    .list .row:active {
+      transform: scale(.992);
+      background: var(--primary-wash);
     }
     .row.compact { min-height: 56px; }
     .row-icon {
@@ -796,7 +834,7 @@
       background: rgba(7,49,95,.08);
     }
 
-    /* Neptune. Signal v8: app-first shell and modern banking language */
+    /* Neptune. Signal: app-first shell and modern banking language */
     :root {
       --bank-accent: var(--npt-coral);
       --paper: color-mix(in srgb, var(--bank-primary) 3%, #f8fbfa);
@@ -890,7 +928,9 @@
       position: fixed;
       z-index: 120;
       inset-block-start: 16px;
-      inset-inline-start: 16px;
+      inset-inline-start: auto;
+      left: 16px;
+      right: auto;
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
@@ -1412,16 +1452,16 @@
       margin-bottom: 8px;
       font-size: 13px;
     }
-    .list { gap: 6px; }
+    .list { gap: 0; padding: 4px; }
     .row {
       min-height: 62px;
       grid-template-columns: 36px minmax(0,1fr) auto;
       gap: 10px;
       padding: 10px;
-      background: rgba(255,255,255,.86);
-      border-color: var(--primary-line);
-      border-radius: 16px;
-      box-shadow: inset 0 -1px 0 var(--ledger-line);
+      background: transparent;
+      border-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
     }
     .row-icon {
       width: 36px;
@@ -1670,6 +1710,24 @@
       line-height: 1.3;
       overflow-wrap: anywhere;
     }
+    .account-id-line .id-value {
+      display: block;
+      min-width: 0;
+      overflow-wrap: normal;
+      word-break: normal;
+      unicode-bidi: isolate;
+    }
+    .account-id-line .critical-value {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .account-id-line .iban-value {
+      direction: ltr;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+    .account-id-line .iban-value::-webkit-scrollbar { display: none; }
     .account-id-line .mini-copy {
       width: 28px;
       height: 28px;
@@ -1710,6 +1768,16 @@
     }
     .screen.motion-account .account-detail-hero {
       animation: detailHeroLand .42s cubic-bezier(.18,.82,.22,1) both;
+    }
+    .screen.motion-account .account-detail-ids {
+      animation: detailIdsIn .34s cubic-bezier(.18,.82,.22,1) .08s both;
+    }
+    .screen.motion-account .account-detail-actions {
+      animation: detailIdsIn .34s cubic-bezier(.18,.82,.22,1) .14s both;
+    }
+    .screen.motion-account .request-grid,
+    .screen.motion-account .list {
+      animation: accountContentIn .34s cubic-bezier(.18,.82,.22,1) .18s both;
     }
     .account-detail-hero::before {
       display: none;
@@ -1763,6 +1831,13 @@
       border: 1px solid var(--primary-line);
       border-radius: 18px;
       box-shadow: 0 18px 38px color-mix(in srgb, var(--bank-primary) 10%, transparent);
+    }
+    .account-detail-ids .account-id-line {
+      grid-template-columns: 38px minmax(0, 1fr) 28px;
+    }
+    .account-detail-ids .account-id-line .critical-value {
+      font-size: 10px;
+      line-height: 1.25;
     }
     .account-detail-actions {
       display: grid;
@@ -1861,11 +1936,11 @@
     .account-full-card {
       position: relative;
       display: grid;
-      grid-template-columns: 38px minmax(0, 1fr) auto 30px;
+      grid-template-columns: 38px minmax(0, 1fr) 30px;
       gap: 10px;
       align-items: center;
       width: 100%;
-      min-height: 72px;
+      min-height: 78px;
       padding: 10px 12px;
       overflow: hidden;
       color: var(--bank-primary);
@@ -1920,16 +1995,22 @@
       width: 20px;
       height: 20px;
     }
-    .account-full-top {
+    .account-full-main {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 2px;
+      gap: 6px;
       align-items: center;
       min-width: 0;
     }
+    .account-full-head {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: start;
+    }
     .account-full-title {
       display: grid;
-      gap: 3px;
+      gap: 5px;
       min-width: 0;
     }
     .account-full-title b {
@@ -1937,14 +2018,33 @@
       font-size: 14px;
       line-height: 1.2;
     }
-    .account-full-title span {
+    .account-full-meta {
+      min-width: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 6px;
       color: var(--muted);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 820;
+      line-height: 1.2;
     }
-    .account-full-title span {
-      line-height: 1.3;
-      overflow-wrap: anywhere;
+    .account-full-meta span {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      white-space: nowrap;
+    }
+    .account-full-meta .id-chip {
+      direction: ltr;
+      unicode-bidi: isolate;
+      padding: 2px 7px;
+      color: var(--bank-primary);
+      background: var(--primary-wash);
+      border: 1px solid var(--primary-line);
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-variant-numeric: tabular-nums;
     }
     .account-full-balance {
       color: var(--bank-primary);
@@ -1953,6 +2053,7 @@
       font-weight: 950;
       letter-spacing: 0;
       white-space: nowrap;
+      align-self: start;
     }
     .account-full-open {
       width: 30px;
@@ -2262,7 +2363,7 @@
       width: 100%;
       display: grid;
       gap: 4px;
-      padding: 10px 12px;
+      padding: 9px 10px;
       color: var(--bank-primary);
       background: var(--primary-wash);
       border: 1px solid var(--primary-line);
@@ -2270,18 +2371,26 @@
       text-align: start;
     }
     .receipt-summary .detail-line {
-      grid-template-columns: minmax(96px, auto) minmax(0, 1fr);
-      gap: 12px;
+      grid-template-columns: minmax(46px, auto) minmax(0, 1fr);
+      gap: 8px;
       align-items: center;
       padding: 7px 0;
       font-size: 10.5px;
     }
     .receipt-summary .detail-line b {
       min-width: 0;
-      font-size: 11.5px;
+      font-size: 10.5px;
       line-height: 1.2;
-      overflow-wrap: anywhere;
+      white-space: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overflow-wrap: normal;
+      word-break: normal;
+      direction: ltr;
+      text-align: start;
+      scrollbar-width: none;
     }
+    .receipt-summary .detail-line b::-webkit-scrollbar { display: none; }
     .receipt-summary .detail-line span {
       white-space: nowrap;
     }
@@ -2817,8 +2926,8 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
     @keyframes accountRouteIn {
-      0% { opacity: 0; transform: translateY(24px) scale(.972); }
-      62% { opacity: 1; transform: translateY(-3px) scale(1.006); }
+      0% { opacity: 0; transform: translateY(12px) scale(.988); }
+      62% { opacity: 1; transform: translateY(-2px) scale(1.003); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     @keyframes productRouteIn {
@@ -2835,9 +2944,17 @@
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     @keyframes detailHeroLand {
-      0% { opacity: 0; transform: translateY(-16px) scale(.96); border-radius: 30px; }
-      58% { opacity: 1; transform: translateY(2px) scale(1.01); }
+      0% { opacity: .68; transform: translateY(-10px) scale(.992); clip-path: inset(0 10px 46% round 24px); }
+      58% { opacity: 1; transform: translateY(1px) scale(1.004); clip-path: inset(0 0 0 round 0); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes detailIdsIn {
+      from { opacity: 0; transform: translateY(8px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes accountContentIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 920px) {
@@ -3394,7 +3511,7 @@
       }
     ];
 
-    const state = { route: 'home', lang: 'ar', theme: 'neptune', lypayMode: 'iban', selectedLyPayId: 'PAY-7781', selectedNotificationId: 'travel-card', selectedService: 'wallet', selectedTransactionKind: 'standard', ticketContext: null, accountIndex: 0, masked: false, voucherCategory: 'telecom', voucherProduct: 'libyana', voucherAmount: '10 د.ل', motion: 'standard', processResult: 'success', isBooted: false, showSplash: true };
+    const state = { route: 'home', activeRoot: 'home', lang: 'ar', theme: 'neptune', lypayMode: 'iban', selectedLyPayId: 'PAY-7781', selectedNotificationId: 'travel-card', selectedService: 'wallet', selectedTransactionKind: 'standard', ticketContext: null, accountIndex: 0, masked: false, voucherCategory: 'telecom', voucherProduct: 'libyana', voucherAmount: '10 د.ل', motion: 'standard', processResult: 'success', isBooted: false, showSplash: true };
     const tabMap = {
       home: 'home', insights: 'home', transfer: 'home', internalTransfer: 'home', ownTransfer: 'home',
       lypay: 'home', contacts: 'home', confirm: 'home', westernUnion: 'home', wuSend: 'home',
@@ -3444,16 +3561,20 @@
       return icon(rtl ? 'arrow' : 'back');
     }
     function title(route = state.route) { return lang().titles[route] || ''; }
-    function go(route, motion = 'standard') {
+    function rootFor(route) {
+      return tabMap[route] || route || 'home';
+    }
+    function go(route, motion = 'standard', activeRoot = null) {
       clearTimeout(routeTimer);
       state.route = route;
+      state.activeRoot = activeRoot || (['home', 'accounts', 'cards', 'more'].includes(route) ? route : rootFor(route));
       state.motion = motion;
       render();
     }
-    function animateThenGo(route, motion, source) {
+    function animateThenGo(route, motion, source, activeRoot = null) {
       clearTimeout(routeTimer);
       if (!source || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        go(route, motion);
+        go(route, motion, activeRoot);
         return;
       }
       const phoneRect = phone.getBoundingClientRect();
@@ -3477,10 +3598,10 @@
       screen.classList.add('pre-route');
       requestAnimationFrame(() => morph.classList.add('to-page'));
       routeTimer = setTimeout(() => {
-        morph.classList.add('fading');
-        go(route, motion);
-        setTimeout(() => morph.remove(), 180);
-      }, motion === 'account' ? 420 : 360);
+        go(route, motion, activeRoot);
+        requestAnimationFrame(() => morph.classList.add('fading'));
+        setTimeout(() => morph.remove(), motion === 'account' ? 260 : 190);
+      }, motion === 'account' ? 320 : 280);
     }
     function completeBoot() {
       state.isBooted = true;
@@ -3641,8 +3762,8 @@
           <div class="meta"><span>${status}</span><span>${state.accountIndex + 1} / ${accounts.length}</span></div>
           <div class="balance ${hidden ? 'masked' : ''}">${secureValue(account.balance, '••••••')}</div>
           <div class="account-id ${hidden ? 'masked' : ''}">
-            <span class="account-id-line"><b>Alias</b><span>${secureValue(account.alias)}</span><button class="mini-copy tap" data-copy-value="${account.alias}" aria-label="Copy alias">${icon('copy')}</button></span>
-            <span class="account-id-line"><b>IBAN</b><span>${hidden ? displayIban(account.iban, true, true) : identifierEnding(account.iban)}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy full IBAN">${icon('copy')}</button></span>
+            <span class="account-id-line"><b>Alias</b><span class="id-value critical-value" dir="ltr">${secureValue(account.alias)}</span><button class="mini-copy tap" data-copy-value="${account.alias}" aria-label="Copy alias">${icon('copy')}</button></span>
+            <span class="account-id-line"><b>IBAN</b><span class="id-value critical-value iban-value" dir="ltr">${hidden ? displayIban(account.iban, true, true) : identifierEnding(account.iban)}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy full IBAN">${icon('copy')}</button></span>
           </div>
           ${actions ? `<div class="account-mini-actions">
             <button class="tap" data-go="statement">${c.titles.statement}</button>
@@ -3664,8 +3785,8 @@
         </div>
         <div class="account-detail-balance"><strong class="${hidden ? 'masked' : ''}">${secureValue(account.balance, '••••••')}</strong><span>${state.accountIndex + 1} / ${accounts.length}</span></div>
         <div class="account-detail-ids">
-          <span class="account-id-line"><b>Alias</b><span>${secureValue(account.alias)}</span><button class="mini-copy tap" data-copy-value="${account.alias}" aria-label="Copy alias">${icon('copy')}</button></span>
-          <span class="account-id-line"><b>IBAN</b><span>${displayIban(account.iban, hidden, false)}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy full IBAN">${icon('copy')}</button></span>
+          <span class="account-id-line"><b>Alias</b><span class="id-value critical-value" dir="ltr">${secureValue(account.alias)}</span><button class="mini-copy tap" data-copy-value="${account.alias}" aria-label="Copy alias">${icon('copy')}</button></span>
+          <span class="account-id-line"><b>IBAN</b><span class="id-value critical-value iban-value" dir="ltr">${displayIban(account.iban, hidden, false)}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy full IBAN">${icon('copy')}</button></span>
         </div>
         <div class="account-detail-actions">
           <button class="tap" data-go="statement" aria-label="${c.titles.statement}">${icon('statement')}</button>
@@ -3685,6 +3806,11 @@
           ${iconButton('bell', 'notifications', c.titles.notifications)}
         </div>
         ${renderAccountCarousel({ compact: true })}
+        <div class="section-head"><span>${c.common.latest}</span>${iconButton('next', 'statement', c.common.all)}</div>
+        <div class="list">
+          ${row({ iconName: 'statement', titleText: c.home.tx1, subText: c.home.tx1Meta, amount: { text: '-75 د.ل' }, route: 'transaction' })}
+          ${row({ iconName: 'transfer', dark: true, titleText: c.home.tx2, subText: c.home.tx2Meta, amount: { text: '+450 د.ل', in: true }, route: 'transaction' })}
+        </div>
         <div class="command-dock">
           <button class="primary-action tap" data-go="transfer">${icon('transfer')}<span>${c.home.transfer}</span>${directionIcon('next')}</button>
           <div class="quick-grid">
@@ -3692,11 +3818,6 @@
             <button class="quick tap" data-go="vouchers">${icon('voucher')}<span>${c.home.vouchers}</span></button>
             <button class="quick tap" data-go="services">${icon('services')}<span>${c.home.services}</span></button>
           </div>
-        </div>
-        <div class="section-head"><span>${c.common.latest}</span>${iconButton('next', 'statement', c.common.all)}</div>
-        <div class="list">
-          ${row({ iconName: 'statement', titleText: c.home.tx1, subText: c.home.tx1Meta, amount: { text: '-75 د.ل' }, route: 'transaction' })}
-          ${row({ iconName: 'transfer', dark: true, titleText: c.home.tx2, subText: c.home.tx2Meta, amount: { text: '+450 د.ل', in: true }, route: 'transaction' })}
         </div>
         <button class="insight home-insight tap" data-go="insights">${icon('chart')}<span><b>${c.home.insightTitle}</b><span>${c.home.insightText}</span></span>${directionIcon('next')}</button>
       `;
@@ -3934,10 +4055,17 @@
         const compactIban = displayIban(account.iban, state.masked, true);
         return `<button class="account-full-card tap" data-account-index="${index}" data-go="accountDetails" data-motion="account">
           <span class="account-full-icon">${icon('account')}</span>
-          <div class="account-full-top">
-            <span class="account-full-title"><b>${i18n(account.name)}</b><span>${i18n(account.type)} • ${status} • ${compactIban}</span></span>
+          <div class="account-full-main">
+            <div class="account-full-head">
+              <span class="account-full-title"><b>${i18n(account.name)}</b></span>
+              <span class="account-full-balance">${secureValue(account.balance, '••••••')}</span>
+            </div>
+            <span class="account-full-meta">
+              <span>${i18n(account.type)}</span>
+              <span>${status}</span>
+              <span class="id-chip">${compactIban}</span>
+            </span>
           </div>
-          <div class="account-full-balance">${secureValue(account.balance, '••••••')}</div>
           <span class="account-full-open">${directionIcon('next')}</span>
         </button>`;
       };
@@ -4667,7 +4795,7 @@
 
     function renderBottomNav() {
       const c = lang();
-      const active = tabMap[state.route] || 'home';
+      const active = state.activeRoot || rootFor(state.route);
       const nav = [
         ['home', c.nav.home, 'home'],
         ['accounts', c.nav.accounts, 'account'],
@@ -4692,6 +4820,12 @@
       document.documentElement.style.setProperty('--bank-secondary', theme.secondary);
       document.documentElement.style.setProperty('--bank-accent', theme.accent);
       document.documentElement.style.setProperty('--bank-ink', theme.ink);
+      document.documentElement.style.setProperty('--md-primary', theme.primary);
+      document.documentElement.style.setProperty('--md-secondary', theme.secondary);
+      document.documentElement.style.setProperty('--md-tertiary', theme.accent);
+      document.documentElement.style.setProperty('--md-primary-container', `color-mix(in srgb, ${theme.primary} 12%, white)`);
+      document.documentElement.style.setProperty('--md-secondary-container', `color-mix(in srgb, ${theme.secondary} 14%, white)`);
+      document.documentElement.style.setProperty('--md-tertiary-container', `color-mix(in srgb, ${theme.accent} 14%, white)`);
       document.querySelectorAll('[data-theme]').forEach(node => {
         node.classList.toggle('active', node.dataset.theme === state.theme);
       });
@@ -4843,7 +4977,8 @@
       const target = event.target.closest('[data-go]');
       if (target) {
         const motion = target.dataset.motion || 'standard';
-        if (motion === 'account') animateThenGo(target.dataset.go, motion, target);
+        const originRoot = state.activeRoot || rootFor(state.route);
+        if (motion === 'account') animateThenGo(target.dataset.go, motion, target, originRoot);
         else go(target.dataset.go, motion);
       }
     });

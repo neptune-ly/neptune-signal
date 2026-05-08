@@ -52,21 +52,21 @@ fun SignalTextField(
             visualTransformation = visualTransformation,
             shape = RoundedCornerShape(SignalRadius.md),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = colors.bankPrimary,
-                unfocusedBorderColor = colors.borderDefault,
-                errorBorderColor = colors.danger,
-                focusedLabelColor = colors.bankPrimary,
-                unfocusedLabelColor = colors.textSecondary,
-                focusedTextColor = colors.textPrimary,
-                unfocusedTextColor = colors.textPrimary,
-                cursorColor = colors.bankPrimary,
+                focusedBorderColor = colors.primary,
+                unfocusedBorderColor = colors.outlineVariant,
+                errorBorderColor = colors.error,
+                focusedLabelColor = colors.primary,
+                unfocusedLabelColor = colors.onSurfaceVariant,
+                focusedTextColor = colors.onSurface,
+                unfocusedTextColor = colors.onSurface,
+                cursorColor = colors.primary,
             ),
             supportingText = {
                 val text = errorText ?: supportingText
                 if (text != null) {
                     Text(
                         text = text,
-                        color = if (errorText != null) colors.danger else colors.textSecondary,
+                        color = if (errorText != null) colors.error else colors.onSurfaceVariant,
                         style = SignalTheme.typography.rowMeta,
                     )
                 }
@@ -94,7 +94,7 @@ fun SignalAmountField(
         trailingIcon = {
             Text(
                 text = currency,
-                color = SignalTheme.colors.bankPrimary,
+                color = SignalTheme.colors.primary,
                 style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
             )
         },
