@@ -51,17 +51,20 @@ SignalCardFace
 
 ## Implementation Priorities
 
-Phase 1:
+Phase 1 status:
 
-- Tokens.
-- Theme.
-- Buttons.
-- Icon buttons.
-- Top app bar.
-- Bottom navigation.
-- Banking row.
-- Account row.
-- Status result.
+- Tokens: started.
+- Theme: started.
+- Buttons: started.
+- Icon buttons: started.
+- Top app bar: started.
+- Bottom navigation: started.
+- Banking row: started.
+- Account row: started.
+- Account header: started.
+- Status result: started.
+- Consent scope row: started.
+- Card face: started.
 
 Phase 2:
 
@@ -99,3 +102,22 @@ ly.neptune.signal.icons
 
 Flutter, iOS, Android, and Web SDKs should not invent new behavior. They should implement the same standard contract using platform-native conventions.
 
+## Local Build
+
+```bash
+gradle :packages:kmp-compose:build
+```
+
+## Local Publish
+
+```bash
+gradle :packages:kmp-compose:publishToMavenLocal
+```
+
+Initial Maven coordinates:
+
+```text
+group: ly.neptune.signal
+artifact: kmp-compose
+version: 0.1.0
+```

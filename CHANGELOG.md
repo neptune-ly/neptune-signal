@@ -17,4 +17,7 @@ Added:
 - KMP starter tokens.
 - Figma kit guidance.
 - SVG logo mark and lockup.
-
+- KMP Compose SDK scaffold.
+- `SignalTheme`, tokens, spacing, radius, and motion constants.
+- First KMP components: button, icon button, top bar, bottom nav, banking row, account row, account header, status result, consent scope row, and card face.
+- Local Maven publishing for `ly.neptune.signal:kmp-compose:0.1.0`.

@@ -94,17 +94,20 @@ SignalConsentScopeRow
 SignalVoucherTile
 SignalCardFace</code></pre>
 <h2>Implementation Priorities</h2>
-<p>Phase 1:</p>
+<p>Phase 1 status:</p>
 <ul>
-<li>Tokens.</li>
-<li>Theme.</li>
-<li>Buttons.</li>
-<li>Icon buttons.</li>
-<li>Top app bar.</li>
-<li>Bottom navigation.</li>
-<li>Banking row.</li>
-<li>Account row.</li>
-<li>Status result.</li>
+<li>Tokens: started.</li>
+<li>Theme: started.</li>
+<li>Buttons: started.</li>
+<li>Icon buttons: started.</li>
+<li>Top app bar: started.</li>
+<li>Bottom navigation: started.</li>
+<li>Banking row: started.</li>
+<li>Account row: started.</li>
+<li>Account header: started.</li>
+<li>Status result: started.</li>
+<li>Consent scope row: started.</li>
+<li>Card face: started.</li>
 </ul>
 <p>Phase 2:</p>
 <ul>
@@ -133,7 +136,15 @@ ly.neptune.signal.motion
 ly.neptune.signal.patterns
 ly.neptune.signal.icons</code></pre>
 <h2>Future SDK Rules</h2>
-<p>Flutter, iOS, Android, and Web SDKs should not invent new behavior. They should implement the same standard contract using platform-native conventions.</p></div>
+<p>Flutter, iOS, Android, and Web SDKs should not invent new behavior. They should implement the same standard contract using platform-native conventions.</p>
+<h2>Local Build</h2>
+<pre><code class="language-bash">gradle :packages:kmp-compose:build</code></pre>
+<h2>Local Publish</h2>
+<pre><code class="language-bash">gradle :packages:kmp-compose:publishToMavenLocal</code></pre>
+<p>Initial Maven coordinates:</p>
+<pre><code class="language-text">group: ly.neptune.signal
+artifact: kmp-compose
+version: 0.1.0</code></pre></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

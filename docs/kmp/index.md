@@ -11,6 +11,35 @@ ly.neptune.signal.motion
 ly.neptune.signal.patterns
 ```
 
+Current package path:
+
+```text
+packages/kmp-compose
+```
+
+Current Gradle module:
+
+```text
+:packages:kmp-compose
+```
+
+## Current Components
+
+The first SDK slice includes:
+
+- `SignalTheme`
+- `SignalColors`
+- `SignalButton`
+- `SignalIconButton`
+- `SignalTopBar`
+- `SignalBottomNav`
+- `SignalBankingRow`
+- `SignalAccountRow`
+- `SignalAccountHeader`
+- `SignalStatusResult`
+- `SignalConsentScopeRow`
+- `SignalCardFace`
+
 ## Theme Model
 
 ```kotlin
@@ -22,6 +51,33 @@ data class SignalTheme(
 )
 ```
 
+## Usage
+
+```kotlin
+SignalTheme {
+    SignalAccountRow(
+        name = "حساب الجاري",
+        metadata = "نشط · LY2101",
+        balance = "1,000,000 د.ل",
+        onClick = { }
+    )
+}
+```
+
+White-label theme:
+
+```kotlin
+SignalTheme(
+    colors = SignalColorDefaults.whiteLabel(
+        primary = Color(0xFFB4232A),
+        secondary = Color(0xFF1A335E),
+        accent = Color(0xFFD9A441)
+    )
+) {
+    // Bank app UI
+}
+```
+
 ## Principles
 
 - Tokens are generated from JSON.
@@ -30,4 +86,3 @@ data class SignalTheme(
 - Motion constants are shared.
 - Accessibility labels are required for icon-only actions.
 - Product screens should compose patterns, not duplicate component internals.
-

@@ -30,6 +30,32 @@ Current implementation priority:
 4. Web SDK for internet banking and portals
 ```
 
+## KMP SDK
+
+The first real package is now scaffolded at:
+
+```text
+packages/kmp-compose
+```
+
+Build it:
+
+```bash
+gradle :packages:kmp-compose:build
+```
+
+Publish locally:
+
+```bash
+gradle :packages:kmp-compose:publishToMavenLocal
+```
+
+Initial Maven coordinates:
+
+```text
+ly.neptune.signal:kmp-compose:0.1.0
+```
+
 ## Principles
 
 - Arabic-first, multilingual by design.

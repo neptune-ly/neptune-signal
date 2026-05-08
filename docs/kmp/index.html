@@ -66,6 +66,26 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 ly.neptune.signal.components
 ly.neptune.signal.motion
 ly.neptune.signal.patterns</code></pre>
+<p>Current package path:</p>
+<pre><code class="language-text">packages/kmp-compose</code></pre>
+<p>Current Gradle module:</p>
+<pre><code class="language-text">:packages:kmp-compose</code></pre>
+<h2>Current Components</h2>
+<p>The first SDK slice includes:</p>
+<ul>
+<li><code>SignalTheme</code></li>
+<li><code>SignalColors</code></li>
+<li><code>SignalButton</code></li>
+<li><code>SignalIconButton</code></li>
+<li><code>SignalTopBar</code></li>
+<li><code>SignalBottomNav</code></li>
+<li><code>SignalBankingRow</code></li>
+<li><code>SignalAccountRow</code></li>
+<li><code>SignalAccountHeader</code></li>
+<li><code>SignalStatusResult</code></li>
+<li><code>SignalConsentScopeRow</code></li>
+<li><code>SignalCardFace</code></li>
+</ul>
 <h2>Theme Model</h2>
 <pre><code class="language-kotlin">data class SignalTheme(
     val colors: SignalColors,
@@ -73,6 +93,25 @@ ly.neptune.signal.patterns</code></pre>
     val shapes: SignalShapes,
     val motion: SignalMotion
 )</code></pre>
+<h2>Usage</h2>
+<pre><code class="language-kotlin">SignalTheme {
+    SignalAccountRow(
+        name = &quot;حساب الجاري&quot;,
+        metadata = &quot;نشط · LY2101&quot;,
+        balance = &quot;1,000,000 د.ل&quot;,
+        onClick = { }
+    )
+}</code></pre>
+<p>White-label theme:</p>
+<pre><code class="language-kotlin">SignalTheme(
+    colors = SignalColorDefaults.whiteLabel(
+        primary = Color(0xFFB4232A),
+        secondary = Color(0xFF1A335E),
+        accent = Color(0xFFD9A441)
+    )
+) {
+    // Bank app UI
+}</code></pre>
 <h2>Principles</h2>
 <ul>
 <li>Tokens are generated from JSON.</li>
