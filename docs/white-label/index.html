@@ -63,20 +63,184 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
         <span class="kicker">Neptune. Signal Standard 0.1.0</span>
         <div class="doc-card"><h1>White-Label Theming</h1>
 <p>Neptune. Signal is white-label ready. Bank colors can change, but Neptune. structure remains.</p>
-<h2>Theme Inputs</h2>
+<h2>Philosophy</h2>
+<p>White-label does not mean every bank gets a different product. It means every bank can feel like itself while the customer still receives the same Neptune. Signal quality:</p>
+<ul>
+<li>Same navigation logic.</li>
+<li>Same spacing, shape, typography, and component anatomy.</li>
+<li>Same motion language.</li>
+<li>Same accessibility rules.</li>
+<li>Same performance rules.</li>
+<li>Same financial clarity.</li>
+<li>Different bank identity through controlled color, logo, name, and selected brand moments.</li>
+</ul>
+<p>The bank owns the brand layer. Neptune. Signal owns the operating layer.</p>
+<h2>Token Model</h2>
+<p>Every bank theme is reduced into a small set of semantic inputs. Components must never read raw brand colors directly.</p>
 <pre><code class="language-text">bank.primary
 bank.secondary
 bank.accent
-bank.ink</code></pre>
-<h2>Example Theme Families</h2>
-<p>These are placeholders for presentation and testing, not official brand claims.</p>
-<table><thead><tr><th>Theme</th><th>Primary</th><th>Secondary</th><th>Accent</th></tr></thead><tbody><tr><td>Neptune.</td><td>Navy</td><td>Teal</td><td>Coral</td></tr><tr><td>Red Bank</td><td>Red</td><td>Deep navy</td><td>Warm gold</td></tr><tr><td>Brown Gold Bank</td><td>Brown</td><td>Gold</td><td>Cream</td></tr><tr><td>Green Bank</td><td>Green</td><td>Deep green</td><td>Sky</td></tr><tr><td>Blue Bank</td><td>Blue</td><td>Teal</td><td>Coral</td></tr></tbody></table>
-<h2>Rules</h2>
+bank.ink
+bank.surface</code></pre>
+<table><thead><tr><th>Token</th><th>Purpose</th><th>Typical use</th></tr></thead><tbody><tr><td><code>bank.primary</code></td><td>Main bank identity color</td><td>Top hierarchy, primary buttons, active navigation, account hero</td></tr><tr><td><code>bank.secondary</code></td><td>Supporting brand color</td><td>Secondary states, selected chips, small highlights</td></tr><tr><td><code>bank.accent</code></td><td>Signature highlight</td><td>Important brand moments, focus rings, splash, rare emphasis</td></tr><tr><td><code>bank.ink</code></td><td>Text and icon color on light surfaces</td><td>Page titles, dense rows, navigation icons</td></tr><tr><td><code>bank.surface</code></td><td>Optional soft brand-tinted background</td><td>Quiet page backgrounds, panels, disabled states</td></tr></tbody></table>
+<p>Neptune. Signal tokens still exist below the bank layer:</p>
+<pre><code class="language-text">--npt-navy
+--npt-teal
+--npt-coral
+--npt-beige
+--npt-sky
+--bank-primary
+--bank-secondary
+--bank-accent
+--bank-ink
+--bank-surface</code></pre>
+<h2>What Can Change</h2>
+<p>Bank themes may change:</p>
 <ul>
-<li>Primary should pass contrast with white.</li>
-<li>Accent should not dominate all surfaces.</li>
-<li>Status colors must remain recognizable even under bank themes.</li>
-<li>Layout and component anatomy must not change per bank.</li>
+<li>Logo.</li>
+<li>Bank name.</li>
+<li><code>bank.primary</code>.</li>
+<li><code>bank.secondary</code>.</li>
+<li><code>bank.accent</code>.</li>
+<li>Optional background tint.</li>
+<li>Card face color palettes.</li>
+<li>Splash brand lockup.</li>
+<li>Marketing artwork inside approved banner surfaces.</li>
+</ul>
+<p>Bank themes must not change:</p>
+<ul>
+<li>Navigation roots.</li>
+<li>Component spacing.</li>
+<li>Text scale.</li>
+<li>Touch target minimums.</li>
+<li>Receipt information hierarchy.</li>
+<li>Status meaning.</li>
+<li>Error, success, and warning color behavior beyond approved semantic adjustment.</li>
+<li>Motion timing model.</li>
+<li>Arabic, English, and French layout support.</li>
+</ul>
+<h2>Color Assignment Rules</h2>
+<h3>Primary</h3>
+<p>Primary is the bank&#x27;s strongest brand color. It must be dark or saturated enough to work behind white text.</p>
+<p>Use it for:</p>
+<ul>
+<li>Primary action buttons.</li>
+<li>Active navigation.</li>
+<li>Important account headers.</li>
+<li>App bars when a bank explicitly wants a stronger branded shell.</li>
+</ul>
+<p>Do not use it for:</p>
+<ul>
+<li>Every icon.</li>
+<li>Every card border.</li>
+<li>Large page backgrounds when it harms readability.</li>
+<li>Success or failure states.</li>
+</ul>
+<h3>Secondary</h3>
+<p>Secondary supports primary. It is useful when the bank has two major colors, such as navy and teal, red and gold, green and white, or brown and gold.</p>
+<p>Use it for:</p>
+<ul>
+<li>Selected filters.</li>
+<li>Progress accents.</li>
+<li>Secondary cards.</li>
+<li>Subtle highlight surfaces.</li>
+</ul>
+<p>Do not use it as a second competing primary action color.</p>
+<h3>Accent</h3>
+<p>Accent is a sharp signal, not decoration. It should appear rarely so it keeps meaning.</p>
+<p>Use it for:</p>
+<ul>
+<li>Splash orbit or signature moment.</li>
+<li>Focus ring.</li>
+<li>One key insight or promotion highlight.</li>
+<li>Risk-adjacent attention when not replacing semantic danger.</li>
+</ul>
+<p>Do not use it for:</p>
+<ul>
+<li>Random list icons.</li>
+<li>Every call to action.</li>
+<li>Full-page backgrounds.</li>
+<li>Transaction status colors.</li>
+</ul>
+<h3>Ink</h3>
+<p>Ink is the customer-reading color. It must be stable and calm.</p>
+<p>Use it for:</p>
+<ul>
+<li>Page titles.</li>
+<li>Row titles.</li>
+<li>Important identifiers.</li>
+<li>Navigation labels.</li>
+</ul>
+<p>Do not make body text low contrast to satisfy brand aesthetics.</p>
+<h2>Semantic Colors Stay Protected</h2>
+<p>Financial status colors are not bank branding.</p>
+<table><thead><tr><th>Semantic</th><th>Default direction</th><th>Rule</th></tr></thead><tbody><tr><td>Success</td><td>Green</td><td>Must remain recognizable as success</td></tr><tr><td>Warning</td><td>Amber</td><td>Must remain recognizable as warning</td></tr><tr><td>Danger</td><td>Red</td><td>Must remain recognizable as danger or risk</td></tr><tr><td>Pending</td><td>Accent or sky</td><td>Must read as waiting, not success</td></tr><tr><td>Disabled</td><td>Neutral gray</td><td>Must read as unavailable</td></tr></tbody></table>
+<p>If a bank&#x27;s primary color is red, danger still needs a separate danger treatment. For example, primary red can be deeper and branded, while danger uses semantic red with error copy, icon, and receipt context.</p>
+<h2>Contrast Rules</h2>
+<p>Minimum rules:</p>
+<ul>
+<li>Primary button text: WCAG AA contrast against <code>bank.primary</code>.</li>
+<li>Body text: WCAG AA contrast against surface.</li>
+<li>Small metadata: never below usable contrast, even when muted.</li>
+<li>Disabled controls: visibly disabled but still readable.</li>
+<li>Focus state: visible against both white and branded surfaces.</li>
+</ul>
+<p>Practical guidance:</p>
+<ul>
+<li>If <code>bank.primary</code> is too light, derive a darker interaction shade.</li>
+<li>If <code>bank.accent</code> is too bright, use it only for strokes, small marks, and focus rings.</li>
+<li>If <code>bank.surface</code> is tinted, keep dense banking rows on white or near-white cards.</li>
+</ul>
+<h2>Theme Families</h2>
+<p>These are implementation presets for testing and presentation. They are not official brand claims.</p>
+<table><thead><tr><th>Family</th><th>Primary</th><th>Secondary</th><th>Accent</th><th>Notes</th></tr></thead><tbody><tr><td>Neptune.</td><td>Navy</td><td>Teal</td><td>Coral</td><td>Default reference theme</td></tr><tr><td>Red white bank</td><td>Deep red</td><td>White or deep navy</td><td>Warm gold</td><td>Useful for banks with strong red identity</td></tr><tr><td>Brown gold bank</td><td>Deep brown</td><td>Gold</td><td>Cream</td><td>Needs careful contrast, avoid beige-heavy screens</td></tr><tr><td>Green bank</td><td>Deep green</td><td>White or mint</td><td>Sky</td><td>Good for trust and public banking identity</td></tr><tr><td>Blue bank</td><td>Royal blue</td><td>Teal</td><td>Coral</td><td>Works for modern retail banking</td></tr><tr><td>Black white bank</td><td>Black</td><td>Cool gray</td><td>Teal or coral</td><td>Premium but must avoid harsh empty screens</td></tr><tr><td>Gold navy bank</td><td>Navy</td><td>Gold</td><td>Coral</td><td>Good for private banking or premium tiers</td></tr></tbody></table>
+<h2>Example Presets</h2>
+<p>These are placeholders for presentation and testing, not official brand claims.</p>
+<table><thead><tr><th>Preset</th><th><code>bank.primary</code></th><th><code>bank.secondary</code></th><th><code>bank.accent</code></th><th><code>bank.ink</code></th></tr></thead><tbody><tr><td>Neptune. Signal</td><td><code>#07315F</code></td><td><code>#00A8AE</code></td><td><code>#EB4E4D</code></td><td><code>#071C2E</code></td></tr><tr><td>Red White</td><td><code>#A71930</code></td><td><code>#FFFFFF</code></td><td><code>#C89B3C</code></td><td><code>#1A1A1A</code></td></tr><tr><td>Brown Gold</td><td><code>#5B3A22</code></td><td><code>#B58A35</code></td><td><code>#F0CE9D</code></td><td><code>#24170F</code></td></tr><tr><td>Green Public</td><td><code>#006B3F</code></td><td><code>#E8F5EF</code></td><td><code>#3BC1EE</code></td><td><code>#06251A</code></td></tr><tr><td>Blue Teal</td><td><code>#0B3D91</code></td><td><code>#00A8AE</code></td><td><code>#EB4E4D</code></td><td><code>#071C2E</code></td></tr><tr><td>Black Premium</td><td><code>#111111</code></td><td><code>#E8ECEF</code></td><td><code>#00A8AE</code></td><td><code>#111111</code></td></tr></tbody></table>
+<h2>Brand Application Matrix</h2>
+<table><thead><tr><th>Surface</th><th>Primary</th><th>Secondary</th><th>Accent</th><th>Notes</th></tr></thead><tbody><tr><td>Splash</td><td>Strong</td><td>Optional</td><td>Strong but brief</td><td>Good place for bank identity and Neptune. Signal motion</td></tr><tr><td>Home account header</td><td>Strong</td><td>Optional</td><td>Rare</td><td>Balance readability is more important than decoration</td></tr><tr><td>Primary button</td><td>Strong</td><td>No</td><td>No</td><td>One clear action color</td></tr><tr><td>Bottom navigation active</td><td>Strong</td><td>Soft surface</td><td>No</td><td>Must stay calm and consistent</td></tr><tr><td>Transaction rows</td><td>No</td><td>No</td><td>No</td><td>Use semantic and neutral colors</td></tr><tr><td>Voucher store</td><td>Limited</td><td>Category support</td><td>Rare</td><td>Product catalog must stay scannable</td></tr><tr><td>Status result</td><td>No</td><td>No</td><td>Only pending if appropriate</td><td>Success and failure use semantic colors</td></tr><tr><td>Ads and banners</td><td>Optional</td><td>Optional</td><td>Optional</td><td>Must not pollute core banking hierarchy</td></tr></tbody></table>
+<h2>Deriving a Bank Theme</h2>
+<p>Use this process for every bank:</p>
+<ol>
+<li>Collect official logo, primary brand color, secondary brand color, and accent if available.</li>
+<li>Test primary with white text. If it fails, derive <code>primaryDark</code>.</li>
+<li>Test primary on soft background. If too heavy, keep it for buttons and headers only.</li>
+<li>Define <code>bank.ink</code> separately from primary if primary is too saturated for text.</li>
+<li>Define one accent. Do not invent multiple accents.</li>
+<li>Map success, warning, danger, and pending separately from brand.</li>
+<li>Test Arabic, English, and French labels.</li>
+<li>Test home, accounts, card details, transfer, status result, voucher receipt, and OpenWave consent.</li>
+</ol>
+<h2>KMP Example</h2>
+<pre><code class="language-kotlin">val redWhiteTheme = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFFA71930),
+    secondary = Color(0xFFFFFFFF),
+    accent = Color(0xFFC89B3C),
+    ink = Color(0xFF1A1A1A)
+)
+
+SignalTheme(colors = redWhiteTheme) {
+    BankApp()
+}</code></pre>
+<h2>CSS Example</h2>
+<pre><code class="language-css">:root {
+  --bank-primary: #A71930;
+  --bank-secondary: #FFFFFF;
+  --bank-accent: #C89B3C;
+  --bank-ink: #1A1A1A;
+  --bank-surface: #F7FAF9;
+}</code></pre>
+<h2>Review Checklist</h2>
+<p>Before accepting a bank theme:</p>
+<ul>
+<li>Primary buttons are readable.</li>
+<li>Active navigation is clear but not loud.</li>
+<li>Status result screens still communicate success, waiting, and failure instantly.</li>
+<li>Transaction rows do not become a rainbow of brand colors.</li>
+<li>Copy, share, report, and support icons are consistent.</li>
+<li>Arabic RTL remains aligned.</li>
+<li>English and French do not overflow labels.</li>
+<li>The app still feels like Neptune. Signal, not a custom one-off skin.</li>
 </ul></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
