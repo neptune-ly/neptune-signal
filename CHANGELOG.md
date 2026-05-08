@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.1
+
+Information presentation update.
+
+Added:
+
+- Critical value rules for amount, IBAN, alias, MTCN, references, voucher PIN, voucher serial, and consent IDs.
+- `SignalValueLine` for readable, copyable, shareable financial values.
+- Semantic compact account identifiers, such as `IBAN ending 0101`.
+- Safer account header and status receipt value rendering.
+- Component gallery examples for full, compact, masked, and copied values.
+
 ## 0.1.0
 
 Initial Neptune. Signal standard scaffold.

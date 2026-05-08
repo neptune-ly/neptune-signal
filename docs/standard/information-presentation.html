@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Platform Support | Neptune. Signal</title>
+  <title>Information Presentation | Neptune. Signal</title>
   <style>
 :root{--navy:#1A335E;--coral:#EA4E4E;--teal:#00A8AE;--paper:#F7FAF9;--ink:#071C2E;--muted:#60747C;--line:#D7E5E8;--soft:#EEF6F6;--code:#0B213F}
 *{box-sizing:border-box}
@@ -35,7 +35,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
-<a class="" href="../standard/information-presentation.html">Information</a>
+<a class="active" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -49,7 +49,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <a class="" href="../components/banking-row.html">Banking Row</a>
 <a class="" href="../components/account.html">Accounts</a>
 <a class="" href="../sdk/index.html">SDK Model</a>
-<a class="active" href="../platforms/index.html">Platforms</a>
+<a class="" href="../platforms/index.html">Platforms</a>
 <a class="" href="../motion/index.html">Motion</a>
 <a class="" href="../patterns/banking.html">Banking Patterns</a>
 <a class="" href="../patterns/identity-consent.html">Identity Consent</a>
@@ -62,38 +62,52 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     <main class="content">
       <article>
         <span class="kicker">Neptune. Signal Standard 0.1.1</span>
-        <div class="doc-card"><h1>Platform Support</h1>
-<p>Neptune. Signal is platform-neutral. Platform SDKs implement the same design contract.</p>
-<h2>Current Support</h2>
-<table><thead><tr><th>Platform</th><th>Package</th><th>Status</th></tr></thead><tbody><tr><td>Kotlin Multiplatform</td><td><code>packages/kmp-compose</code></td><td>Active start</td></tr><tr><td>Tokens</td><td><code>packages/tokens</code></td><td>Active start</td></tr><tr><td>Figma</td><td><code>docs/figma</code></td><td>Spec and kit guidance</td></tr><tr><td>Flutter</td><td><code>packages/flutter</code></td><td>Planned</td></tr><tr><td>iOS SwiftUI</td><td><code>packages/native-ios</code></td><td>Planned</td></tr><tr><td>Android Compose</td><td><code>packages/native-android</code></td><td>Planned</td></tr><tr><td>Web</td><td><code>packages/web</code></td><td>Planned</td></tr></tbody></table>
-<h2>Platform Rule</h2>
-<p>The standard defines what a component is. The SDK defines how that component is built.</p>
-<p>Example:</p>
-<pre><code class="language-text">Standard component: Banking Row
-KMP: @Composable fun SignalBankingRow(...)
-Flutter: class SignalBankingRow extends StatelessWidget
-iOS: struct SignalBankingRow: View
-Web: &lt;SignalBankingRow /&gt;</code></pre>
-<h2>Shared Requirements</h2>
-<p>Every platform must support:</p>
+        <div class="doc-card"><h1>Information Presentation</h1>
+<p>Neptune. Signal treats financial values as customer evidence, not decoration. A customer must be able to read, verify, copy, share, and report the exact value when it matters.</p>
+<h2>Critical Values</h2>
+<p>Critical values must never be rendered with vague truncation:</p>
 <ul>
-<li>White-label theme tokens.</li>
-<li>RTL and LTR.</li>
-<li>Accessibility labels.</li>
-<li>Sensitive data masking.</li>
-<li>Reduced motion.</li>
-<li>Standard result/status behavior.</li>
-<li>Direction-aware icons.</li>
+<li>Amounts.</li>
+<li>IBAN.</li>
+<li>Alias.</li>
+<li>Account numbers.</li>
+<li>MTCN.</li>
+<li>Transaction references.</li>
+<li>Voucher PIN.</li>
+<li>Voucher serial.</li>
+<li>Consent IDs and mandate IDs.</li>
 </ul>
-<h2>Platform Differences</h2>
-<p>Platform conventions are allowed when they improve native quality:</p>
+<p>Do not show these values with trailing dots or any other unclear abbreviation.</p>
+<h2>Allowed Presentation Modes</h2>
+<table><thead><tr><th>Mode</th><th>Use</th><th>Rule</th></tr></thead><tbody><tr><td>Full</td><td>Detail, receipt, input, consent, support</td><td>Show the complete value, grouped when useful</td></tr><tr><td>Semantic compact</td><td>Lists and tight cards</td><td>Show meaning, such as <code>IBAN ending 0101</code></td></tr><tr><td>Masked</td><td>Privacy mode</td><td>Hide intentionally with a clear masked state</td></tr><tr><td>Metadata truncation</td><td>Descriptions only</td><td>Allowed for non-critical supporting copy</td></tr></tbody></table>
+<h2>Value Rules</h2>
 <ul>
-<li>iOS can use native haptics and navigation affordances.</li>
-<li>Android can use Material motion primitives.</li>
-<li>Web can use keyboard focus, responsive side navigation, and URL routing.</li>
-<li>Flutter can use its own animation and theming primitives.</li>
+<li>Group IBAN and voucher codes into readable chunks.</li>
+<li>Keep currency attached to the amount.</li>
+<li>Use tabular number styling for amounts where supported.</li>
+<li>Place copy and share actions next to the exact value they affect.</li>
+<li>If a value cannot fit on one line, wrap it or move it to a detail surface.</li>
+<li>Compact rows should not pretend to show the full value.</li>
 </ul>
-<p>The visual and behavioral contract must remain Neptune. Signal compatible.</p></div>
+<h2>Copy and Share</h2>
+<p>Copy and share actions must be scoped:</p>
+<ul>
+<li>Copy IBAN copies the full IBAN, even if the row shows <code>IBAN ending 0101</code>.</li>
+<li>Share voucher PIN shares only the PIN when that is the intended object.</li>
+<li>Voucher serial can be copied, but the PIN is the primary share object.</li>
+<li>Support reports attach the relevant transaction, voucher, consent, or account reference.</li>
+</ul>
+<h2>Examples</h2>
+<table><thead><tr><th>Bad</th><th>Good</th></tr></thead><tbody><tr><td>Partial IBAN with trailing dots</td><td><code>IBAN ending 0101</code> in a list</td></tr><tr><td>Partial IBAN in details</td><td><code>LY81 0240 0101 0000 6712 0201 01</code></td></tr><tr><td>Partial amount</td><td><code>250.000 د.ل</code></td></tr><tr><td>Partial voucher serial</td><td><code>VCH-260508-884129</code></td></tr></tbody></table>
+<h2>SDK Mapping</h2>
+<p>KMP uses <code>SignalValueLine</code> for critical values. Product SDKs for Flutter, native, and web should map the same component contract:</p>
+<pre><code class="language-kotlin">SignalValueLine(
+    label = &quot;IBAN&quot;,
+    value = &quot;LY810240010100006712020101&quot;,
+    format = SignalValueFormat.Iban,
+    copyable = true,
+    onCopy = copyIban
+)</code></pre></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

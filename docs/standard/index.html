@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Neptune. Signal Standard 0.1.0 | Neptune. Signal</title>
+  <title>Neptune. Signal Standard 0.1.1 | Neptune. Signal</title>
   <style>
 :root{--navy:#1A335E;--coral:#EA4E4E;--teal:#00A8AE;--paper:#F7FAF9;--ink:#071C2E;--muted:#60747C;--line:#D7E5E8;--soft:#EEF6F6;--code:#0B213F}
 *{box-sizing:border-box}
@@ -35,6 +35,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="active" href="../standard/index.html">Standard 0.1</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
+<a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -60,8 +61,8 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
-        <div class="doc-card"><h1>Neptune. Signal Standard 0.1.0</h1>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
+        <div class="doc-card"><h1>Neptune. Signal Standard 0.1.1</h1>
 <p>Neptune. Signal Standard is the source of truth for how Neptune. financial products should look, move, read, and behave.</p>
 <p>This standard is not a single app design. It governs multiple product implementations:</p>
 <ul>
@@ -82,13 +83,14 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
   -&gt; Web implementation</code></pre>
 <p>KMP is the first active target. Other platforms are planned and should follow the same component contract.</p>
 <h2>Standard Scope</h2>
-<p>Version <code>0.1.0</code> covers:</p>
+<p>Version <code>0.1.1</code> covers:</p>
 <ul>
 <li>Brand and white-label token model.</li>
 <li>Typography scale and density.</li>
 <li>Spacing, layout, shape, elevation, and icon rules.</li>
 <li>Core mobile app shell.</li>
 <li>Banking rows and information hierarchy.</li>
+<li>Critical value presentation for IBAN, alias, amount, voucher, reference, MTCN, and consent values.</li>
 <li>Transfer, status, consent, account, card, voucher, service, and support patterns.</li>
 <li>Native motion language.</li>
 <li>Accessibility and multilingual rules.</li>
@@ -97,10 +99,10 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 </ul>
 <h2>Product Demo Versions</h2>
 <p>The standard version and demo versions are separate.</p>
-<pre><code class="language-text">Neptune. Signal Standard 0.1.0
-Mobile Banking Demo 0.1.0
+<pre><code class="language-text">Neptune. Signal Standard 0.1.1
+Mobile Banking Demo 0.1.1
 Internet Banking Demo planned
-KMP Compose Library planned
+KMP Compose Library 0.1.1
 Figma Kit planned</code></pre>
 <h2>Compatibility Rule</h2>
 <p>A product can claim Neptune. Signal compatibility only when it follows:</p>

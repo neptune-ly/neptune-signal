@@ -35,6 +35,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
+<a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -60,7 +61,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
         <div class="doc-card"><h1>SDK Architecture</h1>
 <p>Neptune. Signal is a design standard first. SDKs are implementation packages that follow the standard.</p>
 <h2>Install KMP SDK</h2>
@@ -70,7 +71,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 }
 
 dependencies {
-    implementation(&quot;ly.neptune.signal:kmp-compose:0.1.0&quot;)
+    implementation(&quot;ly.neptune.signal:kmp-compose:0.1.1&quot;)
 }</code></pre>
 <p>For local development before public package publishing:</p>
 <pre><code class="language-bash">gradle :packages:kmp-compose:publishToMavenLocal</code></pre>
@@ -102,7 +103,9 @@ fun BankingHome() {
                     balance = &quot;د.ل 1,000,000&quot;,
                     alias = &quot;mohamed@andalus&quot;,
                     iban = &quot;LY810240010100006712020101&quot;,
-                    masked = false
+                    masked = false,
+                    onCopyIban = {},
+                    onCopyAlias = {}
                 )
 
                 SignalButton(
@@ -126,8 +129,8 @@ fun BankingHome() {
 </ul>
 <p><a href="../components/gallery.html">Open component gallery</a></p>
 <h2>Version Model</h2>
-<pre><code class="language-text">Neptune. Signal Standard 0.1.0
-KMP SDK 0.1.0
+<pre><code class="language-text">Neptune. Signal Standard 0.1.1
+KMP SDK 0.1.1
 Flutter SDK planned
 iOS SDK planned
 Android SDK planned
@@ -153,6 +156,7 @@ SignalAccountRow
 SignalAccountHeader
 SignalAmountField
 SignalIbanField
+SignalValueLine
 SignalStatusResult
 SignalConsentScopeRow
 SignalVoucherTile
@@ -176,6 +180,7 @@ SignalCardFace</code></pre>
 <li>Text field: started.</li>
 <li>Amount field: started.</li>
 <li>IBAN field: started.</li>
+<li>Value line: started.</li>
 <li>Segmented control: started.</li>
 <li>Voucher tile: started.</li>
 <li>Service tile: started.</li>
@@ -217,7 +222,7 @@ ly.neptune.signal.icons</code></pre>
 <p>Initial Maven coordinates:</p>
 <pre><code class="language-text">group: ly.neptune.signal
 artifact: kmp-compose
-version: 0.1.0</code></pre></div>
+version: 0.1.1</code></pre></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

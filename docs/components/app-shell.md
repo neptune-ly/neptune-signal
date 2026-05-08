@@ -24,12 +24,13 @@ Persistent bottom navigation
 ```kotlin
 @Composable
 fun SignalAppShell(
-    activeRoot: SignalRoot,
     title: String,
+    activeRoot: String,
+    navItems: List<SignalNavItem>,
+    onRootSelected: (String) -> Unit,
     subtitle: String? = null,
-    onBack: (() -> Unit)? = null,
+    navigation: (@Composable () -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable PaddingValues.() -> Unit
 )
 ```
-

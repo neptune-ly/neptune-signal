@@ -4,9 +4,9 @@ Neptune. Signal is a white-label fintech design language for banking, payments, 
 
 Current release:
 
-- Standard: `0.1.0`
-- Mobile Banking Demo: `0.1.0`
-- KMP UI Library: planned
+- Standard: `0.1.1`
+- Mobile Banking Demo: `0.1.1`
+- KMP UI Library: `0.1.1`
 - Internet Banking Demo: planned
 
 Neptune. Signal separates the design standard from product demos. The standard defines tokens, typography, motion, components, accessibility, and banking UX rules. Demos show how the standard is applied to mobile banking, internet banking, merchant portals, and internal tools.
@@ -53,7 +53,7 @@ gradle :packages:kmp-compose:publishToMavenLocal
 Initial Maven coordinates:
 
 ```text
-ly.neptune.signal:kmp-compose:0.1.0
+ly.neptune.signal:kmp-compose:0.1.1
 ```
 
 The package currently includes theme, shell, navigation, buttons, rows, forms, tiles, account surfaces, status results, and card face primitives.
@@ -121,15 +121,15 @@ https://neptune-ly.github.io/neptune-signal/demos/mobile/prototype.html
 The standard has its own semantic version:
 
 ```text
-Neptune. Signal Standard 0.1.0
+Neptune. Signal Standard 0.1.1
 ```
 
 Product demos and implementation libraries version separately:
 
 ```text
-Mobile Banking Demo 0.1.0
+Mobile Banking Demo 0.1.1
 Internet Banking Demo 0.1.0
-KMP Compose Library 0.1.0
+KMP Compose Library 0.1.1
 Figma Kit 0.1.0
 ```
 

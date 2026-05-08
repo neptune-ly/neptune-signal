@@ -1666,9 +1666,9 @@
       font-size: 10px;
     }
     .account-id-line span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      min-width: 0;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
     }
     .account-id-line .mini-copy {
       width: 28px;
@@ -1943,9 +1943,8 @@
       font-weight: 820;
     }
     .account-full-title span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
     }
     .account-full-balance {
       color: var(--bank-primary);
@@ -2208,9 +2207,8 @@
     }
     .copy-line span {
       min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
       color: var(--muted);
       font-size: 11px;
       font-weight: 820;
@@ -2280,12 +2278,9 @@
     }
     .receipt-summary .detail-line b {
       min-width: 0;
-      overflow: hidden;
       font-size: 11.5px;
       line-height: 1.2;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      word-break: normal;
+      overflow-wrap: anywhere;
     }
     .receipt-summary .detail-line span {
       white-space: nowrap;
@@ -2345,11 +2340,10 @@
       font-weight: 820;
     }
     .alias-parts b {
-      overflow: hidden;
       color: white;
       font-size: 13px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
     }
     .scope-list {
       display: grid;
@@ -3469,7 +3463,7 @@
       if (motion === 'account') morph.classList.add('account-morph');
       if (motion === 'account') {
         const account = currentAccount();
-        morph.innerHTML = `<div class="morph-account"><b>${i18n(account.name)}</b><strong>${secureValue(account.balance, '••••••')}</strong><span>${secureValue(account.iban, 'LY••••••••••••••••••••')}</span></div>`;
+        morph.innerHTML = `<div class="morph-account"><b>${i18n(account.name)}</b><strong>${secureValue(account.balance, '••••••')}</strong><span>${displayIban(account.iban, state.masked, true)}</span></div>`;
       } else {
         morph.innerHTML = source.innerHTML;
       }
@@ -3541,6 +3535,25 @@
     function secureValue(value, fallback = '••••••••') {
       return state.masked ? fallback : value;
     }
+    function groupIdentifier(value) {
+      return String(value).replace(/\s+/g, '').match(/.{1,4}/g)?.join(' ') || value;
+    }
+    function compactIdentifier(label, value) {
+      const clean = String(value).replace(/[^a-zA-Z0-9]/g, '');
+      return `${label} ending ${clean.slice(-4)}`;
+    }
+    function identifierEnding(value) {
+      const clean = String(value).replace(/[^a-zA-Z0-9]/g, '');
+      return `ending ${clean.slice(-4)}`;
+    }
+    function displayIban(value, masked = state.masked, compact = false) {
+      if (masked) return 'LY•••• •••• •••• ••••';
+      return compact ? compactIdentifier('IBAN', value) : groupIdentifier(value);
+    }
+    function displayTarget(target, compact = false) {
+      if (target.startsWith('IBAN • ')) return `IBAN • ${displayIban(target.replace('IBAN • ', ''), false, compact)}`;
+      return target;
+    }
     function moveAccount(delta) {
       state.accountIndex = (state.accountIndex + delta + accounts.length) % accounts.length;
       render();
@@ -3600,7 +3613,7 @@
       const incoming = item.amount.trim().startsWith('+');
       return `<button class="row tap" data-go="lypayStatusDetail" data-lypay-id="${item.id}">
         <span class="row-icon">${icon(item.status === 'failed' ? 'fail' : item.status === 'completed' ? 'check' : 'hourglass')}</span>
-        <span><b>${item.title}</b><span>${item.id} • ${item.target} • ${item.update}</span></span>
+        <span><b>${item.title}</b><span>${item.id} • ${displayTarget(item.target, true)} • ${item.update}</span></span>
         <span><span class="amount ${incoming ? 'in' : ''}">${item.amount}</span><span class="status-pill ${meta.type}">${meta.label}</span></span>
       </button>`;
     }
@@ -3629,7 +3642,7 @@
           <div class="balance ${hidden ? 'masked' : ''}">${secureValue(account.balance, '••••••')}</div>
           <div class="account-id ${hidden ? 'masked' : ''}">
             <span class="account-id-line"><b>Alias</b><span>${secureValue(account.alias)}</span><button class="mini-copy tap" data-copy-value="${account.alias}" aria-label="Copy alias">${icon('copy')}</button></span>
-            <span class="account-id-line"><b>IBAN</b><span>${secureValue(account.iban, 'LY••••••••••••••••••••')}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy IBAN">${icon('copy')}</button></span>
+            <span class="account-id-line"><b>IBAN</b><span>${hidden ? displayIban(account.iban, true, true) : identifierEnding(account.iban)}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy full IBAN">${icon('copy')}</button></span>
           </div>
           ${actions ? `<div class="account-mini-actions">
             <button class="tap" data-go="statement">${c.titles.statement}</button>
@@ -3652,7 +3665,7 @@
         <div class="account-detail-balance"><strong class="${hidden ? 'masked' : ''}">${secureValue(account.balance, '••••••')}</strong><span>${state.accountIndex + 1} / ${accounts.length}</span></div>
         <div class="account-detail-ids">
           <span class="account-id-line"><b>Alias</b><span>${secureValue(account.alias)}</span><button class="mini-copy tap" data-copy-value="${account.alias}" aria-label="Copy alias">${icon('copy')}</button></span>
-          <span class="account-id-line"><b>IBAN</b><span>${secureValue(account.iban, 'LY••••••••••••••••••••')}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy IBAN">${icon('copy')}</button></span>
+          <span class="account-id-line"><b>IBAN</b><span>${displayIban(account.iban, hidden, false)}</span><button class="mini-copy tap" data-copy-value="${account.iban}" aria-label="Copy full IBAN">${icon('copy')}</button></span>
         </div>
         <div class="account-detail-actions">
           <button class="tap" data-go="statement" aria-label="${c.titles.statement}">${icon('statement')}</button>
@@ -3724,6 +3737,7 @@
       const c = lang();
       const targetLabel = state.lypayMode === 'alias' ? 'Alias' : state.lypayMode === 'qr' ? 'QR' : 'IBAN';
       const targetValue = state.lypayMode === 'alias' ? '27010310408770' : state.lypayMode === 'qr' ? 'QR-MERCHANT-2931' : 'LY38024001010009988100234';
+      const targetDisplay = state.lypayMode === 'iban' ? displayIban(targetValue, false, false) : targetValue;
       return `${header(c.titles.lypay, 'transfer', iconButton('contacts', 'contacts', c.titles.contacts))}
         <div class="segmented">
           <button class="${state.lypayMode === 'iban' ? 'active' : ''}" data-mode="iban">IBAN</button>
@@ -3731,7 +3745,7 @@
           <button class="${state.lypayMode === 'qr' ? 'active' : ''}" data-mode="qr">QR</button>
         </div>
         ${row({ iconName: 'account', dark: true, titleText: c.common.from, subText: '1010006712020101' })}
-        ${field(targetLabel, targetValue)}
+        ${field(targetLabel, targetDisplay)}
         <div class="amount-entry"><span>${c.common.amount}</span><strong>2,500</strong><span>د.ل</span></div>
         ${field(c.common.purpose, 'Personal transfer')}
         <div class="insight">${icon('contacts')}<span><b>${c.common.saved}</b><span>${c.short.lypay}</span></span><span></span></div>
@@ -3742,7 +3756,7 @@
       const c = lang();
       return `${header(c.titles.contacts, 'lypay')}
         <div class="list">
-          ${row({ iconName: 'profile', titleText: 'Ali Mansour', subText: 'IBAN • LY38024001010009988100234', route: 'lypay' })}
+          ${row({ iconName: 'profile', titleText: 'Ali Mansour', subText: displayTarget('IBAN • LY38024001010009988100234', true), route: 'lypay' })}
           ${row({ iconName: 'neptune', dark: true, titleText: 'Almadar', subText: 'Alias • 27010310408770', route: 'lypay' })}
         </div>`;
     }
@@ -3752,7 +3766,7 @@
       return `${header(c.titles.confirm, 'lypay')}
         <div class="amount-entry"><span>${c.common.amount}</span><strong>2,500</strong><span>د.ل</span></div>
         <div class="list" style="margin-top:10px">
-          ${row({ iconName: 'neptune', dark: true, titleText: c.common.to, subText: 'LY38024001010009988100234' })}
+          ${copyLine(c.common.to, 'LY38024001010009988100234', displayIban('LY38024001010009988100234', false, false))}
           ${row({ iconName: 'status', titleText: c.common.fee, subText: '0 د.ل' })}
         </div>
         <div class="insight">${icon('hourglass')}<span><b>${c.common.pending}</b><span>${c.short.async}</span></span><span></span></div>
@@ -3829,14 +3843,15 @@
       const item = selectedLyPayTransfer();
       const meta = lypayStatusMeta(item, c);
       const stepClass = item.status === 'failed' ? 'failed' : item.status === 'pending' ? 'pending' : '';
+      const targetIban = item.target.startsWith('IBAN • ') ? item.target.replace('IBAN • ', '') : null;
       return `${header(c.titles.lypayStatusDetail, 'lypayStatus', iconButton('refresh', 'lypayStatusDetail', 'Refresh'))}
         <div class="amount-entry"><span>${item.id}</span><strong style="font-size:34px">${item.amount}</strong><span>${meta.label}</span></div>
         <div class="insight">${icon(item.status === 'failed' ? 'fail' : item.status === 'completed' ? 'check' : 'hourglass')}<span><b>${item.title}</b><span>${item.update}</span></span><span class="status-pill ${meta.type}">${meta.label}</span></div>
         <div class="list" style="margin-top:10px">
-          ${row({ iconName: 'neptune', dark: true, titleText: c.common.to, subText: item.target })}
+          ${targetIban ? copyLine(c.common.to, targetIban, displayIban(targetIban, false, false)) : row({ iconName: 'neptune', dark: true, titleText: c.common.to, subText: item.target })}
           ${row({ iconName: 'status', titleText: c.common.status, subText: `${item.method} • ${item.id}`, status: meta })}
           ${row({ iconName: 'statement', titleText: c.common.fee, subText: item.fee })}
-          ${row({ iconName: 'account', titleText: c.common.from, subText: currentAccount().iban })}
+          ${copyLine(c.common.from, currentAccount().iban, displayIban(currentAccount().iban, false, false))}
         </div>
         <div class="status-strip">
           ${item.timeline.map((label, index) => `<div class="status-step ${index === item.timeline.length - 1 ? stepClass : ''}"><i>${index + 1}</i><span><b>${label.split(' ').slice(0, 2).join(' ')}</b><span>${label}</span></span><span>${index === item.timeline.length - 1 ? meta.label : c.common.completed}</span></div>`).join('')}
@@ -3916,7 +3931,7 @@
       const c = lang();
       const card = (account, index) => {
         const status = account.status === 'available' ? c.common.available : c.common.active;
-        const compactIban = secureValue(account.iban.slice(-8), '••••••••');
+        const compactIban = displayIban(account.iban, state.masked, true);
         return `<button class="account-full-card tap" data-account-index="${index}" data-go="accountDetails" data-motion="account">
           <span class="account-full-icon">${icon('account')}</span>
           <div class="account-full-top">
@@ -3950,8 +3965,8 @@
         </div>`;
     }
 
-    function copyLine(label, value) {
-      return `<div class="copy-line"><span><b>${label}</b>${value}</span><button class="icon-btn tap" data-copy-value="${value}" aria-label="Copy ${label}">${icon('copy')}</button><button class="icon-btn tap" aria-label="Share ${label}">${icon('share')}</button></div>`;
+    function copyLine(label, value, displayValue = value) {
+      return `<div class="copy-line"><span><b>${label}</b>${displayValue}</span><button class="icon-btn tap" data-copy-value="${value}" aria-label="Copy ${label}">${icon('copy')}</button><button class="icon-btn tap" aria-label="Share ${label}">${icon('share')}</button></div>`;
     }
     function voucherSecretLine(label, value, share = false) {
       return `<div class="copy-line"><span><b>${label}</b>${value}</span><button class="icon-btn tap" data-copy-value="${value}" aria-label="Copy ${label}">${icon('copy')}</button>${share ? `<button class="icon-btn tap" aria-label="Share ${label}">${icon('share')}</button>` : '<span></span>'}</div>`;
@@ -3962,7 +3977,7 @@
       const account = currentAccount();
       return `${header(c.titles.accountInfo, 'accountDetails', iconButton('share', 'accountInfo', 'Share'))}
         ${copyLine('Alias', account.alias)}
-        ${copyLine('IBAN', account.iban)}
+        ${copyLine('IBAN', account.iban, displayIban(account.iban, false, false))}
         ${copyLine('Account number', '01010006712020101')}
         <div class="summary-grid">
           <div class="metric"><span>Available</span><b>${account.balance}</b></div>
@@ -3994,7 +4009,7 @@
         ${field('Beneficiary', 'Al Noor Company')}
         ${field(c.common.amount, '2,500 د.ل')}
         ${field(c.common.purpose, 'Certified supplier payment')}
-        ${row({ iconName: 'account', titleText: c.common.from, subText: currentAccount().iban })}
+        ${row({ iconName: 'account', titleText: c.common.from, subText: displayIban(currentAccount().iban, false, true) })}
         ${footer([primary(c.common.confirm, 'data-process="success"')])}`;
     }
 
@@ -4004,7 +4019,7 @@
         <div class="segmented"><button class="active">Cheque book</button><button>Single cheque</button></div>
         ${field('Leaves', '25')}
         ${field('Pickup branch', 'Tripoli main branch')}
-        ${row({ iconName: 'account', titleText: c.common.account, subText: currentAccount().iban })}
+        ${row({ iconName: 'account', titleText: c.common.account, subText: displayIban(currentAccount().iban, false, true) })}
         ${footer([primary(c.common.confirm, 'data-process="success"')])}`;
     }
 
@@ -4045,7 +4060,7 @@
             <div class="detail-line"><span>Product</span><b>${i18n(product.name)}</b></div>
             <div class="detail-line"><span>Category</span><b>${i18n(c.vouchers.categories[product.category])}</b></div>
             <div class="detail-line"><span>Posting date</span><b>08-05-2026 09:18</b></div>
-            <div class="detail-line"><span>Account</span><b>${currentAccount().iban}</b></div>
+            <div class="detail-line"><span>Account</span><b>${displayIban(currentAccount().iban, false, false)}</b></div>
             <div class="detail-line"><span>Status</span><b>${c.common.completed}</b></div>
           </div>
           <div class="list" style="margin-top:10px">
@@ -4059,7 +4074,7 @@
           <div class="detail-line"><span>Posting date</span><b>01-01-2025 11:22</b></div>
           <div class="detail-line"><span>Value date</span><b>01-01-2025</b></div>
           <div class="detail-line"><span>Channel</span><b>SMS service billing</b></div>
-          <div class="detail-line"><span>Account</span><b>${currentAccount().iban}</b></div>
+          <div class="detail-line"><span>Account</span><b>${displayIban(currentAccount().iban, false, false)}</b></div>
           <div class="detail-line"><span>Balance after</span><b>999,925 د.ل</b></div>
           <div class="detail-line"><span>Fees</span><b>0 د.ل</b></div>
           <div class="detail-line"><span>Description</span><b>${c.home.tx1}</b></div>
@@ -4092,7 +4107,7 @@
       const c = lang();
       return `${header(c.titles.qrReceive, 'qr')}
         <div class="qr-code">${qrGrid()}</div>
-        ${row({ iconName: 'account', dark: true, titleText: c.home.accountType, subText: 'LY81024001010006712020101' })}
+        ${row({ iconName: 'account', dark: true, titleText: c.home.accountType, subText: displayIban('LY81024001010006712020101', false, true) })}
         ${footer([
           `<button class="icon-footer secondary-btn tap" aria-label="Save">${icon('save')}</button>`,
           `<button class="icon-footer primary-btn tap" aria-label="Share">${icon('share')}</button>`
@@ -4130,7 +4145,7 @@
         <div class="voucher-values">
           ${product.values.map(value).join('')}
         </div>
-        ${row({ iconName: 'account', titleText: v.fromAccount, subText: currentAccount().iban })}
+        ${row({ iconName: 'account', titleText: v.fromAccount, subText: displayIban(currentAccount().iban, false, true) })}
         ${footer([primary(`${v.buy} ${state.voucherAmount}`, 'data-process="voucher"')])}`;
     }
 
@@ -4185,7 +4200,7 @@
         <div class="list" style="margin-top:10px">
           ${row({ iconName: service.iconName, dark: true, titleText: i18n({ ar: 'الخدمة', en: 'Service', fr: 'Service' }), subText: service.titleText })}
           ${row({ iconName: 'status', titleText: c.common.to, subText: service.subText })}
-          ${row({ iconName: 'account', titleText: c.common.from, subText: currentAccount().iban })}
+        ${row({ iconName: 'account', titleText: c.common.from, subText: displayIban(currentAccount().iban, false, true) })}
           ${row({ iconName: 'status', titleText: c.common.fee, subText: '0 د.ل' })}
         </div>
         ${footer([secondary(c.common.retry, 'data-go="services"'), primary(c.common.confirm, 'data-process="success"')])}`;
@@ -4228,7 +4243,7 @@
           </div>
         </div>
         <div class="list" style="margin-top:10px">
-          ${row({ iconName: 'account', dark: true, titleText: i18n({ ar: 'الحساب الافتراضي', en: 'Default account', fr: 'Compte par defaut' }), subText: `${i18n(accounts[0].name)} • ${accounts[0].iban}`, route: 'nptAliasAccounts', status: { label: c.common.active } })}
+          ${row({ iconName: 'account', dark: true, titleText: i18n({ ar: 'الحساب الافتراضي', en: 'Default account', fr: 'Compte par defaut' }), subText: `${i18n(accounts[0].name)} • ${displayIban(accounts[0].iban, false, true)}`, route: 'nptAliasAccounts', status: { label: c.common.active } })}
           ${row({ iconName: 'link', titleText: i18n({ ar: 'الحسابات المرتبطة', en: 'Linked accounts', fr: 'Comptes lies' }), subText: i18n({ ar: '3 حسابات يمكنها استقبال OpenWave', en: '3 accounts can receive OpenWave payments', fr: '3 comptes peuvent recevoir OpenWave' }), route: 'nptAliasAccounts' })}
           ${row({ iconName: 'shield', titleText: i18n({ ar: 'التحقق بالموافقة', en: 'Approval verification', fr: 'Validation par approbation' }), subText: i18n({ ar: 'طلبات الدفع تصل كإشعار دفع', en: 'Payment requests arrive as push notifications', fr: 'Les demandes arrivent par notification push' }), route: 'openwaveApproval' })}
           ${row({ iconName: 'status', titleText: c.titles.openwaveConsents, subText: i18n({ ar: 'التجار والتفاويض النشطة', en: 'Active merchants and mandates', fr: 'Marchands et mandats actifs' }), route: 'openwaveConsents' })}
@@ -4241,7 +4256,7 @@
         ${field('Alias username', 'mohamed')}
         ${field('Bank handle', '@andalus')}
         <div class="list" style="margin-top:10px">
-          ${row({ iconName: 'account', dark: true, titleText: i18n({ ar: 'اختر الحساب الافتراضي', en: 'Choose default account', fr: 'Choisir compte par defaut' }), subText: `${i18n(accounts[0].name)} • ${accounts[0].iban}` })}
+          ${row({ iconName: 'account', dark: true, titleText: i18n({ ar: 'اختر الحساب الافتراضي', en: 'Choose default account', fr: 'Choisir compte par defaut' }), subText: `${i18n(accounts[0].name)} • ${displayIban(accounts[0].iban, false, true)}` })}
           ${row({ iconName: 'phone', titleText: i18n({ ar: 'رقم التحقق', en: 'Verification phone', fr: 'Telephone verification' }), subText: '+218 91 000 0000' })}
         </div>
         <div class="insight">${icon('neptune')}<span><b>mohamed@andalus</b><span>${i18n({ ar: 'سيتم ربط الاسم بالحساب الافتراضي ويمكن إضافة حسابات أخرى لاحقاً.', en: 'The handle links to the default account first. More accounts can be added later.', fr: 'Le handle lie le compte par defaut. D autres comptes peuvent etre ajoutes.' })}</span></span><span></span></div>
@@ -4254,7 +4269,7 @@
         iconName: 'account',
         dark: index === 0,
         titleText: i18n(account.name),
-        subText: `${account.iban} • ${account.type.en || i18n(account.type)}`,
+        subText: `${displayIban(account.iban, false, true)} • ${account.type.en || i18n(account.type)}`,
         status: { label: index === 0 ? i18n({ ar: 'افتراضي', en: 'Default', fr: 'Defaut' }) : i18n({ ar: 'مرتبط', en: 'Linked', fr: 'Lie' }), type: index === 0 ? '' : 'neutral' }
       })).join('');
       return `${header(c.titles.nptAliasAccounts, 'nptAlias')}
@@ -4294,7 +4309,7 @@
         <div class="detail-grid">
           <div class="detail-line"><span>Merchant</span><b>Presto Pay</b></div>
           <div class="detail-line"><span>NPT Alias</span><b>mohamed@andalus</b></div>
-          <div class="detail-line"><span>Default account</span><b>${accounts[0].iban}</b></div>
+          <div class="detail-line"><span>Default account</span><b>${displayIban(accounts[0].iban, false, false)}</b></div>
           <div class="detail-line"><span>Consent type</span><b>One-time payment approval</b></div>
           <div class="detail-line"><span>Expires</span><b>08-05-2026 09:46</b></div>
           <div class="detail-line"><span>Reference</span><b>OW-REQ-260508-8841</b></div>
@@ -4343,7 +4358,7 @@
         <div class="detail-grid">
           <div class="detail-line"><span>Merchant</span><b>Tripoli Transit</b></div>
           <div class="detail-line"><span>NPT Alias</span><b>mohamed@andalus</b></div>
-          <div class="detail-line"><span>Default account</span><b>${accounts[0].iban}</b></div>
+          <div class="detail-line"><span>Default account</span><b>${displayIban(accounts[0].iban, false, false)}</b></div>
           <div class="detail-line"><span>Frequency</span><b>Monthly</b></div>
           <div class="detail-line"><span>Next charge</span><b>01-06-2026</b></div>
           <div class="detail-line"><span>Mandate ID</span><b>OW-MND-260508-1140</b></div>
@@ -4352,7 +4367,7 @@
         <div class="scope-list">
           ${scopeItem(1, i18n({ ar: 'الحد الأعلى', en: 'Maximum amount', fr: 'Montant maximum' }), '100 د.ل per charge', 'Debit')}
           ${scopeItem(2, i18n({ ar: 'التكرار', en: 'Frequency', fr: 'Frequence' }), i18n({ ar: 'مرة واحدة شهرياً', en: 'Once every month', fr: 'Une fois par mois' }), 'Rule')}
-          ${scopeItem(3, i18n({ ar: 'الحساب', en: 'Funding account', fr: 'Compte source' }), accounts[0].iban, 'Debit')}
+          ${scopeItem(3, i18n({ ar: 'الحساب', en: 'Funding account', fr: 'Compte source' }), displayIban(accounts[0].iban, false, false), 'Debit')}
         </div>
         ${footer([secondary(i18n({ ar: 'إيقاف الاشتراك', en: 'Cancel subscription', fr: 'Annuler abonnement' }), 'data-process="fail"'), primary(i18n({ ar: 'تعديل الحد', en: 'Change limit', fr: 'Changer limite' }), 'data-process="success"')])}`;
     }
@@ -4368,7 +4383,7 @@
           <div class="detail-line"><span>${c.common.amount}</span><b>84.500 د.ل</b></div>
           <div class="detail-line"><span>Merchant</span><b>Presto Pay</b></div>
           <div class="detail-line"><span>NPT Alias</span><b>mohamed@andalus</b></div>
-          <div class="detail-line"><span>${c.common.account}</span><b>${accounts[0].iban}</b></div>
+          <div class="detail-line"><span>${c.common.account}</span><b>${displayIban(accounts[0].iban, false, false)}</b></div>
           <div class="detail-line"><span>Timeout</span><b>04:58</b></div>
         </div>
         <div class="insight">${icon('shield')}<span><b>${i18n({ ar: 'تأكيد آمن', en: 'Secure approval', fr: 'Validation securisee' })}</b><span>${i18n({ ar: 'الموافقة تحتاج Passkey أو بصمة قبل الخصم.', en: 'Approval requires passkey or biometric before debit.', fr: 'Validation par passkey ou biometrie avant debit.' })}</span></span><span></span></div>
@@ -4607,7 +4622,7 @@
         <div class="receipt-summary">
           <div class="detail-line"><span>${c.common.status}</span><b>${c.common.pending}</b></div>
           <div class="detail-line"><span>Reference</span><b>NPT-PENDING-0941</b></div>
-          <div class="detail-line"><span>${c.common.account}</span><b>${currentAccount().iban}</b></div>
+          <div class="detail-line"><span>${c.common.account}</span><b>${displayIban(currentAccount().iban, false, false)}</b></div>
         </div>
       </div></div>`;
     }
@@ -4623,7 +4638,7 @@
           </div>
           <div class="receipt-summary">
             <div class="detail-line"><span>Reference</span><b>NPT-VCH-884129</b></div>
-            <div class="detail-line"><span>${c.common.account}</span><b>${currentAccount().iban}</b></div>
+            <div class="detail-line"><span>${c.common.account}</span><b>${displayIban(currentAccount().iban, false, false)}</b></div>
             <div class="detail-line"><span>${c.common.status}</span><b>${c.common.completed}</b></div>
           </div>
           <div class="result-actions"><button class="primary-btn tap" data-go="vouchers">${icon('voucher')}<span>${c.titles.vouchers}</span></button><button class="secondary-btn tap" data-go="voucherHistory">${icon('status')}<span>${c.titles.voucherHistory}</span></button></div></div></div>`;
@@ -4631,7 +4646,7 @@
       return `<div class="process-wrap result"><div class="result-card success receipt"><div class="process-icon">${icon('check')}</div><h2>${c.common.completed}</h2><p>NPT-260507-0941</p>
         <div class="receipt-summary">
           <div class="detail-line"><span>Reference</span><b>NPT-260507-0941</b></div>
-          <div class="detail-line"><span>${c.common.account}</span><b>${currentAccount().iban}</b></div>
+          <div class="detail-line"><span>${c.common.account}</span><b>${displayIban(currentAccount().iban, false, false)}</b></div>
           <div class="detail-line"><span>${c.common.fee}</span><b>0 د.ل</b></div>
           <div class="detail-line"><span>${c.common.status}</span><b>${c.common.completed}</b></div>
         </div>
@@ -4643,7 +4658,7 @@
       return `<div class="process-wrap failed"><div class="result-card failed receipt"><div class="process-icon">${icon('fail')}</div><h2>${c.common.failed}</h2><p>${c.common.failedText}</p>
         <div class="receipt-summary">
           <div class="detail-line"><span>Reference</span><b>NPT-FAILED-0941</b></div>
-          <div class="detail-line"><span>${c.common.account}</span><b>${currentAccount().iban}</b></div>
+          <div class="detail-line"><span>${c.common.account}</span><b>${displayIban(currentAccount().iban, false, false)}</b></div>
           <div class="detail-line"><span>${c.common.status}</span><b>${c.common.failed}</b></div>
           <div class="detail-line"><span>${c.common.fee}</span><b>0 د.ل</b></div>
         </div>

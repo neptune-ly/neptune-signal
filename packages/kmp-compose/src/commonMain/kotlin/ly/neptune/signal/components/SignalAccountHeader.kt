@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
@@ -24,6 +23,10 @@ fun SignalAccountHeader(
     alias: String? = null,
     masked: Boolean = false,
     actions: @Composable () -> Unit = {},
+    onCopyIban: (() -> Unit)? = null,
+    onShareIban: (() -> Unit)? = null,
+    onCopyAlias: (() -> Unit)? = null,
+    onShareAlias: (() -> Unit)? = null,
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
@@ -47,24 +50,28 @@ fun SignalAccountHeader(
             color = colors.textInverse,
             style = typography.displayBalance,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
         )
-        Text(
-            text = if (masked) "IBAN: LY••••••••••••••••" else "IBAN: $iban",
-            color = colors.textInverse.copy(alpha = 0.72f),
-            style = typography.rowMeta,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+        SignalValueLine(
+            label = "IBAN",
+            value = iban,
+            format = SignalValueFormat.Iban,
+            masked = masked,
+            copyable = onCopyIban != null,
+            shareable = onShareIban != null,
+            onCopy = onCopyIban,
+            onShare = onShareIban,
         )
         if (alias != null) {
-            Text(
-                text = if (masked) "Alias: ••••••" else "Alias: $alias",
-                color = colors.textInverse.copy(alpha = 0.72f),
-                style = typography.rowMeta,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+            SignalValueLine(
+                label = "Alias",
+                value = alias,
+                format = SignalValueFormat.Alias,
+                masked = masked,
+                copyable = onCopyAlias != null,
+                shareable = onShareAlias != null,
+                onCopy = onCopyAlias,
+                onShare = onShareAlias,
             )
         }
     }
 }
-

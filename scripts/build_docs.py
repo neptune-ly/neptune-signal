@@ -12,6 +12,7 @@ NAV = [
     ("Overview", "index.html"),
     ("Standard 0.1", "standard/index.html"),
     ("Philosophy", "standard/philosophy.html"),
+    ("Information", "standard/information-presentation.html"),
     ("Principles", "standard/principles.html"),
     ("Compatibility", "standard/compatibility.html"),
     ("Versioning", "standard/versioning.html"),
@@ -218,7 +219,7 @@ def render_page(source: Path) -> None:
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
         <div class="doc-card">{body}</div>
         <div class="footer-links">
           <a class="btn" href="{prefix}demos/mobile/prototype.html">Open mobile demo</a>

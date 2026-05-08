@@ -10,6 +10,7 @@ A product can claim Neptune. Signal compatibility when it follows the standard c
 - Uses persistent root navigation where applicable.
 - Uses standard status/result patterns.
 - Uses standard account/card/banking row anatomy.
+- Preserves critical value presentation rules for amount, IBAN, alias, reference, voucher, MTCN, and consent values.
 - Uses native motion or a faithful equivalent.
 - Preserves accessibility rules.
 - Preserves sensitive-data masking rules.
@@ -40,4 +41,3 @@ Signal Themed:
 Signal Inspired:
 
 - Uses visual direction only and should not be treated as a compliant product.
-

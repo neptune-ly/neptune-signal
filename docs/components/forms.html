@@ -35,6 +35,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
+<a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -60,7 +61,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
         <div class="doc-card"><h1>Component: Forms and Inputs</h1>
 <p>Forms must be clear, short, and resilient to Arabic and long financial identifiers.</p>
 <h2>Field Types</h2>
@@ -79,11 +80,17 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <ul>
 <li>Label is always visible or recoverable.</li>
 <li>Error text explains the fix.</li>
-<li>Amount fields show currency clearly.</li>
-<li>IBAN fields group and wrap safely.</li>
+<li>Amount fields show currency clearly and keep it visually attached to the number.</li>
+<li>IBAN fields show the full identifier while editing; they must not use ellipsis.</li>
+<li>IBAN display values group and wrap safely.</li>
 <li>Paste should be supported for long identifiers.</li>
-<li>Copy/share actions belong next to the relevant value.</li>
+<li>Copy/share actions belong next to the exact value they affect and use icon actions where possible.</li>
 </ul>
+<h2>Critical Value Behavior</h2>
+<p>Do not render important values as partial strings:</p>
+<pre><code class="language-text">Bad:  partial IBAN with trailing dots
+Good: LY81 0240 0101 0000 6712 0201 01
+Good in compact lists: IBAN ending 0101</code></pre>
 <h2>Validation</h2>
 <p>Validation should happen:</p>
 <ul>

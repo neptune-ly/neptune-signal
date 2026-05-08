@@ -6,8 +6,7 @@ import kotlin.test.assertEquals
 class SignalVersionTest {
     @Test
     fun exposesStandardAndSdkVersions() {
-        assertEquals("0.1.0", Signal.StandardVersion)
-        assertEquals("0.1.0", Signal.SdkVersion)
+        assertEquals("0.1.1", Signal.StandardVersion)
+        assertEquals("0.1.1", Signal.SdkVersion)
     }
 }
-

@@ -35,6 +35,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
+<a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -60,7 +61,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
         <div class="doc-card"><h1>Component: Account</h1>
 <h2>Account Row</h2>
 <p>Used in the Accounts tab. It must be simple and clearly tappable.</p>
@@ -68,7 +69,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <ul>
 <li>Account icon.</li>
 <li>Account name.</li>
-<li>Type/status/short IBAN.</li>
+<li>Type/status/semantic compact identifier, such as <code>IBAN ending 0101</code>.</li>
 <li>Balance or masked state.</li>
 <li>Direction-aware chevron.</li>
 </ul>
@@ -79,9 +80,16 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <ul>
 <li>Account name.</li>
 <li>Balance.</li>
-<li>IBAN with copy/share.</li>
-<li>Alias if available.</li>
+<li>Full grouped IBAN with copy/share.</li>
+<li>Full alias with copy/share if available.</li>
 <li>More info action.</li>
+</ul>
+<h2>Information Rules</h2>
+<ul>
+<li>Account lists optimize scanning and use semantic compact identifiers.</li>
+<li>Account details show the full IBAN and alias.</li>
+<li>Masking is intentional privacy behavior, not a layout shortcut.</li>
+<li>Copy actions always copy the full underlying value.</li>
 </ul>
 <h2>Motion</h2>
 <p>Account row opens through a container transform:</p>

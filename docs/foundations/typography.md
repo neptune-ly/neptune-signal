@@ -31,6 +31,7 @@ System Arabic fallback
 - Do not use negative letter spacing.
 - Use truncation for row meta, not for critical identifiers.
 - IBAN, MTCN, references, voucher PINs, and serials must be readable and copyable.
+- Amounts must use stable numeric spacing where supported and keep the currency attached.
+- Use semantic compact text for lists, such as `IBAN ending 0101`, instead of unclear partial values.
 - Arabic layout must be RTL. English and French must be LTR.
 - Mixed Arabic/English strings are allowed only for technical identifiers and brand names.
-

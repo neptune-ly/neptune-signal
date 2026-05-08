@@ -98,7 +98,9 @@ fun SignalBankingRow(
 @Composable
 fun SignalAccountRow(
     name: String,
-    metadata: String,
+    accountType: String,
+    status: String,
+    iban: String,
     balance: String,
     modifier: Modifier = Modifier,
     masked: Boolean = false,
@@ -107,7 +109,7 @@ fun SignalAccountRow(
 ) {
     SignalBankingRow(
         title = name,
-        metadata = metadata,
+        metadata = "$accountType · $status · IBAN ending ${iban.filter { it.isLetterOrDigit() }.takeLast(4)}",
         amount = if (masked) "••••••" else balance,
         modifier = modifier,
         tone = SignalRowTone.Primary,
@@ -190,4 +192,3 @@ private fun toneColor(tone: SignalRowTone): Color {
         SignalRowTone.Danger -> colors.danger
     }
 }
-

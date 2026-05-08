@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("ly.neptune.signal:kmp-compose:0.1.0")
+    implementation("ly.neptune.signal:kmp-compose:0.1.1")
 }
 ```
 
@@ -55,7 +55,9 @@ fun BankingHome() {
                     balance = "د.ل 1,000,000",
                     alias = "mohamed@andalus",
                     iban = "LY810240010100006712020101",
-                    masked = false
+                    masked = false,
+                    onCopyIban = {},
+                    onCopyAlias = {}
                 )
 
                 SignalButton(
@@ -85,8 +87,8 @@ Every component page should provide:
 ## Version Model
 
 ```text
-Neptune. Signal Standard 0.1.0
-KMP SDK 0.1.0
+Neptune. Signal Standard 0.1.1
+KMP SDK 0.1.1
 Flutter SDK planned
 iOS SDK planned
 Android SDK planned
@@ -123,6 +125,7 @@ SignalAccountRow
 SignalAccountHeader
 SignalAmountField
 SignalIbanField
+SignalValueLine
 SignalStatusResult
 SignalConsentScopeRow
 SignalVoucherTile
@@ -149,6 +152,7 @@ Phase 1 status:
 - Text field: started.
 - Amount field: started.
 - IBAN field: started.
+- Value line: started.
 - Segmented control: started.
 - Voucher tile: started.
 - Service tile: started.
@@ -208,5 +212,5 @@ Initial Maven coordinates:
 ```text
 group: ly.neptune.signal
 artifact: kmp-compose
-version: 0.1.0
+version: 0.1.1
 ```

@@ -1,4 +1,4 @@
-# Neptune. Signal Standard 0.1.0
+# Neptune. Signal Standard 0.1.1
 
 Neptune. Signal Standard is the source of truth for how Neptune. financial products should look, move, read, and behave.
 
@@ -28,13 +28,14 @@ KMP is the first active target. Other platforms are planned and should follow th
 
 ## Standard Scope
 
-Version `0.1.0` covers:
+Version `0.1.1` covers:
 
 - Brand and white-label token model.
 - Typography scale and density.
 - Spacing, layout, shape, elevation, and icon rules.
 - Core mobile app shell.
 - Banking rows and information hierarchy.
+- Critical value presentation for IBAN, alias, amount, voucher, reference, MTCN, and consent values.
 - Transfer, status, consent, account, card, voucher, service, and support patterns.
 - Native motion language.
 - Accessibility and multilingual rules.
@@ -46,10 +47,10 @@ Version `0.1.0` covers:
 The standard version and demo versions are separate.
 
 ```text
-Neptune. Signal Standard 0.1.0
-Mobile Banking Demo 0.1.0
+Neptune. Signal Standard 0.1.1
+Mobile Banking Demo 0.1.1
 Internet Banking Demo planned
-KMP Compose Library planned
+KMP Compose Library 0.1.1
 Figma Kit planned
 ```
 

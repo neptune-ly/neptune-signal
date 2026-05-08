@@ -3,15 +3,20 @@ package ly.neptune.signal.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSize
 import ly.neptune.signal.theme.SignalTheme
@@ -86,7 +91,13 @@ fun SignalAmountField(
         modifier = modifier,
         errorText = errorText,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-        trailingIcon = { Text(text = currency, color = SignalTheme.colors.bankPrimary) },
+        trailingIcon = {
+            Text(
+                text = currency,
+                color = SignalTheme.colors.bankPrimary,
+                style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
+            )
+        },
     )
 }
 
@@ -97,6 +108,7 @@ fun SignalIbanField(
     modifier: Modifier = Modifier,
     label: String = "IBAN",
     errorText: String? = null,
+    onCopy: (() -> Unit)? = null,
 ) {
     SignalTextField(
         value = value,
@@ -105,6 +117,19 @@ fun SignalIbanField(
         modifier = modifier,
         errorText = errorText,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+        trailingIcon = if (onCopy != null) {
+            {
+                IconButton(
+                    onClick = onCopy,
+                    modifier = Modifier
+                        .size(44.dp)
+                        .semantics { contentDescription = "Copy $label" },
+                ) {
+                    SignalCopyGlyph()
+                }
+            }
+        } else {
+            null
+        },
     )
 }
-

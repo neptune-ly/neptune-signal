@@ -1,6 +1,6 @@
 # Neptune. Signal KMP Compose SDK
 
-Status: active start. Version: `0.1.0`.
+Status: active start. Version: `0.1.1`.
 
 This is the first target implementation for Neptune. Signal.
 
@@ -32,6 +32,7 @@ Initial component priority:
 - `SignalTextField`
 - `SignalAmountField`
 - `SignalIbanField`
+- `SignalValueLine`
 - `SignalSegmentedControl`
 - `SignalTile`
 - `SignalVoucherTile`
@@ -65,7 +66,7 @@ SignalTheme(
 }
 ```
 
-## Scope of 0.1.0
+## Scope of 0.1.1
 
 This release is a foundation package, not the full final app kit. It gives the next mobile project a stable starting point for:
 
@@ -76,6 +77,7 @@ This release is a foundation package, not the full final app kit. It gives the n
 - Status/receipt pattern.
 - Card face pattern.
 - Form field patterns.
+- Critical value presentation for IBAN, alias, amount, reference, voucher, and consent values.
 - Tile patterns for vouchers and services.
 - Shell/navigation pattern.
 

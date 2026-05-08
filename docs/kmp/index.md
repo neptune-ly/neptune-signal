@@ -69,7 +69,9 @@ data class SignalTheme(
 SignalTheme {
     SignalAccountRow(
         name = "حساب الجاري",
-        metadata = "نشط · LY2101",
+        accountType = "جاري",
+        status = "نشط",
+        iban = "LY810240010100006712020101",
         balance = "1,000,000 د.ل",
         onClick = { }
     )

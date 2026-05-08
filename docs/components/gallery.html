@@ -42,6 +42,8 @@
     .spec{padding:28px}
     .meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}
     .chip{min-height:30px;display:inline-grid;place-items:center;padding:0 10px;color:var(--navy);background:var(--soft);border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:900}
+    .status-pill{min-height:28px;display:inline-grid;place-items:center;padding:0 10px;color:#fff;background:var(--teal);border-radius:999px;font-size:11px;font-weight:950;white-space:nowrap}
+    .status-pill.neutral{color:var(--navy);background:var(--soft);border:1px solid var(--line)}
     .copybar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:8px 8px 8px 14px;background:#071C2E;border-radius:18px}
     .copybar span{color:#C9E9ED;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
     .copy{height:36px;padding:0 13px;border:0;border-radius:999px;color:#071C2E;background:#F0CE9D;font-weight:950;cursor:pointer}
@@ -65,8 +67,16 @@
     .btn.danger{background:var(--coral)}
     .field{display:grid;gap:8px}
     .field label{color:var(--navy);font-size:13px;font-weight:950}
-    .input{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#fff;border:1px solid var(--line);border-radius:18px;color:var(--ink);font-weight:850}
+    .input{min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fff;border:1px solid var(--line);border-radius:18px;color:var(--ink);font-weight:850}
+    .input .field-value{min-width:0;overflow-wrap:anywhere;line-height:1.35}
+    .input .financial-value{font-size:18px;color:var(--navy);font-weight:950;font-variant-numeric:tabular-nums}
     .input .suffix{color:var(--muted);font-size:13px}
+    .value-examples{display:grid;gap:10px;margin-top:14px}
+    .value-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:#fff}
+    .value-line b{display:block;color:var(--navy);font-size:12px;font-weight:950}
+    .value-line .value{color:var(--ink);font-size:13px;font-weight:850;line-height:1.35;overflow-wrap:anywhere}
+    .value-line.compact .value{color:var(--muted)}
+    .value-line.masked .value{letter-spacing:2px}
     .account{padding:22px;border-radius:28px;background:#0B3766;color:#fff;position:relative;overflow:hidden}
     .account:before{content:"";position:absolute;inset:-40px auto auto -20px;width:180px;height:180px;border:2px solid rgba(59,193,238,.35);border-radius:50%}
     .account .row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -104,6 +114,7 @@
         <a href="../index.html">Overview</a>
         <a href="../standard/index.html">Standard 0.1</a>
         <a href="../standard/philosophy.html">Philosophy</a>
+        <a href="../standard/information-presentation.html">Information</a>
         <a href="../standard/principles.html">Principles</a>
         <a href="../standard/compatibility.html">Compatibility</a>
         <a href="../standard/versioning.html">Versioning</a>
@@ -130,7 +141,7 @@
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
         <h1>Component Gallery</h1>
         <p class="lead">This is the working catalog for teams building with Neptune. Signal. Each component has a preview and KMP Compose code that can be copied after installing the SDK. Future Flutter, native, and web SDKs must keep the same component contract.</p>
 
@@ -147,7 +158,7 @@
                 <div class="account">
                   <div class="row"><span class="label">حساب بالعملة الليبية</span><span class="label">متاح الآن</span></div>
                   <div class="balance">د.ل 1,000,000</div>
-                  <div class="ids">Alias: mohamed@andalus<br>IBAN: LY810240010100006712020101</div>
+                  <div class="ids">Alias: mohamed@andalus<br>IBAN: LY81 0240 0101 0000 6712 0201 01</div>
                 </div>
                 <div style="height:14px"></div>
                 <div class="bottom-nav">
@@ -238,12 +249,18 @@ SignalIconButton(
               <div class="phone-card">
                 <div class="field">
                   <label>المبلغ</label>
-                  <div class="input"><span>250.000</span><span class="suffix">د.ل</span></div>
+                  <div class="input"><span class="field-value financial-value">250.000 د.ل</span></div>
                 </div>
                 <div style="height:14px"></div>
                 <div class="field">
                   <label>IBAN</label>
-                  <div class="input"><span>LY81 0240 0101...</span><span class="suffix">Copy</span></div>
+                  <div class="input"><span class="field-value">LY81 0240 0101 0000 6712 0201 01</span><button class="icon-btn" aria-label="Copy IBAN"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><rect x="4" y="4" width="11" height="11" rx="2"/></svg></button></div>
+                </div>
+                <div class="value-examples">
+                  <div class="value-line"><span><b>Full value</b><span class="value">LY81 0240 0101 0000 6712 0201 01</span></span><button class="icon-btn" aria-label="Copy full value"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><rect x="4" y="4" width="11" height="11" rx="2"/></svg></button></div>
+                  <div class="value-line compact"><span><b>Compact list</b><span class="value">IBAN ending 0101</span></span><span class="status-pill neutral">List</span></div>
+                  <div class="value-line masked"><span><b>Masked</b><span class="value">LY•••• •••• •••• ••••</span></span><span class="status-pill neutral">Privacy</span></div>
+                  <div class="value-line"><span><b>Copied</b><span class="value">Copy action targets the full IBAN, not the compact label.</span></span><span class="status-pill">Ready</span></div>
                 </div>
               </div>
             </div>
@@ -253,8 +270,8 @@ SignalIconButton(
               <div class="meta"><span class="chip">Amount</span><span class="chip">IBAN</span><span class="chip">Alias</span><span class="chip">Validation</span></div>
               <ul class="rules">
                 <li>Labels remain visible.</li>
-                <li>Long financial identifiers wrap safely.</li>
-                <li>Copy and paste actions sit next to the value they affect.</li>
+                <li>Long financial identifiers wrap safely and never use vague ellipsis.</li>
+                <li>Copy and paste actions sit next to the exact value they affect.</li>
               </ul>
               <div class="codeblock">
                 <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-forms">Copy code</button></div>
@@ -270,7 +287,16 @@ SignalIbanField(
     value = iban,
     onValueChange = onIbanChange,
     label = "IBAN",
-    errorText = ibanError
+    errorText = ibanError,
+    onCopy = onCopyIban
+)
+
+SignalValueLine(
+    label = "IBAN",
+    value = iban,
+    format = SignalValueFormat.Iban,
+    copyable = true,
+    onCopy = onCopyIban
 )</code></pre>
               </div>
             </div>
@@ -312,7 +338,9 @@ SignalIbanField(
 
 SignalAccountRow(
     name = "الحساب الجاري",
-    metadata = "mohamed@andalus",
+    accountType = "جاري",
+    status = "نشط",
+    iban = "LY810240010100006712020101",
     balance = "د.ل 1,000,000",
     onClick = onOpenAccount
 )</code></pre>
@@ -349,8 +377,14 @@ SignalAccountRow(
     title = "مكتملة",
     reference = "NPT-260507-0941",
     details = listOf(
-        SignalResultDetail("Reference", "NPT-260507-0941"),
-        SignalResultDetail("Amount", "250 د.ل"),
+        SignalResultDetail(
+            label = "Reference",
+            value = "NPT-260507-0941",
+            format = SignalValueFormat.Reference,
+            copyable = true,
+            onCopy = onCopyReference
+        ),
+        SignalResultDetail("Amount", "250 د.ل", format = SignalValueFormat.Amount),
         SignalResultDetail("Fees", "0 د.ل")
     ),
     primaryAction = {

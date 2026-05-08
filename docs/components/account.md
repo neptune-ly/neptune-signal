@@ -8,7 +8,7 @@ Content:
 
 - Account icon.
 - Account name.
-- Type/status/short IBAN.
+- Type/status/semantic compact identifier, such as `IBAN ending 0101`.
 - Balance or masked state.
 - Direction-aware chevron.
 
@@ -22,9 +22,16 @@ Content:
 
 - Account name.
 - Balance.
-- IBAN with copy/share.
-- Alias if available.
+- Full grouped IBAN with copy/share.
+- Full alias with copy/share if available.
 - More info action.
+
+## Information Rules
+
+- Account lists optimize scanning and use semantic compact identifiers.
+- Account details show the full IBAN and alias.
+- Masking is intentional privacy behavior, not a layout shortcut.
+- Copy actions always copy the full underlying value.
 
 ## Motion
 
@@ -35,4 +42,3 @@ Account row opens through a container transform:
 3. Surface lifts.
 4. Surface expands into the detail header.
 5. Detail content settles.
-

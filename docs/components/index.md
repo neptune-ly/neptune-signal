@@ -30,6 +30,24 @@ Every component must define:
 - Future SDK mapping.
 - Figma component properties.
 
+## Critical Value Components
+
+Critical banking values use `SignalValueLine` or an equivalent platform component.
+
+Values that must not truncate:
+
+- Amount.
+- IBAN.
+- Alias.
+- Account number.
+- MTCN.
+- Reference.
+- Voucher PIN.
+- Voucher serial.
+- Consent or mandate ID.
+
+Compact rows use semantic labels like `IBAN ending 0101`; detail and receipt surfaces show the full grouped value.
+
 ## Component Status
 
 | Component | Standard | KMP | Flutter | Native | Web |
@@ -52,6 +70,7 @@ Every component must define:
 | IBAN Field | Draft 0.1 | Started | Planned | Planned | Planned |
 | Consent Scope Row | Draft 0.1 | Started | Planned | Planned | Planned |
 | Status Result | Draft 0.1 | Started | Planned | Planned | Planned |
+| Value Line | Draft 0.1.1 | Started | Planned | Planned | Planned |
 | Language Selector | Draft 0.1 | Planned | Planned | Planned | Planned |
 | Notification Row | Draft 0.1 | Started | Planned | Planned | Planned |
 | Empty State | Draft 0.1 | Started | Planned | Planned | Planned |
@@ -130,6 +149,7 @@ SignalAccountHeader
 SignalTextField
 SignalAmountField
 SignalIbanField
+SignalValueLine
 SignalSegmentedControl
 SignalTile
 SignalVoucherTile

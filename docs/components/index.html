@@ -35,6 +35,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
       <nav aria-label="Documentation"><a class="" href="../index.html">Overview</a>
 <a class="" href="../standard/index.html">Standard 0.1</a>
 <a class="" href="../standard/philosophy.html">Philosophy</a>
+<a class="" href="../standard/information-presentation.html">Information</a>
 <a class="" href="../standard/principles.html">Principles</a>
 <a class="" href="../standard/compatibility.html">Compatibility</a>
 <a class="" href="../standard/versioning.html">Versioning</a>
@@ -60,7 +61,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
     </aside>
     <main class="content">
       <article>
-        <span class="kicker">Neptune. Signal Standard 0.1.0</span>
+        <span class="kicker">Neptune. Signal Standard 0.1.1</span>
         <div class="doc-card"><h1>Components</h1>
 <p>Neptune. Signal components are platform-neutral specifications. KMP is the first implementation target, but the component contract should also work for Flutter, native iOS, native Android, and web SDKs.</p>
 <h2>Use the Catalog</h2>
@@ -88,8 +89,23 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <li>Future SDK mapping.</li>
 <li>Figma component properties.</li>
 </ul>
+<h2>Critical Value Components</h2>
+<p>Critical banking values use <code>SignalValueLine</code> or an equivalent platform component.</p>
+<p>Values that must not truncate:</p>
+<ul>
+<li>Amount.</li>
+<li>IBAN.</li>
+<li>Alias.</li>
+<li>Account number.</li>
+<li>MTCN.</li>
+<li>Reference.</li>
+<li>Voucher PIN.</li>
+<li>Voucher serial.</li>
+<li>Consent or mandate ID.</li>
+</ul>
+<p>Compact rows use semantic labels like <code>IBAN ending 0101</code>; detail and receipt surfaces show the full grouped value.</p>
 <h2>Component Status</h2>
-<table><thead><tr><th>Component</th><th>Standard</th><th>KMP</th><th>Flutter</th><th>Native</th><th>Web</th></tr></thead><tbody><tr><td>App Shell</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Top App Bar</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Bottom Navigation</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Button</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Icon Button</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Segmented Control</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Banking Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Header</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Transaction Row</td><td>Draft 0.1</td><td>Planned</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Card Face</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Voucher Tile</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Service Tile</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Form Field</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Amount Field</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>IBAN Field</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Consent Scope Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Status Result</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Language Selector</td><td>Draft 0.1</td><td>Planned</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Notification Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Empty State</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr></tbody></table>
+<table><thead><tr><th>Component</th><th>Standard</th><th>KMP</th><th>Flutter</th><th>Native</th><th>Web</th></tr></thead><tbody><tr><td>App Shell</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Top App Bar</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Bottom Navigation</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Button</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Icon Button</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Segmented Control</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Banking Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Header</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Transaction Row</td><td>Draft 0.1</td><td>Planned</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Card Face</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Voucher Tile</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Service Tile</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Form Field</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Amount Field</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>IBAN Field</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Consent Scope Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Status Result</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Value Line</td><td>Draft 0.1.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Language Selector</td><td>Draft 0.1</td><td>Planned</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Notification Row</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Empty State</td><td>Draft 0.1</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr></tbody></table>
 <h2>Families</h2>
 <h3>Shell</h3>
 <ul>
@@ -160,6 +176,7 @@ SignalAccountHeader
 SignalTextField
 SignalAmountField
 SignalIbanField
+SignalValueLine
 SignalSegmentedControl
 SignalTile
 SignalVoucherTile

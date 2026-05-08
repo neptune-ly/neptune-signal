@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,6 +30,12 @@ enum class SignalResultState {
 data class SignalResultDetail(
     val label: String,
     val value: String,
+    val format: SignalValueFormat = SignalValueFormat.Plain,
+    val copyable: Boolean = false,
+    val shareable: Boolean = false,
+    val masked: Boolean = false,
+    val onCopy: (() -> Unit)? = null,
+    val onShare: (() -> Unit)? = null,
 )
 
 @Composable
@@ -68,7 +73,16 @@ fun SignalStatusResult(
             verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
         ) {
             details.forEach { detail ->
-                SignalReceiptRow(label = detail.label, value = detail.value)
+                SignalValueLine(
+                    label = detail.label,
+                    value = detail.value,
+                    format = detail.format,
+                    copyable = detail.copyable,
+                    shareable = detail.shareable,
+                    masked = detail.masked,
+                    onCopy = detail.onCopy,
+                    onShare = detail.onShare,
+                )
             }
         }
         primaryAction()
@@ -93,26 +107,5 @@ fun SignalStatusMark(
             SignalResultState.Success -> Text(text = "OK", color = Color.White, style = SignalTheme.typography.pageTitle)
             SignalResultState.Failure -> Text(text = "!", color = Color.White, style = SignalTheme.typography.displayBalance)
         }
-    }
-}
-
-@Composable
-private fun SignalReceiptRow(
-    label: String,
-    value: String,
-) {
-    val colors = SignalTheme.colors
-    val typography = SignalTheme.typography
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(colors.surfaceSoft, RoundedCornerShape(SignalRadius.md))
-            .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(text = label, color = colors.textSecondary, style = typography.rowMeta)
-        Text(text = value, color = colors.textPrimary, style = typography.rowTitle)
     }
 }
