@@ -22,9 +22,26 @@ It is not the standard itself.
 
 ## Source Prototype
 
-Current internal prototype:
+Interactive public demo:
+
+```text
+./prototype.html
+```
+
+Original internal prototype source:
 
 ```text
 /Users/mtellesy/GitHub/nexus.mw/docs/design/neptune-banking-core-v8-neptune-signal.html
 ```
 
+## Relationship to Standard
+
+This demo is a reference implementation for extracting:
+
+- Components.
+- Motion patterns.
+- Banking flows.
+- White-label theme behavior.
+- Arabic-first layout rules.
+
+The demo can change without changing the standard. The standard only changes through versioned design decisions.

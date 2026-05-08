@@ -11,6 +11,21 @@ This standard is not a single app design. It governs multiple product implementa
 - Payment and identity approval surfaces.
 - Future KMP libraries and Figma kits.
 
+## SDK Implementation Model
+
+Components are defined once in the standard, then implemented by SDKs:
+
+```text
+Signal Standard Component
+  -> KMP Compose implementation
+  -> Flutter implementation
+  -> Native iOS implementation
+  -> Native Android implementation
+  -> Web implementation
+```
+
+KMP is the first active target. Other platforms are planned and should follow the same component contract.
+
 ## Standard Scope
 
 Version `0.1.0` covers:
@@ -49,4 +64,3 @@ A product can claim Neptune. Signal compatibility only when it follows:
 - Motion behavior.
 - Accessibility and language rules.
 - Banking-specific performance rules.
-

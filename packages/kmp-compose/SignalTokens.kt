@@ -38,3 +38,9 @@ object SignalRadius {
     val xl = 28.dp
 }
 
+object SignalMotion {
+    const val PressMs = 160
+    const val RouteMs = 240
+    const val ContainerTransformMs = 420
+    const val ResultMs = 320
+}

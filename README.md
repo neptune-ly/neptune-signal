@@ -11,6 +11,25 @@ Current release:
 
 Neptune. Signal separates the design standard from product demos. The standard defines tokens, typography, motion, components, accessibility, and banking UX rules. Demos show how the standard is applied to mobile banking, internet banking, merchant portals, and internal tools.
 
+## Standard, SDKs, and Demos
+
+Neptune. Signal has three layers:
+
+```text
+Standard: platform-neutral design and UX rules.
+SDKs: implementation packages for KMP, Flutter, native, and web.
+Demos: product examples such as mobile banking or internet banking.
+```
+
+Current implementation priority:
+
+```text
+1. KMP Compose SDK
+2. Flutter SDK
+3. Native iOS and Android SDKs
+4. Web SDK for internet banking and portals
+```
+
 ## Principles
 
 - Arabic-first, multilingual by design.
@@ -57,6 +76,18 @@ or GitHub Pages:
 https://<org>.github.io/neptune-signal
 ```
 
+Live site:
+
+```text
+https://neptune-ly.github.io/neptune-signal/
+```
+
+Interactive mobile demo:
+
+```text
+https://neptune-ly.github.io/neptune-signal/demos/mobile/prototype.html
+```
+
 ## Versioning
 
 The standard has its own semantic version:
@@ -85,4 +116,3 @@ The public license should be selected before publishing. Recommended options:
 - Apache-2.0 for code and tokens.
 - CC BY 4.0 for documentation and design guidance.
 - Custom brand license for Neptune. marks and logos.
-
