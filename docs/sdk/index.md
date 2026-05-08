@@ -2,6 +2,86 @@
 
 Neptune. Signal is a design standard first. SDKs are implementation packages that follow the standard.
 
+## Install KMP SDK
+
+The first production target is Kotlin Multiplatform Compose.
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("ly.neptune.signal:kmp-compose:0.1.0")
+}
+```
+
+For local development before public package publishing:
+
+```bash
+gradle :packages:kmp-compose:publishToMavenLocal
+```
+
+```kotlin
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+```
+
+## First Screen
+
+```kotlin
+@Composable
+fun BankingHome() {
+    val navItems = listOf(
+        SignalNavItem("home", "الرئيسية") { },
+        SignalNavItem("accounts", "الحسابات") { },
+        SignalNavItem("cards", "البطاقات") { },
+        SignalNavItem("more", "أخرى") { }
+    )
+
+    SignalTheme {
+        SignalAppShell(
+            activeRoot = "home",
+            title = "الرئيسية",
+            subtitle = "Neptune. Signal",
+            navItems = navItems,
+            onRootSelected = {}
+        ) {
+            SignalScreen {
+                SignalAccountHeader(
+                    accountName = "حساب بالعملة الليبية",
+                    balance = "د.ل 1,000,000",
+                    alias = "mohamed@andalus",
+                    iban = "LY810240010100006712020101",
+                    masked = false
+                )
+
+                SignalButton(
+                    label = "تحويل",
+                    onClick = {}
+                )
+            }
+        }
+    }
+}
+```
+
+## Component Copy Model
+
+Every component page should provide:
+
+- A visual preview.
+- KMP Compose snippet.
+- Token list.
+- State list.
+- Accessibility requirements.
+- RTL/LTR behavior.
+- Mapping names for future Flutter, iOS, Android, and web SDKs.
+
+[Open component gallery](../components/gallery.html)
+
 ## Version Model
 
 ```text

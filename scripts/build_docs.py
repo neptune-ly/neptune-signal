@@ -19,6 +19,7 @@ NAV = [
     ("Typography", "foundations/typography.html"),
     ("Layout", "foundations/layout.html"),
     ("Components", "components/index.html"),
+    ("Component Gallery", "components/gallery.html"),
     ("Buttons", "components/buttons.html"),
     ("Forms", "components/forms.html"),
     ("Banking Row", "components/banking-row.html"),

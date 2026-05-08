@@ -42,6 +42,7 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
 <a class="" href="../foundations/typography.html">Typography</a>
 <a class="" href="../foundations/layout.html">Layout</a>
 <a class="" href="../components/index.html">Components</a>
+<a class="" href="../components/gallery.html">Component Gallery</a>
 <a class="" href="../components/buttons.html">Buttons</a>
 <a class="" href="../components/forms.html">Forms</a>
 <a class="" href="../components/banking-row.html">Banking Row</a>
@@ -62,6 +63,68 @@ th,td{padding:14px 16px;text-align:left;border-top:1px solid var(--line);vertica
         <span class="kicker">Neptune. Signal Standard 0.1.0</span>
         <div class="doc-card"><h1>SDK Architecture</h1>
 <p>Neptune. Signal is a design standard first. SDKs are implementation packages that follow the standard.</p>
+<h2>Install KMP SDK</h2>
+<p>The first production target is Kotlin Multiplatform Compose.</p>
+<pre><code class="language-kotlin">repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(&quot;ly.neptune.signal:kmp-compose:0.1.0&quot;)
+}</code></pre>
+<p>For local development before public package publishing:</p>
+<pre><code class="language-bash">gradle :packages:kmp-compose:publishToMavenLocal</code></pre>
+<pre><code class="language-kotlin">repositories {
+    mavenLocal()
+    mavenCentral()
+}</code></pre>
+<h2>First Screen</h2>
+<pre><code class="language-kotlin">@Composable
+fun BankingHome() {
+    val navItems = listOf(
+        SignalNavItem(&quot;home&quot;, &quot;الرئيسية&quot;) { },
+        SignalNavItem(&quot;accounts&quot;, &quot;الحسابات&quot;) { },
+        SignalNavItem(&quot;cards&quot;, &quot;البطاقات&quot;) { },
+        SignalNavItem(&quot;more&quot;, &quot;أخرى&quot;) { }
+    )
+
+    SignalTheme {
+        SignalAppShell(
+            activeRoot = &quot;home&quot;,
+            title = &quot;الرئيسية&quot;,
+            subtitle = &quot;Neptune. Signal&quot;,
+            navItems = navItems,
+            onRootSelected = {}
+        ) {
+            SignalScreen {
+                SignalAccountHeader(
+                    accountName = &quot;حساب بالعملة الليبية&quot;,
+                    balance = &quot;د.ل 1,000,000&quot;,
+                    alias = &quot;mohamed@andalus&quot;,
+                    iban = &quot;LY810240010100006712020101&quot;,
+                    masked = false
+                )
+
+                SignalButton(
+                    label = &quot;تحويل&quot;,
+                    onClick = {}
+                )
+            }
+        }
+    }
+}</code></pre>
+<h2>Component Copy Model</h2>
+<p>Every component page should provide:</p>
+<ul>
+<li>A visual preview.</li>
+<li>KMP Compose snippet.</li>
+<li>Token list.</li>
+<li>State list.</li>
+<li>Accessibility requirements.</li>
+<li>RTL/LTR behavior.</li>
+<li>Mapping names for future Flutter, iOS, Android, and web SDKs.</li>
+</ul>
+<p><a href="../components/gallery.html">Open component gallery</a></p>
 <h2>Version Model</h2>
 <pre><code class="language-text">Neptune. Signal Standard 0.1.0
 KMP SDK 0.1.0

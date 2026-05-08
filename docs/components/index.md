@@ -2,6 +2,17 @@
 
 Neptune. Signal components are platform-neutral specifications. KMP is the first implementation target, but the component contract should also work for Flutter, native iOS, native Android, and web SDKs.
 
+## Use the Catalog
+
+The component catalog is the working documentation surface for product teams:
+
+- Preview the component visually.
+- Check states and usage rules.
+- Copy KMP Compose code directly into an app after adding the SDK.
+- Use the same contract later for Flutter, native iOS, native Android, and web SDKs.
+
+[Open the component gallery](gallery.html)
+
 ## Component Contract
 
 Every component must define:
@@ -23,32 +34,25 @@ Every component must define:
 
 | Component | Standard | KMP | Flutter | Native | Web |
 | --- | --- | --- | --- | --- | --- |
-| App Shell | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Top App Bar | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Bottom Navigation | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Button | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Icon Button | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Segmented Control | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Banking Row | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Account Row | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Account Header | Draft 0.1 | Planned | Planned | Planned | Planned |
+| App Shell | Draft 0.1 | Started | Planned | Planned | Planned |
+| Top App Bar | Draft 0.1 | Started | Planned | Planned | Planned |
+| Bottom Navigation | Draft 0.1 | Started | Planned | Planned | Planned |
+| Button | Draft 0.1 | Started | Planned | Planned | Planned |
+| Icon Button | Draft 0.1 | Started | Planned | Planned | Planned |
+| Segmented Control | Draft 0.1 | Started | Planned | Planned | Planned |
+| Banking Row | Draft 0.1 | Started | Planned | Planned | Planned |
+| Account Row | Draft 0.1 | Started | Planned | Planned | Planned |
+| Account Header | Draft 0.1 | Started | Planned | Planned | Planned |
 | Transaction Row | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Card Face | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Voucher Tile | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Service Tile | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Form Field | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Amount Field | Draft 0.1 | Planned | Planned | Planned | Planned |
-| IBAN Field | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Consent Scope Row | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Status Result | Draft 0.1 | Planned | Planned | Planned | Planned |
-| Language Selector | Draft 0.1 | Planned | Planned | Planned | Planned |
-| App Shell SDK | Draft 0.1 | Started | Planned | Planned | Planned |
-| Text Field | Draft 0.1 | Started | Planned | Planned | Planned |
+| Card Face | Draft 0.1 | Started | Planned | Planned | Planned |
+| Voucher Tile | Draft 0.1 | Started | Planned | Planned | Planned |
+| Service Tile | Draft 0.1 | Started | Planned | Planned | Planned |
+| Form Field | Draft 0.1 | Started | Planned | Planned | Planned |
 | Amount Field | Draft 0.1 | Started | Planned | Planned | Planned |
 | IBAN Field | Draft 0.1 | Started | Planned | Planned | Planned |
-| Segmented Control SDK | Draft 0.1 | Started | Planned | Planned | Planned |
-| Voucher Tile SDK | Draft 0.1 | Started | Planned | Planned | Planned |
-| Service Tile SDK | Draft 0.1 | Started | Planned | Planned | Planned |
+| Consent Scope Row | Draft 0.1 | Started | Planned | Planned | Planned |
+| Status Result | Draft 0.1 | Started | Planned | Planned | Planned |
+| Language Selector | Draft 0.1 | Planned | Planned | Planned | Planned |
 | Notification Row | Draft 0.1 | Started | Planned | Planned | Planned |
 | Empty State | Draft 0.1 | Started | Planned | Planned | Planned |
 
