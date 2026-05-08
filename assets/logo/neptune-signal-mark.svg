@@ -1,0 +1,10 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Neptune. Signal mark</title>
+  <desc id="desc">A typographic N monogram with a precise signal aperture.</desc>
+  <rect width="512" height="512" rx="96" fill="#07315F"/>
+  <path d="M132 372V138H190L322 280V138H380V372H324L190 228V372H132Z" fill="#F7FAF9"/>
+  <path d="M190 138L322 280V372L190 228V138Z" fill="#00A8AE"/>
+  <path d="M318 150C350 164 372 194 372 229C372 264 350 294 318 308" stroke="#EB4E4D" stroke-width="24" stroke-linecap="round"/>
+  <path d="M322 197C336 204 346 216 346 230C346 244 336 256 322 263" stroke="#F0CE9D" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="384" cy="126" r="13" fill="#EB4E4D"/>
+</svg>

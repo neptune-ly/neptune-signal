@@ -1,0 +1,21 @@
+<svg width="1440" height="420" viewBox="0 0 1440 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Neptune. Signal logo</title>
+  <desc id="desc">A premium typographic Neptune. Signal wordmark with an N signal monogram.</desc>
+  <rect width="1440" height="420" rx="56" fill="#F7FAF9"/>
+  <g transform="translate(84 74)">
+    <rect width="272" height="272" rx="58" fill="#07315F"/>
+    <path d="M70 198V74H101L171 149V74H202V198H172L101 122V198H70Z" fill="#F7FAF9"/>
+    <path d="M101 74L171 149V198L101 122V74Z" fill="#00A8AE"/>
+    <path d="M169 80C187 88 199 104 199 123C199 142 187 158 169 166" stroke="#EB4E4D" stroke-width="13" stroke-linecap="round"/>
+    <path d="M171 105C179 109 184 116 184 124C184 132 179 139 171 143" stroke="#F0CE9D" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="210" cy="64" r="8" fill="#EB4E4D"/>
+  </g>
+  <g transform="translate(412 104)">
+    <text x="0" y="92" fill="#07315F" font-family="Inter, Arial, sans-serif" font-size="88" font-weight="850" letter-spacing="-1">Neptune.</text>
+    <text x="0" y="184" fill="#07315F" font-family="Inter, Arial, sans-serif" font-size="88" font-weight="850" letter-spacing="-1">Signal</text>
+    <path d="M302 163H438" stroke="#00A8AE" stroke-width="9" stroke-linecap="round"/>
+    <path d="M458 163H522" stroke="#EB4E4D" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="542" cy="163" r="9" fill="#EB4E4D"/>
+    <text x="0" y="238" fill="#60747C" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="650">Design Language Standard 0.1</text>
+  </g>
+</svg>
