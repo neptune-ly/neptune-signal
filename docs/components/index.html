@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -245,7 +280,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 </ul>
 <p>Compact rows use semantic labels like <code>IBAN ending 0101</code>; detail and receipt surfaces show the full grouped value.</p>
 <h2>Component Status</h2>
-<table><thead><tr><th>Component</th><th>Standard</th><th>KMP</th><th>Flutter</th><th>Native</th><th>Web</th></tr></thead><tbody><tr><td>App Shell</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Top App Bar</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Bottom Navigation</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Button</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Icon Button</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Segmented Control</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>List Group</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Banking Row</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Transaction Row</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Row</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Summary Row</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Header</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Card Face</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Voucher Tile</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Service Tile</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Form Field</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Amount Field</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>IBAN Field</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Consent Scope Row</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Status Result</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Value Line</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Language Selector</td><td>Draft 0.2</td><td>Planned</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Notification Row</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Empty State</td><td>Draft 0.2</td><td>Started</td><td>Planned</td><td>Planned</td><td>Planned</td></tr></tbody></table>
+<table><thead><tr><th>Component</th><th>Standard</th><th>KMP 0.2</th><th>Flutter</th><th>Native</th><th>Web</th></tr></thead><tbody><tr><td>App Shell</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Screen Container</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Top App Bar</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Bottom Navigation</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Button</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Icon Button</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Segmented Control</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>List Group</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>List Item</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Banking Row</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Transaction Row</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Row</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Summary Row</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Header</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account Carousel</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Account List</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Card Face</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Card Stack</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Card Detail Stage</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Action Dock</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Quick Action Button</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Insight Card</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Voucher Tile</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Voucher Store</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Voucher Value Selector</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Service Tile</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Form Field</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Amount Field</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>IBAN Field</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Value Line</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Consent Overview</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Consent Card</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Consent Scope Row</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Status Result</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Status Mark</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Appearance Selector</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Theme Preset List</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Notification Row</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Notification Banner</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Empty State</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Splash / Planet Mark</td><td>Draft 0.2</td><td>Available</td><td>Planned</td><td>Planned</td><td>Planned</td></tr><tr><td>Language Selector</td><td>Draft 0.2</td><td>Planned</td><td>Planned</td><td>Planned</td><td>Planned</td></tr></tbody></table>
 <h2>Families</h2>
 <h3>Shell</h3>
 <ul>
@@ -254,6 +289,9 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Bottom navigation.</li>
 <li>Screen container.</li>
 <li>Section header.</li>
+<li>Appearance selector.</li>
+<li>Theme preset list.</li>
+<li>Splash / planet mark.</li>
 </ul>
 <h3>Actions</h3>
 <ul>
@@ -287,11 +325,19 @@ tr:first-child th,tr:first-child td{border-top:0}
 <h3>Banking Surfaces</h3>
 <ul>
 <li>Account detail header.</li>
+<li>Account carousel.</li>
+<li>Account list.</li>
 <li>Card face.</li>
+<li>Card stack.</li>
+<li>Card detail stage.</li>
 <li>Voucher product tile.</li>
+<li>Voucher store.</li>
+<li>Voucher value selector.</li>
 <li>Service tile.</li>
 <li>Receipt card.</li>
 <li>Consent scope panel.</li>
+<li>Action dock.</li>
+<li>Insight card.</li>
 </ul>
 <h3>Feedback</h3>
 <ul>
@@ -301,10 +347,19 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Loading state.</li>
 <li>Empty state.</li>
 <li>Pending async state.</li>
+<li>Notification banner.</li>
 </ul>
-<h2>KMP 0.2 Started APIs</h2>
+<h2>KMP 0.2 Available APIs</h2>
 <p>The current SDK package includes:</p>
 <pre><code class="language-kotlin">SignalTheme
+SignalThemeConfig
+SignalBrand
+SignalBrandDefaults
+SignalColorMode
+SignalColors
+SignalTypography
+SignalShapes
+SignalDimensions
 SignalAppShell
 SignalScreen
 SignalButton
@@ -319,17 +374,40 @@ SignalTransactionRow
 SignalAccountRow
 SignalAccountSummaryRow
 SignalAccountHeader
+SignalAccountCarousel
+SignalAccountList
 SignalTextField
 SignalAmountField
 SignalIbanField
 SignalValueLine
+SignalCopyGlyph
+SignalShareGlyph
+SignalAppearanceSelector
+SignalThemePresetList
+SignalThemePreset.toBrand
+SignalThemePreset.toThemeConfig
 SignalSegmentedControl
 SignalTile
 SignalVoucherTile
 SignalServiceTile
+SignalVoucherStore
+SignalVoucherValueSelector
 SignalStatusResult
+SignalStatusMark
+SignalConsentOverview
+SignalConsentCard
 SignalConsentScopeRow
 SignalCardFace
+SignalCardStack
+SignalCardDetailStage
+SignalActionDock
+SignalQuickActionButton
+SignalShortcutRow
+SignalInsightCard
+SignalMetricStrip
+SignalNotificationBanner
+SignalSplash
+SignalPlanetMark
 SignalSectionHeader
 SignalEmptyState
 SignalNotificationRow</code></pre>

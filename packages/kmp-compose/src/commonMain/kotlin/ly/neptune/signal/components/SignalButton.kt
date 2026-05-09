@@ -17,8 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
-import ly.neptune.signal.theme.SignalSize
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -40,8 +38,10 @@ fun SignalButton(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalRadius.lg)
-    val minModifier = modifier.defaultMinSize(minHeight = 52.dp)
+    val shape = RoundedCornerShape(SignalTheme.shapes.lg)
+    val minModifier = modifier.defaultMinSize(minHeight = SignalTheme.dimensions.buttonHeight)
+    val primaryContainer = colors.bankPrimary
+    val primaryContent = colors.textInverse
 
     val content: @Composable () -> Unit = {
         Row(
@@ -51,7 +51,7 @@ fun SignalButton(
             if (loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.padding(end = SignalSpacing.x2),
-                    color = if (variant == SignalButtonVariant.Primary) colors.onPrimary else colors.primary,
+                    color = if (variant == SignalButtonVariant.Primary) primaryContent else colors.bankPrimary,
                     strokeWidth = 2.dp,
                 )
             } else if (leading != null) {
@@ -68,8 +68,8 @@ fun SignalButton(
             enabled = enabled && !loading,
             shape = shape,
             colors = ButtonDefaults.buttonColors(
-                containerColor = colors.primary,
-                contentColor = colors.onPrimary,
+                containerColor = primaryContainer,
+                contentColor = primaryContent,
                 disabledContainerColor = colors.surfaceContainer,
                 disabledContentColor = colors.onSurfaceVariant.copy(alpha = 0.38f),
             ),
@@ -83,7 +83,7 @@ fun SignalButton(
             shape = shape,
             border = BorderStroke(1.dp, colors.outline),
             colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = colors.primary,
+                contentColor = colors.bankPrimary,
                 disabledContentColor = colors.onSurfaceVariant.copy(alpha = 0.38f),
             ),
             content = { content() },
@@ -116,8 +116,8 @@ fun SignalIconButton(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier.defaultMinSize(
-            minWidth = SignalSize.iconButton,
-            minHeight = SignalSize.iconButton,
+            minWidth = SignalTheme.dimensions.iconButton,
+            minHeight = SignalTheme.dimensions.iconButton,
         ),
         content = content,
     )

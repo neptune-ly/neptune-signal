@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -228,7 +263,11 @@ border.default
 border.strong
 status.success
 status.warning
-status.danger</code></pre>
+status.danger
+appearance.mode
+appearance.preference</code></pre>
+<p><code>appearance.mode</code> is the resolved mode used by the UI: <code>light</code>, <code>dark</code>, or <code>black</code>.</p>
+<p><code>appearance.preference</code> is the customer setting: <code>system</code>, <code>light</code>, <code>dark</code>, or <code>black</code>.</p>
 <h2>Material-Compatible Role Tokens</h2>
 <pre><code class="language-text">primary
 onPrimary
@@ -271,6 +310,8 @@ onErrorContainer</code></pre>
 <li><code>surface.paper</code>: app background.</li>
 <li><code>surface.card</code>: cards, rows, panels.</li>
 <li><code>border.default</code>: row and card strokes.</li>
+<li><code>appearance.preference</code>: stored customer choice.</li>
+<li><code>appearance.mode</code>: resolved rendering mode after system preference is applied. <code>black</code> is explicit; <code>system</code> resolves only to platform light or dark.</li>
 </ul>
 <h2>White-Label Rule</h2>
 <p>Bank themes may replace <code>bank.primary</code>, <code>bank.secondary</code>, and <code>bank.accent</code>, but must not change:</p>
@@ -281,8 +322,9 @@ onErrorContainer</code></pre>
 <li>Motion timing logic.</li>
 <li>Accessibility rules.</li>
 </ul>
+<p>Dark mode is not a bank override. It is a required mode for every preset. A bank can provide preferred dark identity colors, but the system still owns contrast, surface hierarchy, state layers, and status meaning.</p>
 <h2>Token Governance</h2>
-<table><thead><tr><th>Token family</th><th>Can bank override</th><th>Must stay Signal-controlled</th></tr></thead><tbody><tr><td>Brand hue</td><td>Yes</td><td>Contrast checks and role mapping</td></tr><tr><td>Surface containers</td><td>Limited</td><td>Hierarchy and elevation meaning</td></tr><tr><td>Error/success/warning</td><td>No, unless approved</td><td>Meaning and accessibility</td></tr><tr><td>Spacing and radius</td><td>No</td><td>Component stability</td></tr><tr><td>Typography roles</td><td>No</td><td>Readability and density</td></tr><tr><td>Motion durations</td><td>No</td><td>Performance and consistency</td></tr></tbody></table></div>
+<table><thead><tr><th>Token family</th><th>Can bank override</th><th>Must stay Signal-controlled</th></tr></thead><tbody><tr><td>Brand hue</td><td>Yes</td><td>Contrast checks and role mapping</td></tr><tr><td>Surface containers</td><td>Limited</td><td>Light/dark hierarchy and elevation meaning</td></tr><tr><td>Error/success/warning</td><td>No, unless approved</td><td>Meaning and accessibility</td></tr><tr><td>Spacing and radius</td><td>No</td><td>Component stability</td></tr><tr><td>Typography roles</td><td>No</td><td>Readability and density</td></tr><tr><td>Motion durations</td><td>No</td><td>Performance and consistency</td></tr></tbody></table></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -12,8 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -23,24 +22,25 @@ fun SignalCardFace(
     maskedNumber: String,
     modifier: Modifier = Modifier,
     holderName: String? = null,
-    background: Color = SignalTheme.colors.primary,
+    background: Color = SignalTheme.colors.bankPrimary,
+    contentColor: Color = SignalTheme.colors.textInverse,
 ) {
-    val colors = SignalTheme.colors
     val typography = SignalTheme.typography
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(background, RoundedCornerShape(SignalRadius.xl))
+            .heightIn(min = SignalTheme.dimensions.cardFaceMinHeight)
+            .background(background, RoundedCornerShape(SignalTheme.shapes.xl))
             .padding(SignalSpacing.x5),
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x6),
     ) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            Text(text = scheme, color = colors.onPrimary, style = typography.sectionTitle)
+            Text(text = scheme, color = contentColor, style = typography.sectionTitle)
         }
-        Text(text = maskedNumber, color = colors.onPrimary, style = typography.pageTitle)
+        Text(text = maskedNumber, color = contentColor, style = typography.pageTitle)
         if (holderName != null) {
-            Text(text = holderName, color = colors.onPrimary.copy(alpha = 0.72f), style = typography.rowMeta)
+            Text(text = holderName, color = contentColor.copy(alpha = 0.72f), style = typography.rowMeta)
         }
     }
 }

@@ -42,6 +42,7 @@ Neptune. Signal extends Material 3 ideas instead of copying Material visuals:
 Version `0.2.0` covers:
 
 - Brand and white-label token model.
+- Light/dark/black appearance model and bounded customer personalization.
 - Material-style color roles and surface containers.
 - Typography scale and density.
 - Spacing, layout, shape, elevation, and icon rules.
@@ -71,6 +72,7 @@ Figma Kit planned
 A product can claim Neptune. Signal compatibility only when it follows:
 
 - Token model.
+- Light, dark, and black mode role mapping.
 - Typography roles.
 - Root navigation model.
 - Component behavior.

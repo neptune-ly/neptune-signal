@@ -19,14 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
-import ly.neptune.signal.theme.SignalSize
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -44,6 +43,11 @@ enum class SignalValueCompactMode {
     SemanticCompact,
 }
 
+enum class SignalValueTone {
+    Surface,
+    OnPrimary,
+}
+
 @Composable
 fun SignalValueLine(
     label: String,
@@ -54,11 +58,14 @@ fun SignalValueLine(
     shareable: Boolean = false,
     masked: Boolean = false,
     compactMode: SignalValueCompactMode = SignalValueCompactMode.Full,
+    tone: SignalValueTone = SignalValueTone.Surface,
     onCopy: (() -> Unit)? = null,
     onShare: (() -> Unit)? = null,
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
+    val shapes = SignalTheme.shapes
+    val dimensions = SignalTheme.dimensions
     val valueText = signalDisplayValue(label, value, format, masked, compactMode)
     val valueStyle = when (format) {
         SignalValueFormat.Iban,
@@ -68,12 +75,28 @@ fun SignalValueLine(
         SignalValueFormat.Plain,
         SignalValueFormat.Alias -> typography.rowTitle
     }
+    val containerColor = when (tone) {
+        SignalValueTone.Surface -> colors.surfaceContainerLowest
+        SignalValueTone.OnPrimary -> colors.textInverse.copy(alpha = 0.10f)
+    }
+    val borderColor = when (tone) {
+        SignalValueTone.Surface -> colors.outlineVariant
+        SignalValueTone.OnPrimary -> colors.textInverse.copy(alpha = 0.14f)
+    }
+    val labelColor = when (tone) {
+        SignalValueTone.Surface -> colors.onSurfaceVariant
+        SignalValueTone.OnPrimary -> colors.textInverse.copy(alpha = 0.62f)
+    }
+    val valueColor = when (tone) {
+        SignalValueTone.Surface -> colors.onSurface
+        SignalValueTone.OnPrimary -> colors.textInverse
+    }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceContainerLowest, RoundedCornerShape(SignalRadius.md))
-            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(SignalRadius.md))
+            .background(containerColor, RoundedCornerShape(shapes.md))
+            .border(BorderStroke(1.dp, borderColor), RoundedCornerShape(shapes.md))
             .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
         verticalAlignment = Alignment.CenterVertically,
@@ -82,10 +105,10 @@ fun SignalValueLine(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
         ) {
-            Text(text = label, color = colors.onSurfaceVariant, style = typography.rowMeta)
+            Text(text = label, color = labelColor, style = typography.rowMeta)
             Text(
                 text = valueText,
-                color = colors.onSurface,
+                color = valueColor,
                 style = valueStyle,
                 maxLines = if (compactMode == SignalValueCompactMode.SemanticCompact) 1 else Int.MAX_VALUE,
                 overflow = TextOverflow.Clip,
@@ -97,10 +120,10 @@ fun SignalValueLine(
                 onClick = { onCopy?.invoke() },
                 enabled = onCopy != null,
                 modifier = Modifier
-                    .size(SignalSize.touchTarget)
+                    .size(dimensions.touchTarget)
                     .semantics { contentDescription = "Copy $label" },
             ) {
-                SignalCopyGlyph()
+                SignalCopyGlyph(color = valueColor)
             }
         }
         if (shareable || onShare != null) {
@@ -108,30 +131,33 @@ fun SignalValueLine(
                 onClick = { onShare?.invoke() },
                 enabled = onShare != null,
                 modifier = Modifier
-                    .size(SignalSize.touchTarget)
+                    .size(dimensions.touchTarget)
                     .semantics { contentDescription = "Share $label" },
             ) {
-                SignalShareGlyph()
+                SignalShareGlyph(color = valueColor)
             }
         }
     }
 }
 
 @Composable
-fun SignalCopyGlyph(modifier: Modifier = Modifier) {
-    val color = SignalTheme.colors.primary
+fun SignalCopyGlyph(
+    modifier: Modifier = Modifier,
+    color: Color? = null,
+) {
+    val resolvedColor = color ?: SignalTheme.colors.bankPrimary
     Canvas(modifier = modifier.size(18.dp)) {
         val stroke = Stroke(width = 2.dp.toPx())
         val radius = CornerRadius(3.dp.toPx(), 3.dp.toPx())
         drawRoundRect(
-            color = color,
+            color = resolvedColor,
             topLeft = Offset(size.width * 0.34f, size.height * 0.28f),
             size = Size(size.width * 0.5f, size.height * 0.56f),
             cornerRadius = radius,
             style = stroke,
         )
         drawRoundRect(
-            color = color,
+            color = resolvedColor,
             topLeft = Offset(size.width * 0.16f, size.height * 0.12f),
             size = Size(size.width * 0.5f, size.height * 0.56f),
             cornerRadius = radius,
@@ -141,18 +167,21 @@ fun SignalCopyGlyph(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SignalShareGlyph(modifier: Modifier = Modifier) {
-    val color = SignalTheme.colors.primary
+fun SignalShareGlyph(
+    modifier: Modifier = Modifier,
+    color: Color? = null,
+) {
+    val resolvedColor = color ?: SignalTheme.colors.bankPrimary
     Canvas(modifier = modifier.size(18.dp)) {
         val stroke = Stroke(width = 2.dp.toPx())
         val start = Offset(size.width * 0.2f, size.height * 0.62f)
         val middle = Offset(size.width * 0.58f, size.height * 0.78f)
         val end = Offset(size.width * 0.74f, size.height * 0.26f)
-        drawLine(color = color, start = start, end = middle, strokeWidth = stroke.width)
-        drawLine(color = color, start = middle, end = end, strokeWidth = stroke.width)
-        drawCircle(color = color, radius = 2.6.dp.toPx(), center = start, style = stroke)
-        drawCircle(color = color, radius = 2.6.dp.toPx(), center = middle, style = stroke)
-        drawCircle(color = color, radius = 2.6.dp.toPx(), center = end, style = stroke)
+        drawLine(color = resolvedColor, start = start, end = middle, strokeWidth = stroke.width)
+        drawLine(color = resolvedColor, start = middle, end = end, strokeWidth = stroke.width)
+        drawCircle(color = resolvedColor, radius = 2.6.dp.toPx(), center = start, style = stroke)
+        drawCircle(color = resolvedColor, radius = 2.6.dp.toPx(), center = middle, style = stroke)
+        drawCircle(color = resolvedColor, radius = 2.6.dp.toPx(), center = end, style = stroke)
     }
 }
 

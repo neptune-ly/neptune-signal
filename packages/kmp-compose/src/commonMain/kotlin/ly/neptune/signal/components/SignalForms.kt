@@ -16,9 +16,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
-import ly.neptune.signal.theme.SignalSize
 import ly.neptune.signal.theme.SignalTheme
 
 @Composable
@@ -36,13 +33,15 @@ fun SignalTextField(
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     val colors = SignalTheme.colors
+    val shapes = SignalTheme.shapes
+    val dimensions = SignalTheme.dimensions
     Column(modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = SignalSize.fieldHeight),
+                .heightIn(min = dimensions.fieldHeight),
             enabled = enabled,
             singleLine = singleLine,
             isError = errorText != null,
@@ -50,16 +49,16 @@ fun SignalTextField(
             trailingIcon = trailingIcon,
             keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation,
-            shape = RoundedCornerShape(SignalRadius.md),
+            shape = RoundedCornerShape(shapes.md),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = colors.primary,
+                focusedBorderColor = colors.bankPrimary,
                 unfocusedBorderColor = colors.outlineVariant,
                 errorBorderColor = colors.error,
-                focusedLabelColor = colors.primary,
+                focusedLabelColor = colors.bankPrimary,
                 unfocusedLabelColor = colors.onSurfaceVariant,
                 focusedTextColor = colors.onSurface,
                 unfocusedTextColor = colors.onSurface,
-                cursorColor = colors.primary,
+                cursorColor = colors.bankPrimary,
             ),
             supportingText = {
                 val text = errorText ?: supportingText
@@ -94,7 +93,7 @@ fun SignalAmountField(
         trailingIcon = {
             Text(
                 text = currency,
-                color = SignalTheme.colors.primary,
+                color = SignalTheme.colors.bankPrimary,
                 style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
             )
         },
@@ -122,7 +121,7 @@ fun SignalIbanField(
                 IconButton(
                     onClick = onCopy,
                     modifier = Modifier
-                        .size(44.dp)
+                        .size(SignalTheme.dimensions.iconButton)
                         .semantics { contentDescription = "Copy $label" },
                 ) {
                     SignalCopyGlyph()

@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -29,7 +28,7 @@ fun SignalSectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = title, color = SignalTheme.colors.primary, style = SignalTheme.typography.sectionTitle)
+        Text(text = title, color = SignalTheme.colors.onSurface, style = SignalTheme.typography.sectionTitle)
         action?.invoke()
     }
 }
@@ -43,16 +42,22 @@ fun SignalEmptyState(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
+    val shapes = SignalTheme.shapes
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceContainerLowest, RoundedCornerShape(SignalRadius.xl))
-            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(SignalRadius.xl))
+            .background(colors.surfaceContainerLowest, RoundedCornerShape(shapes.xl))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(shapes.xl))
             .padding(SignalSpacing.x6),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
     ) {
-        Text(text = title, color = colors.primary, style = typography.pageTitle, textAlign = TextAlign.Center)
+        Text(
+            text = title,
+            color = if (colors.dark) colors.onSurface else colors.bankPrimary,
+            style = typography.pageTitle,
+            textAlign = TextAlign.Center,
+        )
         Text(text = message, color = colors.onSurfaceVariant, style = typography.rowMeta, textAlign = TextAlign.Center)
         action?.invoke()
     }

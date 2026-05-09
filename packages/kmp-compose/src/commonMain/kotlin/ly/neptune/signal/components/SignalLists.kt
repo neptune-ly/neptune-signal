@@ -23,7 +23,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -33,11 +32,12 @@ fun SignalListGroup(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val colors = SignalTheme.colors
+    val shapes = SignalTheme.shapes
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceContainerLow, RoundedCornerShape(SignalRadius.lg))
-            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(SignalRadius.lg))
+            .background(colors.surfaceContainerLow, RoundedCornerShape(shapes.lg))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(shapes.lg))
             .padding(SignalSpacing.x1),
         content = content,
     )
@@ -63,14 +63,15 @@ fun SignalListItem(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
+    val shapes = SignalTheme.shapes
     val clickModifier = if (onClick != null) Modifier.clickable(enabled = enabled, onClick = onClick) else Modifier
 
     Row(
         modifier = modifier
             .then(clickModifier)
             .fillMaxWidth()
-            .heightIn(min = 64.dp)
-            .clip(RoundedCornerShape(SignalRadius.md))
+            .heightIn(min = SignalTheme.dimensions.rowMinHeight)
+            .clip(RoundedCornerShape(shapes.md))
             .background(Color.Transparent)
             .padding(SignalSpacing.x3),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
@@ -80,7 +81,7 @@ fun SignalListItem(
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(colors.primaryContainer, RoundedCornerShape(SignalRadius.sm)),
+                    .background(colors.primaryContainer, RoundedCornerShape(shapes.sm)),
                 contentAlignment = Alignment.Center,
             ) {
                 leading()

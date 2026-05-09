@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -216,6 +251,10 @@ ly.neptune.signal.patterns</code></pre>
 <ul>
 <li><code>SignalTheme</code></li>
 <li><code>SignalColors</code></li>
+<li><code>SignalThemeConfig</code></li>
+<li><code>SignalBrand</code></li>
+<li><code>SignalBrandDefaults</code></li>
+<li><code>SignalColorMode</code></li>
 <li><code>SignalButton</code></li>
 <li><code>SignalIconButton</code></li>
 <li><code>SignalTopBar</code></li>
@@ -235,17 +274,54 @@ ly.neptune.signal.patterns</code></pre>
 <li><code>SignalTile</code></li>
 <li><code>SignalVoucherTile</code></li>
 <li><code>SignalServiceTile</code></li>
+<li><code>SignalAppearanceSelector</code></li>
+<li><code>SignalThemePresetList</code></li>
+<li><code>SignalThemePreset.toBrand</code></li>
+<li><code>SignalThemePreset.toThemeConfig</code></li>
 <li><code>SignalSectionHeader</code></li>
 <li><code>SignalEmptyState</code></li>
 <li><code>SignalNotificationRow</code></li>
+<li><code>SignalActionDock</code></li>
+<li><code>SignalInsightCard</code></li>
+<li><code>SignalAccountCarousel</code></li>
+<li><code>SignalAccountList</code></li>
+<li><code>SignalCardStack</code></li>
+<li><code>SignalCardDetailStage</code></li>
+<li><code>SignalMetricStrip</code></li>
+<li><code>SignalNotificationBanner</code></li>
+<li><code>SignalVoucherStore</code></li>
+<li><code>SignalVoucherValueSelector</code></li>
+<li><code>SignalSplash</code></li>
+<li><code>SignalPlanetMark</code></li>
 </ul>
 <h2>Theme Model</h2>
-<pre><code class="language-kotlin">data class SignalTheme(
-    val colors: SignalColors,
-    val typography: SignalTypography,
-    val shapes: SignalShapes,
-    val motion: SignalMotion
-)</code></pre>
+<pre><code class="language-kotlin">SignalTheme(
+    config = SignalThemeConfig(
+        brand = SignalBrandDefaults.Neptune,
+        mode = SignalColorMode.Light
+    )
+) {
+    BankingApp()
+}
+
+SignalTheme(
+    brand = SignalBrandDefaults.Andalus,
+    mode = SignalColorMode.Dark,
+    shapes = SignalShapes(md = 16.dp, lg = 22.dp, xl = 28.dp),
+    dimensions = SignalDimensions(buttonHeight = 52.dp)
+) {
+    BankingApp()
+}</code></pre>
+<p>Core configuration types:</p>
+<pre><code class="language-kotlin">SignalThemeConfig
+SignalBrand
+SignalBrandDefaults
+SignalColorMode
+SignalColors
+SignalTypography
+SignalShapes
+SignalDimensions
+SignalMotion</code></pre>
 <h2>Usage</h2>
 <pre><code class="language-kotlin">SignalTheme {
     SignalAccountRow(
@@ -275,22 +351,106 @@ ly.neptune.signal.patterns</code></pre>
 }</code></pre>
 <p>White-label theme:</p>
 <pre><code class="language-kotlin">SignalTheme(
+    brand = SignalBrandDefaults.Andalus,
+    mode = SignalColorMode.Light
+) {
+    // All Signal components inherit the bank colors globally.
+}
+
+SignalTheme(
+    config = SignalThemeConfig(
+        brand = SignalBrandDefaults.NCB,
+        mode = SignalColorMode.Dark
+    )
+) {
+    // Reusable app-level configuration.
+}
+
+SignalTheme(
     colors = SignalColorDefaults.whiteLabel(
         primary = Color(0xFFB4232A),
         secondary = Color(0xFF1A335E),
-        accent = Color(0xFFD9A441)
+        accent = Color(0xFFD9A441),
+        dark = false
     )
 ) {
     // Bank app UI
+}
+
+SignalTheme(
+    colors = SignalColorDefaults.whiteLabel(
+        primary = Color(0xFF8FC7FF),
+        secondary = Color(0xFF4FD5D9),
+        accent = Color(0xFFFFB3AE),
+        dark = true
+    )
+) {
+    // Dark bank app UI
+}
+
+SignalTheme(
+    colors = SignalColorDefaults.whiteLabel(
+        primary = Color(0xFF8FC7FF),
+        secondary = Color(0xFF4FD5D9),
+        accent = Color(0xFFFFB3AE),
+        black = true
+    )
+) {
+    // Black appearance app UI
 }</code></pre>
+<p>Personalization:</p>
+<pre><code class="language-kotlin">SignalAppearanceSelector(
+    selectedMode = SignalAppearanceMode.System,
+    onModeSelected = onModeSelected
+)
+
+SignalThemePresetList(
+    presets = SignalThemePresetDefaults.BankSamples,
+    selectedKey = &quot;neptune&quot;,
+    onPresetSelected = onPresetSelected
+)
+
+val selectedPreset = SignalThemePresetDefaults.BankSamples.first { it.key == &quot;ncb&quot; }
+
+SignalTheme(
+    config = selectedPreset.toThemeConfig(mode = SignalColorMode.Dark)
+) {
+    BankingApp()
+}</code></pre>
+<p>Splash:</p>
+<pre><code class="language-kotlin">SignalSplash(
+    title = &quot;Neptune. Signal&quot;,
+    subtitle = &quot;Powered by Neptune. Fintech&quot;,
+    animated = true
+)</code></pre>
+<h2>Component Examples</h2>
+<p>The GitHub Pages component gallery shows the current visual preview and KMP Compose snippet for each major SDK family:</p>
+<ul>
+<li>Theme roles and personalization.</li>
+<li>Splash / planet mark.</li>
+<li>App shell and navigation.</li>
+<li>Buttons and icon actions.</li>
+<li>Forms and critical value lines.</li>
+<li>Lists, banking rows, and account rows.</li>
+<li>Account carousel and account detail header.</li>
+<li>Card stack and card detail stage.</li>
+<li>Action dock, shortcuts, and insight cards.</li>
+<li>Voucher store and value selector.</li>
+<li>Identity and consent.</li>
+<li>Status result.</li>
+<li>Notifications and empty state.</li>
+</ul>
+<p><a href="../components/gallery.html">Open component gallery</a></p>
 <h2>Principles</h2>
 <ul>
 <li>Tokens are generated from JSON.</li>
 <li>Components expose stable APIs.</li>
 <li>RTL and LTR are first-class.</li>
+<li>Light, dark, and black modes are first-class for every bank preset.</li>
 <li>Motion constants are shared.</li>
 <li>Accessibility labels are required for icon-only actions.</li>
 <li>Product screens should compose patterns, not duplicate component internals.</li>
+<li>Bank colors are applied globally through <code>SignalTheme</code>, never by per-screen hardcoded overrides.</li>
 </ul></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>

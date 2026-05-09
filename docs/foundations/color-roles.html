@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -213,6 +248,22 @@ surfaceContainer     #EEF5F5
 outline              #C8D8DD
 onSurface            #071C2E
 onSurfaceVariant     #60747C</code></pre>
+<h2>Dark Mode Defaults</h2>
+<p>Dark mode is not an inverted palette. It is a separate banking surface system:</p>
+<pre><code class="language-text">surface              #071217
+surfaceContainer     #142832
+surfaceContainerHigh #1A333D
+onSurface            #EEF7F8
+onSurfaceVariant     #9DB1B8
+outline              #38555F
+outlineVariant       #263F48</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Keep account and card secure surfaces branded, but move regular rows, fields, receipts, and lists onto dark surface containers.</li>
+<li>Primary, secondary, and tertiary roles must be derived for contrast in light, dark, and black modes.</li>
+<li>Black appearance uses black page surfaces with explicit row/container boundaries. It must not flatten the UI into one undifferentiated surface.</li>
+<li>Bottom navigation, status bars, sheets, receipts, and result pages must be reviewed in all appearance modes.</li>
+</ul>
 <h2>White-Label Mapping</h2>
 <p>Bank colors enter through the bank layer, then generate Material-compatible roles:</p>
 <pre><code class="language-text">bank.primary   -&gt; primary
@@ -221,6 +272,8 @@ bank.accent    -&gt; tertiary
 bank.ink       -&gt; onSurface
 bank.surface   -&gt; surface</code></pre>
 <p>ATIB can use red as primary. NCB can use green. Yaqeen can use brown/gold. Andalus can use its own primary. The product should still feel like Neptune. Signal because spacing, hierarchy, copy behavior, motion, and components do not change.</p>
+<p>Every bank preset must ship with light, dark, and black role sets. The bank chooses identity colors; Neptune. Signal derives accessible containers, text, outlines, and state layers for each appearance mode.</p>
+<p>Black appearance is a deeper dark variant, not a different product. It keeps bank primary, secondary, accent, semantic status colors, and component hierarchy while moving page surfaces to black and raised containers to explicit dark layers.</p>
 <h2>Usage Rules</h2>
 <ul>
 <li>Do not use accent color randomly. Accent is for signature moments, risk, and attention.</li>
@@ -230,6 +283,8 @@ bank.surface   -&gt; surface</code></pre>
 <li>Use tertiary for the Neptune. pulse, risk, alerts, or one small signature mark.</li>
 <li>Status colors override brand colors when meaning matters.</li>
 <li>Contrast must be checked after every bank theme is created.</li>
+<li>Customer personalization may choose approved presets or appearance mode, but cannot alter status colors, typography scale, spacing, or receipt hierarchy.</li>
+<li>Black appearance must still use visible containers, outlines, state layers, and readable muted text. Do not remove structure by making every surface the same color.</li>
 </ul>
 <h2>Anti-Patterns</h2>
 <table><thead><tr><th>Anti-pattern</th><th>Fix</th></tr></thead><tbody><tr><td>Primary color changes only the page background</td><td>Map primary into buttons, selected nav, headers, and state rings.</td></tr><tr><td>Mixed random icon colors</td><td>Icon colors come from role and row tone.</td></tr><tr><td>Accent overuse</td><td>Reserve tertiary for the signal moment.</td></tr><tr><td>Bank theme changes component shape</td><td>Only color roles change. Anatomy stays fixed.</td></tr><tr><td>Low contrast brand color</td><td>Generate a darker accessible role or use container roles.</td></tr></tbody></table></div>

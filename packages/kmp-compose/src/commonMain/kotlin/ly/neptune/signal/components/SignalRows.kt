@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -53,7 +52,7 @@ fun SignalBankingRow(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalRadius.md)
+    val shape = RoundedCornerShape(SignalTheme.shapes.md)
     val clickableModifier = if (onClick != null) {
         Modifier.clickable(enabled = enabled, onClick = onClick)
     } else {
@@ -64,7 +63,7 @@ fun SignalBankingRow(
         modifier = modifier
             .then(clickableModifier)
             .fillMaxWidth()
-            .heightIn(min = 72.dp)
+            .heightIn(min = SignalTheme.dimensions.rowMinHeight)
             .background(colors.surfaceContainerLowest, shape)
             .border(BorderStroke(1.dp, colors.outlineVariant), shape)
             .padding(SignalSpacing.x3),
@@ -140,7 +139,7 @@ fun SignalAccountSummaryRow(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalRadius.md)
+    val shape = RoundedCornerShape(SignalTheme.shapes.md)
     val clickableModifier = if (onClick != null) {
         Modifier.clickable(enabled = enabled, onClick = onClick)
     } else {
@@ -151,7 +150,7 @@ fun SignalAccountSummaryRow(
         modifier = modifier
             .then(clickableModifier)
             .fillMaxWidth()
-            .heightIn(min = 76.dp)
+            .heightIn(min = SignalTheme.dimensions.accountRowMinHeight)
             .background(colors.surfaceContainerLowest, shape)
             .border(BorderStroke(1.dp, colors.outlineVariant), shape)
             .padding(SignalSpacing.x3),
@@ -179,7 +178,7 @@ fun SignalAccountSummaryRow(
                 )
                 Text(
                     text = if (masked) "••••••" else balance,
-                    color = colors.primary,
+                    color = colors.bankPrimary,
                     style = typography.rowTitle.copy(fontFeatureSettings = "tnum"),
                     maxLines = 1,
                 )
@@ -212,7 +211,7 @@ fun SignalIdentifierChip(
     Surface(
         modifier = modifier,
         color = colors.surfaceContainer,
-        shape = RoundedCornerShape(999.dp),
+        shape = RoundedCornerShape(SignalTheme.shapes.full),
     ) {
         Text(
             text = text,
@@ -227,7 +226,7 @@ fun SignalIdentifierChip(
 
 @Composable
 fun SignalAccountGlyph(modifier: Modifier = Modifier) {
-    val color = SignalTheme.colors.onPrimary
+    val color = SignalTheme.colors.textInverse
     Canvas(modifier = modifier.size(20.dp)) {
         val stroke = Stroke(width = 2.dp.toPx())
         drawRoundRect(
@@ -262,7 +261,7 @@ fun SignalConsentScopeRow(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalRadius.md)
+    val shape = RoundedCornerShape(SignalTheme.shapes.md)
 
     Row(
         modifier = modifier
@@ -276,10 +275,10 @@ fun SignalConsentScopeRow(
         Box(
             modifier = Modifier
                 .size(30.dp)
-                .background(colors.primary, RoundedCornerShape(999.dp)),
+                .background(colors.bankPrimary, RoundedCornerShape(SignalTheme.shapes.full)),
             contentAlignment = Alignment.Center,
         ) {
-            Text(text = index, color = colors.onPrimary, style = typography.statusPill)
+            Text(text = index, color = colors.textInverse, style = typography.statusPill)
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(text = title, color = colors.onSurface, style = typography.rowTitle)
@@ -287,7 +286,7 @@ fun SignalConsentScopeRow(
         }
         Surface(
             color = colors.secondaryContainer,
-            shape = RoundedCornerShape(999.dp),
+            shape = RoundedCornerShape(SignalTheme.shapes.full),
         ) {
             Text(
                 text = access,
@@ -310,7 +309,10 @@ private fun SignalIconSurface(
     Box(
         modifier = Modifier
             .size(44.dp)
-            .background(toneColor(tone).copy(alpha = if (tone == SignalRowTone.Neutral) 0.09f else 1f), RoundedCornerShape(SignalRadius.sm)),
+            .background(
+                toneColor(tone).copy(alpha = if (tone == SignalRowTone.Neutral) 0.09f else 1f),
+                RoundedCornerShape(SignalTheme.shapes.sm),
+            ),
         contentAlignment = Alignment.Center,
     ) {
         content?.invoke()
@@ -322,8 +324,8 @@ private fun toneColor(tone: SignalRowTone): Color {
     val colors = SignalTheme.colors
     return when (tone) {
         SignalRowTone.Neutral -> colors.textSecondary
-        SignalRowTone.Primary -> colors.primary
-        SignalRowTone.Accent -> colors.tertiary
+        SignalRowTone.Primary -> colors.bankPrimary
+        SignalRowTone.Accent -> colors.bankAccent
         SignalRowTone.Success -> colors.success
         SignalRowTone.Warning -> colors.warning
         SignalRowTone.Danger -> colors.danger

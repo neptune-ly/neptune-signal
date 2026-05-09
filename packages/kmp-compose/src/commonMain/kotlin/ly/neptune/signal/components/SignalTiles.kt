@@ -18,8 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
-import ly.neptune.signal.theme.SignalSize
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -34,14 +32,14 @@ fun SignalTile(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalRadius.lg)
+    val shape = RoundedCornerShape(SignalTheme.shapes.lg)
     val click = if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier
 
     Row(
         modifier = modifier
             .then(click)
             .fillMaxWidth()
-            .heightIn(min = SignalSize.tileMinHeight)
+            .heightIn(min = SignalTheme.dimensions.tileMinHeight)
             .background(colors.surfaceContainerLowest, shape)
             .border(BorderStroke(1.dp, colors.outlineVariant), shape)
             .padding(SignalSpacing.x4),

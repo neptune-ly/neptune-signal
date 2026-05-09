@@ -20,8 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ly.neptune.signal.theme.SignalRadius
-import ly.neptune.signal.theme.SignalSize
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -41,6 +39,7 @@ fun SignalTopBar(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
+    val titleColor = if (colors.dark) colors.onSurface else colors.bankPrimary
 
     Row(
         modifier = modifier
@@ -58,7 +57,7 @@ fun SignalTopBar(
             modifier = Modifier.weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = title, color = colors.bankPrimary, style = typography.pageTitle)
+            Text(text = title, color = titleColor, style = typography.pageTitle)
             if (subtitle != null) {
                 Text(text = subtitle, color = colors.textSecondary, style = typography.rowMeta)
             }
@@ -80,11 +79,13 @@ fun SignalBottomNav(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
+    val shapes = SignalTheme.shapes
+    val dimensions = SignalTheme.dimensions
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = SignalSize.navHeight)
+            .heightIn(min = dimensions.navHeight)
             .background(colors.surfaceCard)
             .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -92,10 +93,12 @@ fun SignalBottomNav(
     ) {
         items.forEach { item ->
             val active = item.key == activeKey
+            val activeContainer = if (colors.dark) colors.bankPrimary else colors.primaryContainer
+            val activeContent = if (colors.dark) colors.textInverse else colors.bankPrimary
             Column(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(SignalRadius.lg))
-                    .background(if (active) colors.primaryContainer else Color.Transparent)
+                    .clip(RoundedCornerShape(shapes.lg))
+                    .background(if (active) activeContainer else Color.Transparent)
                     .clickable { onSelected(item.key) }
                     .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,7 +107,7 @@ fun SignalBottomNav(
                 Box(contentAlignment = Alignment.Center) { item.icon() }
                 Text(
                     text = item.label,
-                    color = if (active) colors.primary else colors.onSurfaceVariant,
+                    color = if (active) activeContent else colors.onSurfaceVariant,
                     style = typography.statusPill,
                 )
             }

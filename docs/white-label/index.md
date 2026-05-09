@@ -13,6 +13,8 @@ White-label does not mean every bank gets a different product. It means every ba
 - Same performance rules.
 - Same financial clarity.
 - Different bank identity through controlled color, logo, name, and selected brand moments.
+- Light, dark, and black appearance modes for every bank preset.
+- Customer personalization only inside approved, accessible choices.
 
 The bank owns the brand layer. Neptune. Signal owns the operating layer.
 
@@ -26,6 +28,8 @@ bank.secondary
 bank.accent
 bank.ink
 bank.surface
+appearance.preference
+appearance.mode
 ```
 
 | Token | Purpose | Typical use |
@@ -35,6 +39,8 @@ bank.surface
 | `bank.accent` | Signature highlight | Important brand moments, focus rings, splash, rare emphasis |
 | `bank.ink` | Text and icon color on light surfaces | Page titles, dense rows, navigation icons |
 | `bank.surface` | Optional soft brand-tinted background | Quiet page backgrounds, panels, disabled states |
+| `appearance.preference` | Customer setting | `system`, `light`, `dark`, or `black` |
+| `appearance.mode` | Resolved rendering mode | `light`, `dark`, or explicit `black` |
 
 Neptune. Signal tokens still exist below the bank layer:
 
@@ -64,6 +70,8 @@ Bank themes may change:
 - Card face color palettes.
 - Splash brand lockup.
 - Marketing artwork inside approved banner surfaces.
+- Default customer appearance mode.
+- Approved customer accent variants.
 
 Bank themes must not change:
 
@@ -76,6 +84,7 @@ Bank themes must not change:
 - Error, success, and warning color behavior beyond approved semantic adjustment.
 - Motion timing model.
 - Arabic, English, and French layout support.
+- Minimum contrast in dark and black modes.
 
 ## Color Assignment Rules
 
@@ -155,6 +164,34 @@ Financial status colors are not bank branding.
 
 If a bank's primary color is red, danger still needs a separate danger treatment. For example, primary red can be deeper and branded, while danger uses semantic red with error copy, icon, and receipt context.
 
+## Dark Mode
+
+Each bank theme has three palettes:
+
+1. Light roles for daytime, branch support, and paper-like banking surfaces.
+2. Dark roles for night use, low-light environments, and premium secure surfaces.
+3. Black roles for customers who prefer deeper surfaces while keeping visible containers and bank colors.
+
+Dark mode rules:
+
+- Never simply invert the light palette.
+- Keep dense rows on dark surface containers, not on full primary backgrounds.
+- Keep account and card detail headers branded, but preserve readable balance, IBAN, and status text.
+- Use softer primary containers for selected navigation and chips.
+- Preserve semantic success, warning, danger, and pending colors across all banks.
+- Validate Home, Accounts, Card Details, Transfer, Status Result, Voucher Receipt, Notifications, and OpenWave flows in light, dark, and black mode.
+
+## Customer Personalization
+
+Personalization is allowed, but bounded:
+
+- Customer may choose `system`, `light`, `dark`, or `black`.
+- Customer may choose an approved bank color preset when the bank permits it.
+- Customer may choose a small approved accent style such as default, ocean, warm, or sky.
+- Customer may not change status colors, typography, spacing, shape, transaction hierarchy, or receipt layout.
+
+This keeps the app personal without becoming inconsistent or unsafe.
+
 ## Contrast Rules
 
 Minimum rules:
@@ -223,6 +260,8 @@ Use this process for every bank:
 6. Map success, warning, danger, and pending separately from brand.
 7. Test Arabic, English, and French labels.
 8. Test home, accounts, card details, transfer, status result, voucher receipt, and OpenWave consent.
+9. Test every preset in light, dark, and black mode.
+10. Test customer accent choices against the same screens.
 
 ## KMP Example
 
@@ -235,6 +274,17 @@ val redWhiteTheme = SignalColorDefaults.whiteLabel(
 )
 
 SignalTheme(colors = redWhiteTheme) {
+    BankApp()
+}
+
+val redWhiteDark = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFFA71930),
+    secondary = Color(0xFFEAF2F4),
+    accent = Color(0xFFFFB3AE),
+    dark = true
+)
+
+SignalTheme(colors = redWhiteDark) {
     BankApp()
 }
 ```

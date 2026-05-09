@@ -32,6 +32,9 @@ The theme changes color. The standard keeps:
 - Motion.
 - Accessibility.
 - Data-fetching rules.
+- Light/dark contrast rules.
+
+Customer personalization is allowed only inside approved appearance presets. A customer can choose system, light, dark, or an approved accent style. A customer cannot create an unsafe visual system that breaks financial clarity.
 
 ## 4. Treat Motion as Navigation
 

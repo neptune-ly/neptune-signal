@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -207,23 +242,47 @@ tr:first-child th,tr:first-child td{border-top:0}
 <p>Motion must make the system feel alive and explain continuity:</p>
 <ul>
 <li>Account card opens into account details using a container transform.</li>
+<li>Payment card opens into card details using the same card color and scheme context.</li>
 <li>Voucher tile opens into a purchase detail screen.</li>
 <li>Waiting, success, and failure use the same result grammar.</li>
 <li>Motion never hides a financial result or delays access to critical data.</li>
 <li>Reduced motion keeps meaning without decorative movement.</li>
 </ul>
 <h2>Timing</h2>
-<table><thead><tr><th>Motion</th><th>Duration</th><th>Easing</th></tr></thead><tbody><tr><td>Press compression</td><td>120-180ms</td><td>ease out</td></tr><tr><td>Standard route</td><td>220-260ms</td><td>cubic</td></tr><tr><td>Account container transform</td><td>380-440ms</td><td>expressive standard</td></tr><tr><td>Product open</td><td>280-360ms</td><td>expressive standard</td></tr><tr><td>Result settle</td><td>280-340ms</td><td>emphasized</td></tr><tr><td>Waiting pulse</td><td>continuous, subtle</td><td>linear/cubic</td></tr></tbody></table>
+<table><thead><tr><th>Motion</th><th>Duration</th><th>Easing</th></tr></thead><tbody><tr><td>Press compression</td><td>120-180ms</td><td>ease out</td></tr><tr><td>Standard route</td><td>220-260ms</td><td>cubic</td></tr><tr><td>Account container transform</td><td>380-440ms</td><td>expressive standard</td></tr><tr><td>Card container transform</td><td>380-440ms</td><td>expressive standard</td></tr><tr><td>Product open</td><td>280-360ms</td><td>expressive standard</td></tr><tr><td>Result settle</td><td>280-340ms</td><td>emphasized</td></tr><tr><td>Waiting pulse</td><td>continuous, subtle</td><td>linear/cubic</td></tr></tbody></table>
 <h2>Account Container Transform</h2>
 <p>Used when opening account details.</p>
 <ol>
 <li>Source compresses.</li>
 <li>Siblings dim.</li>
 <li>Surface lifts.</li>
-<li>Surface expands into header.</li>
+<li>Primary surface expands into the full upper account detail stage.</li>
+<li>Header chrome appears.</li>
+<li>Account text and balance settle.</li>
+<li>Identifiers/actions follow.</li>
 <li>Page content settles.</li>
 </ol>
 <p>The detail page must not show the exact same account card again. The source surface becomes a new header layout so the transition feels like one object opening, not a duplicate card appearing.</p>
+<p>The destination header must use the same <code>bankPrimary</code> surface as the source card. This is a Neptune. Signal rule: account detail is an opened account surface, not a white page with a repeated card. Use opacity, scale, and one vertical axis to communicate continuity. Content should arrive in groups: chrome first, primary account facts next, then secondary actions and lists.</p>
+<p>KMP:</p>
+<ul>
+<li>Use <code>SignalAccountHeader(mode = SignalAccountHeaderMode.DetailStage)</code> for opened account detail headers.</li>
+<li>Use <code>SignalMotion.containerTransformSpec()</code> for shared account opening movement.</li>
+<li>Use <code>SignalMotion.containerChromeSpec()</code> for the top bar/chrome entrance.</li>
+<li>Delay secondary content by <code>SignalMotion.ContainerContentDelayMs</code>.</li>
+</ul>
+<h2>Card Container Transform</h2>
+<p>Used when opening card details.</p>
+<ol>
+<li>Source card compresses.</li>
+<li>Other cards fade back without changing the list into a stacked deck.</li>
+<li>The selected flat card lifts from the list and expands into the full upper card detail stage.</li>
+<li>The destination stage is the opened card surface: same color, scheme mark, last four digits, and signal accent.</li>
+<li>Do not place a second card inside the opened stage. Move the card content into the stage and use a short 3D settle to preserve the object metaphor.</li>
+<li>Balance and live card values load only after the detail screen is open.</li>
+<li>Controls and recent card transactions settle after the card surface lands.</li>
+</ol>
+<p>This follows the same transition principles as account opening: fade irrelevant layers, scale the selected object, keep direction consistent, and reveal detail groups in priority order.</p>
 <h2>Result Motion</h2>
 <p>Waiting:</p>
 <ul>

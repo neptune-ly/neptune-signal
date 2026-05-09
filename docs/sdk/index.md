@@ -60,6 +60,16 @@ fun BankingHome() {
                     onCopyAlias = {}
                 )
 
+                SignalAccountHeader(
+                    accountName = "حساب بالعملة الليبية",
+                    balance = "د.ل 1,000,000",
+                    alias = "mohamed@andalus",
+                    iban = "LY810240010100006712020101",
+                    mode = SignalAccountHeaderMode.DetailStage,
+                    onCopyIban = {},
+                    onCopyAlias = {}
+                )
+
                 SignalButton(
                     label = "تحويل",
                     onClick = {}
@@ -75,19 +85,144 @@ fun BankingHome() {
 Neptune. Signal 0.2.0 exposes Material-compatible roles and banking aliases.
 
 ```kotlin
-val andalusTheme = SignalColorDefaults.whiteLabel(
+val andalusBrand = SignalBrand(
+    key = "andalus",
+    label = "Andalus Bank",
     primary = Color(0xFF07315F),
     secondary = Color(0xFF00A8AE),
-    accent = Color(0xFFEB4E4D),
-    ink = Color(0xFF071C2E),
+    accent = Color(0xFF3BC1EE),
 )
 
-SignalTheme(colors = andalusTheme) {
+SignalTheme(
+    brand = andalusBrand,
+    mode = SignalColorMode.Light
+) {
     BankingHome()
 }
 ```
 
 Use Material role names when mapping into platform primitives, then use Signal component names for banking UI.
+
+For app-wide reuse, keep one configuration object near your app root:
+
+```kotlin
+val signalConfig = SignalThemeConfig(
+    brand = SignalBrandDefaults.Andalus,
+    mode = SignalColorMode.Dark
+)
+
+SignalTheme(config = signalConfig) {
+    BankingApp()
+}
+```
+
+For customer personalization, presets convert into the same configuration model. The app should never fork component styling per screen.
+
+```kotlin
+val selectedPreset = SignalThemePresetDefaults.BankSamples.first { it.key == "ncb" }
+
+SignalTheme(
+    config = selectedPreset.toThemeConfig(mode = SignalColorMode.Black)
+) {
+    BankingApp()
+}
+```
+
+## Appearance and Personalization
+
+Every bank preset must provide light, dark, and black roles. Customer personalization is bounded to approved appearance choices.
+
+```kotlin
+val light = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF07315F),
+    secondary = Color(0xFF00A8AE),
+    accent = Color(0xFFEB4E4D)
+)
+
+val dark = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF6FB8FF),
+    secondary = Color(0xFF4FD5D9),
+    accent = Color(0xFFFFB3AE),
+    dark = true
+)
+
+val black = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF6FB8FF),
+    secondary = Color(0xFF4FD5D9),
+    accent = Color(0xFFFFB3AE),
+    black = true
+)
+
+SignalTheme(colors = when (appearanceMode) {
+    SignalAppearanceMode.Black -> black
+    SignalAppearanceMode.Dark -> dark
+    else -> light
+}) {
+    SignalAppearanceSelector(
+        selectedMode = appearanceMode,
+        onModeSelected = onAppearanceMode
+    )
+
+    SignalThemePresetList(
+        presets = SignalThemePresetDefaults.BankSamples,
+        selectedKey = selectedPreset,
+        onPresetSelected = onPresetSelected
+    )
+}
+```
+
+Do not expose arbitrary unsafe color pickers inside production banking apps. Use approved presets and accent styles with contrast-tested light, dark, and black roles.
+
+Primary buttons, account headers, card detail stages, form focus, selected rows, and receipt states must read from the global Signal theme. Screen code should not hardcode bank colors.
+
+Splash and boot screens use the same token path:
+
+```kotlin
+SignalSplash(
+    title = "Neptune. Signal",
+    subtitle = "Powered by Neptune. Fintech",
+    animated = true
+)
+```
+
+## Motion Mapping
+
+Account details and card details use container transforms instead of hard route cuts.
+
+```kotlin
+SignalMotion.containerTransformSpec()
+SignalMotion.cardContainerTransformSpec()
+SignalMotion.containerChromeSpec()
+```
+
+For cards, keep the selected card background, scheme mark, and masked number consistent between list and detail. Fetch balance and live card activity only after the detail screen is open.
+
+## Identity and Consent Components
+
+OpenWave and NPT Alias use dedicated components so a product does not collapse very different permissions into one generic list.
+
+```kotlin
+SignalConsentOverview(
+    title = "مركز موافقات OpenWave",
+    description = "قراءة بيانات، خصم متكرر، وموافقات دفع فورية",
+    alias = "mohamed@andalus",
+    defaultAccount = "IBAN ending 0101",
+    metrics = listOf(
+        SignalConsentMetric("قراءة بيانات", "2"),
+        SignalConsentMetric("خصم متكرر", "3"),
+        SignalConsentMetric("تحتاج تأكيد", "1")
+    )
+)
+
+SignalConsentCard(
+    title = "Budget Lens",
+    description = "قراءة حسابات وأرصدة وحركات فقط",
+    status = "نشط",
+    kind = SignalConsentKind.DataAccess,
+    tags = listOf(SignalConsentTag("قراءة فقط")),
+    onClick = onOpenConsent
+)
+```
 
 ## Component Copy Model
 
@@ -135,10 +270,21 @@ packages/
 Every SDK component should map to the same standard component:
 
 ```text
+SignalTheme
+SignalThemeConfig
+SignalBrand
+SignalBrandDefaults
+SignalColorMode
+SignalColors
+SignalTypography
+SignalShapes
+SignalDimensions
 SignalButton
 SignalIconButton
 SignalTopBar
 SignalBottomNav
+SignalAppShell
+SignalScreen
 SignalListGroup
 SignalListItem
 SignalListDivider
@@ -147,48 +293,62 @@ SignalTransactionRow
 SignalAccountRow
 SignalAccountSummaryRow
 SignalAccountHeader
+SignalAccountCarousel
+SignalAccountList
+SignalTextField
 SignalAmountField
 SignalIbanField
 SignalValueLine
+SignalCopyGlyph
+SignalShareGlyph
 SignalStatusResult
+SignalStatusMark
+SignalConsentOverview
+SignalConsentCard
 SignalConsentScopeRow
 SignalVoucherTile
+SignalVoucherStore
+SignalVoucherValueSelector
+SignalServiceTile
 SignalCardFace
+SignalCardStack
+SignalCardDetailStage
+SignalAppearanceSelector
+SignalThemePresetList
+SignalActionDock
+SignalQuickActionButton
+SignalShortcutRow
+SignalInsightCard
+SignalMetricStrip
+SignalNotificationBanner
+SignalSectionHeader
+SignalEmptyState
+SignalNotificationRow
+SignalTile
+SignalSegmentedControl
+SignalSplash
+SignalPlanetMark
 ```
 
 ## Implementation Priorities
 
-Phase 1 status:
+KMP 0.2 available:
 
-- Tokens: started.
-- Theme: started.
-- Material-compatible color roles: started.
-- Material-compatible typography roles: started.
-- Surface and state layer tokens: started.
-- Buttons: started.
-- Icon buttons: started.
-- Top app bar: started.
-- Bottom navigation: started.
-- List group: started.
-- List item: started.
-- Banking row: started.
-- Transaction row: started.
-- Account row: started.
-- Account summary row: started.
-- Account header: started.
-- Status result: started.
-- Consent scope row: started.
-- Card face: started.
-- App shell: started.
-- Text field: started.
-- Amount field: started.
-- IBAN field: started.
-- Value line: started.
-- Segmented control: started.
-- Voucher tile: started.
-- Service tile: started.
-- Notification row: started.
-- Empty state: started.
+- Tokens.
+- Theme, brand presets, shapes, dimensions, and appearance modes.
+- Material-compatible color roles and typography roles.
+- Surface and state layer tokens.
+- Buttons and icon buttons.
+- Top app bar, bottom navigation, app shell, and screen container.
+- List group, list item, banking row, transaction row, notification row, and empty state.
+- Account row, account summary row, account header, account carousel, and account list.
+- Card face, card stack, and card detail stage.
+- Text field, amount field, IBAN field, segmented control, value line, copy glyph, and share glyph.
+- Status result and status mark.
+- Consent overview, consent card, and consent scope row.
+- Voucher tile, service tile, voucher store, and voucher value selector.
+- Action dock, shortcut row, quick action button, insight card, metric strip, notification banner.
+- Splash and planet mark.
 
 Phase 2:
 
@@ -196,15 +356,17 @@ Phase 2:
 - Search and select fields.
 - OTP/passcode field.
 - Account request forms.
+- OpenWave detail screen templates.
 - Language selector.
 - Visual regression test fixtures.
+- Generated preview app that renders every KMP component from the SDK module.
 
 Phase 3:
 
-- Full banking patterns.
 - Screen templates.
 - Visual regression tests.
 - Figma component parity.
+- Flutter, SwiftUI, native Android, and web component SDKs.
 
 ## KMP First
 

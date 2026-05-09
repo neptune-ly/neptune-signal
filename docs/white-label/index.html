@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -212,6 +247,8 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Same performance rules.</li>
 <li>Same financial clarity.</li>
 <li>Different bank identity through controlled color, logo, name, and selected brand moments.</li>
+<li>Light, dark, and black appearance modes for every bank preset.</li>
+<li>Customer personalization only inside approved, accessible choices.</li>
 </ul>
 <p>The bank owns the brand layer. Neptune. Signal owns the operating layer.</p>
 <h2>Token Model</h2>
@@ -220,8 +257,10 @@ tr:first-child th,tr:first-child td{border-top:0}
 bank.secondary
 bank.accent
 bank.ink
-bank.surface</code></pre>
-<table><thead><tr><th>Token</th><th>Purpose</th><th>Typical use</th></tr></thead><tbody><tr><td><code>bank.primary</code></td><td>Main bank identity color</td><td>Top hierarchy, primary buttons, active navigation, account hero</td></tr><tr><td><code>bank.secondary</code></td><td>Supporting brand color</td><td>Secondary states, selected chips, small highlights</td></tr><tr><td><code>bank.accent</code></td><td>Signature highlight</td><td>Important brand moments, focus rings, splash, rare emphasis</td></tr><tr><td><code>bank.ink</code></td><td>Text and icon color on light surfaces</td><td>Page titles, dense rows, navigation icons</td></tr><tr><td><code>bank.surface</code></td><td>Optional soft brand-tinted background</td><td>Quiet page backgrounds, panels, disabled states</td></tr></tbody></table>
+bank.surface
+appearance.preference
+appearance.mode</code></pre>
+<table><thead><tr><th>Token</th><th>Purpose</th><th>Typical use</th></tr></thead><tbody><tr><td><code>bank.primary</code></td><td>Main bank identity color</td><td>Top hierarchy, primary buttons, active navigation, account hero</td></tr><tr><td><code>bank.secondary</code></td><td>Supporting brand color</td><td>Secondary states, selected chips, small highlights</td></tr><tr><td><code>bank.accent</code></td><td>Signature highlight</td><td>Important brand moments, focus rings, splash, rare emphasis</td></tr><tr><td><code>bank.ink</code></td><td>Text and icon color on light surfaces</td><td>Page titles, dense rows, navigation icons</td></tr><tr><td><code>bank.surface</code></td><td>Optional soft brand-tinted background</td><td>Quiet page backgrounds, panels, disabled states</td></tr><tr><td><code>appearance.preference</code></td><td>Customer setting</td><td><code>system</code>, <code>light</code>, <code>dark</code>, or <code>black</code></td></tr><tr><td><code>appearance.mode</code></td><td>Resolved rendering mode</td><td><code>light</code>, <code>dark</code>, or explicit <code>black</code></td></tr></tbody></table>
 <p>Neptune. Signal tokens still exist below the bank layer:</p>
 <pre><code class="language-text">--npt-navy
 --npt-teal
@@ -245,6 +284,8 @@ bank.surface</code></pre>
 <li>Card face color palettes.</li>
 <li>Splash brand lockup.</li>
 <li>Marketing artwork inside approved banner surfaces.</li>
+<li>Default customer appearance mode.</li>
+<li>Approved customer accent variants.</li>
 </ul>
 <p>Bank themes must not change:</p>
 <ul>
@@ -257,6 +298,7 @@ bank.surface</code></pre>
 <li>Error, success, and warning color behavior beyond approved semantic adjustment.</li>
 <li>Motion timing model.</li>
 <li>Arabic, English, and French layout support.</li>
+<li>Minimum contrast in dark and black modes.</li>
 </ul>
 <h2>Color Assignment Rules</h2>
 <h3>Primary</h3>
@@ -315,6 +357,31 @@ bank.surface</code></pre>
 <p>Financial status colors are not bank branding.</p>
 <table><thead><tr><th>Semantic</th><th>Default direction</th><th>Rule</th></tr></thead><tbody><tr><td>Success</td><td>Green</td><td>Must remain recognizable as success</td></tr><tr><td>Warning</td><td>Amber</td><td>Must remain recognizable as warning</td></tr><tr><td>Danger</td><td>Red</td><td>Must remain recognizable as danger or risk</td></tr><tr><td>Pending</td><td>Accent or sky</td><td>Must read as waiting, not success</td></tr><tr><td>Disabled</td><td>Neutral gray</td><td>Must read as unavailable</td></tr></tbody></table>
 <p>If a bank&#x27;s primary color is red, danger still needs a separate danger treatment. For example, primary red can be deeper and branded, while danger uses semantic red with error copy, icon, and receipt context.</p>
+<h2>Dark Mode</h2>
+<p>Each bank theme has three palettes:</p>
+<ol>
+<li>Light roles for daytime, branch support, and paper-like banking surfaces.</li>
+<li>Dark roles for night use, low-light environments, and premium secure surfaces.</li>
+<li>Black roles for customers who prefer deeper surfaces while keeping visible containers and bank colors.</li>
+</ol>
+<p>Dark mode rules:</p>
+<ul>
+<li>Never simply invert the light palette.</li>
+<li>Keep dense rows on dark surface containers, not on full primary backgrounds.</li>
+<li>Keep account and card detail headers branded, but preserve readable balance, IBAN, and status text.</li>
+<li>Use softer primary containers for selected navigation and chips.</li>
+<li>Preserve semantic success, warning, danger, and pending colors across all banks.</li>
+<li>Validate Home, Accounts, Card Details, Transfer, Status Result, Voucher Receipt, Notifications, and OpenWave flows in light, dark, and black mode.</li>
+</ul>
+<h2>Customer Personalization</h2>
+<p>Personalization is allowed, but bounded:</p>
+<ul>
+<li>Customer may choose <code>system</code>, <code>light</code>, <code>dark</code>, or <code>black</code>.</li>
+<li>Customer may choose an approved bank color preset when the bank permits it.</li>
+<li>Customer may choose a small approved accent style such as default, ocean, warm, or sky.</li>
+<li>Customer may not change status colors, typography, spacing, shape, transaction hierarchy, or receipt layout.</li>
+</ul>
+<p>This keeps the app personal without becoming inconsistent or unsafe.</p>
 <h2>Contrast Rules</h2>
 <p>Minimum rules:</p>
 <ul>
@@ -349,6 +416,8 @@ bank.surface</code></pre>
 <li>Map success, warning, danger, and pending separately from brand.</li>
 <li>Test Arabic, English, and French labels.</li>
 <li>Test home, accounts, card details, transfer, status result, voucher receipt, and OpenWave consent.</li>
+<li>Test every preset in light, dark, and black mode.</li>
+<li>Test customer accent choices against the same screens.</li>
 </ol>
 <h2>KMP Example</h2>
 <pre><code class="language-kotlin">val redWhiteTheme = SignalColorDefaults.whiteLabel(
@@ -359,6 +428,17 @@ bank.surface</code></pre>
 )
 
 SignalTheme(colors = redWhiteTheme) {
+    BankApp()
+}
+
+val redWhiteDark = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFFA71930),
+    secondary = Color(0xFFEAF2F4),
+    accent = Color(0xFFFFB3AE),
+    dark = true
+)
+
+SignalTheme(colors = redWhiteDark) {
     BankApp()
 }</code></pre>
 <h2>CSS Example</h2>

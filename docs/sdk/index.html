@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -246,6 +281,16 @@ fun BankingHome() {
                     onCopyAlias = {}
                 )
 
+                SignalAccountHeader(
+                    accountName = &quot;حساب بالعملة الليبية&quot;,
+                    balance = &quot;د.ل 1,000,000&quot;,
+                    alias = &quot;mohamed@andalus&quot;,
+                    iban = &quot;LY810240010100006712020101&quot;,
+                    mode = SignalAccountHeaderMode.DetailStage,
+                    onCopyIban = {},
+                    onCopyAlias = {}
+                )
+
                 SignalButton(
                     label = &quot;تحويل&quot;,
                     onClick = {}
@@ -256,17 +301,112 @@ fun BankingHome() {
 }</code></pre>
 <h2>Material-Compatible Theme</h2>
 <p>Neptune. Signal 0.2.0 exposes Material-compatible roles and banking aliases.</p>
-<pre><code class="language-kotlin">val andalusTheme = SignalColorDefaults.whiteLabel(
+<pre><code class="language-kotlin">val andalusBrand = SignalBrand(
+    key = &quot;andalus&quot;,
+    label = &quot;Andalus Bank&quot;,
     primary = Color(0xFF07315F),
     secondary = Color(0xFF00A8AE),
-    accent = Color(0xFFEB4E4D),
-    ink = Color(0xFF071C2E),
+    accent = Color(0xFF3BC1EE),
 )
 
-SignalTheme(colors = andalusTheme) {
+SignalTheme(
+    brand = andalusBrand,
+    mode = SignalColorMode.Light
+) {
     BankingHome()
 }</code></pre>
 <p>Use Material role names when mapping into platform primitives, then use Signal component names for banking UI.</p>
+<p>For app-wide reuse, keep one configuration object near your app root:</p>
+<pre><code class="language-kotlin">val signalConfig = SignalThemeConfig(
+    brand = SignalBrandDefaults.Andalus,
+    mode = SignalColorMode.Dark
+)
+
+SignalTheme(config = signalConfig) {
+    BankingApp()
+}</code></pre>
+<p>For customer personalization, presets convert into the same configuration model. The app should never fork component styling per screen.</p>
+<pre><code class="language-kotlin">val selectedPreset = SignalThemePresetDefaults.BankSamples.first { it.key == &quot;ncb&quot; }
+
+SignalTheme(
+    config = selectedPreset.toThemeConfig(mode = SignalColorMode.Black)
+) {
+    BankingApp()
+}</code></pre>
+<h2>Appearance and Personalization</h2>
+<p>Every bank preset must provide light, dark, and black roles. Customer personalization is bounded to approved appearance choices.</p>
+<pre><code class="language-kotlin">val light = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF07315F),
+    secondary = Color(0xFF00A8AE),
+    accent = Color(0xFFEB4E4D)
+)
+
+val dark = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF6FB8FF),
+    secondary = Color(0xFF4FD5D9),
+    accent = Color(0xFFFFB3AE),
+    dark = true
+)
+
+val black = SignalColorDefaults.whiteLabel(
+    primary = Color(0xFF6FB8FF),
+    secondary = Color(0xFF4FD5D9),
+    accent = Color(0xFFFFB3AE),
+    black = true
+)
+
+SignalTheme(colors = when (appearanceMode) {
+    SignalAppearanceMode.Black -&gt; black
+    SignalAppearanceMode.Dark -&gt; dark
+    else -&gt; light
+}) {
+    SignalAppearanceSelector(
+        selectedMode = appearanceMode,
+        onModeSelected = onAppearanceMode
+    )
+
+    SignalThemePresetList(
+        presets = SignalThemePresetDefaults.BankSamples,
+        selectedKey = selectedPreset,
+        onPresetSelected = onPresetSelected
+    )
+}</code></pre>
+<p>Do not expose arbitrary unsafe color pickers inside production banking apps. Use approved presets and accent styles with contrast-tested light, dark, and black roles.</p>
+<p>Primary buttons, account headers, card detail stages, form focus, selected rows, and receipt states must read from the global Signal theme. Screen code should not hardcode bank colors.</p>
+<p>Splash and boot screens use the same token path:</p>
+<pre><code class="language-kotlin">SignalSplash(
+    title = &quot;Neptune. Signal&quot;,
+    subtitle = &quot;Powered by Neptune. Fintech&quot;,
+    animated = true
+)</code></pre>
+<h2>Motion Mapping</h2>
+<p>Account details and card details use container transforms instead of hard route cuts.</p>
+<pre><code class="language-kotlin">SignalMotion.containerTransformSpec()
+SignalMotion.cardContainerTransformSpec()
+SignalMotion.containerChromeSpec()</code></pre>
+<p>For cards, keep the selected card background, scheme mark, and masked number consistent between list and detail. Fetch balance and live card activity only after the detail screen is open.</p>
+<h2>Identity and Consent Components</h2>
+<p>OpenWave and NPT Alias use dedicated components so a product does not collapse very different permissions into one generic list.</p>
+<pre><code class="language-kotlin">SignalConsentOverview(
+    title = &quot;مركز موافقات OpenWave&quot;,
+    description = &quot;قراءة بيانات، خصم متكرر، وموافقات دفع فورية&quot;,
+    alias = &quot;mohamed@andalus&quot;,
+    defaultAccount = &quot;IBAN ending 0101&quot;,
+    metrics = listOf(
+        SignalConsentMetric(&quot;قراءة بيانات&quot;, &quot;2&quot;),
+        SignalConsentMetric(&quot;خصم متكرر&quot;, &quot;3&quot;),
+        SignalConsentMetric(&quot;تحتاج تأكيد&quot;, &quot;1&quot;)
+    )
+)
+
+SignalConsentCard(
+    title = &quot;Budget Lens&quot;,
+    description = &quot;قراءة حسابات وأرصدة وحركات فقط&quot;,
+    status = &quot;نشط&quot;,
+    kind = SignalConsentKind.DataAccess,
+    tags = listOf(SignalConsentTag(&quot;قراءة فقط&quot;)),
+    onClick = onOpenConsent
+)</code></pre>
 <h2>Component Copy Model</h2>
 <p>Every component page should provide:</p>
 <ul>
@@ -298,10 +438,21 @@ Web SDK planned</code></pre>
   web/                Planned React/Web Components</code></pre>
 <h2>Shared Contract</h2>
 <p>Every SDK component should map to the same standard component:</p>
-<pre><code class="language-text">SignalButton
+<pre><code class="language-text">SignalTheme
+SignalThemeConfig
+SignalBrand
+SignalBrandDefaults
+SignalColorMode
+SignalColors
+SignalTypography
+SignalShapes
+SignalDimensions
+SignalButton
 SignalIconButton
 SignalTopBar
 SignalBottomNav
+SignalAppShell
+SignalScreen
 SignalListGroup
 SignalListItem
 SignalListDivider
@@ -310,45 +461,59 @@ SignalTransactionRow
 SignalAccountRow
 SignalAccountSummaryRow
 SignalAccountHeader
+SignalAccountCarousel
+SignalAccountList
+SignalTextField
 SignalAmountField
 SignalIbanField
 SignalValueLine
+SignalCopyGlyph
+SignalShareGlyph
 SignalStatusResult
+SignalStatusMark
+SignalConsentOverview
+SignalConsentCard
 SignalConsentScopeRow
 SignalVoucherTile
-SignalCardFace</code></pre>
+SignalVoucherStore
+SignalVoucherValueSelector
+SignalServiceTile
+SignalCardFace
+SignalCardStack
+SignalCardDetailStage
+SignalAppearanceSelector
+SignalThemePresetList
+SignalActionDock
+SignalQuickActionButton
+SignalShortcutRow
+SignalInsightCard
+SignalMetricStrip
+SignalNotificationBanner
+SignalSectionHeader
+SignalEmptyState
+SignalNotificationRow
+SignalTile
+SignalSegmentedControl
+SignalSplash
+SignalPlanetMark</code></pre>
 <h2>Implementation Priorities</h2>
-<p>Phase 1 status:</p>
+<p>KMP 0.2 available:</p>
 <ul>
-<li>Tokens: started.</li>
-<li>Theme: started.</li>
-<li>Material-compatible color roles: started.</li>
-<li>Material-compatible typography roles: started.</li>
-<li>Surface and state layer tokens: started.</li>
-<li>Buttons: started.</li>
-<li>Icon buttons: started.</li>
-<li>Top app bar: started.</li>
-<li>Bottom navigation: started.</li>
-<li>List group: started.</li>
-<li>List item: started.</li>
-<li>Banking row: started.</li>
-<li>Transaction row: started.</li>
-<li>Account row: started.</li>
-<li>Account summary row: started.</li>
-<li>Account header: started.</li>
-<li>Status result: started.</li>
-<li>Consent scope row: started.</li>
-<li>Card face: started.</li>
-<li>App shell: started.</li>
-<li>Text field: started.</li>
-<li>Amount field: started.</li>
-<li>IBAN field: started.</li>
-<li>Value line: started.</li>
-<li>Segmented control: started.</li>
-<li>Voucher tile: started.</li>
-<li>Service tile: started.</li>
-<li>Notification row: started.</li>
-<li>Empty state: started.</li>
+<li>Tokens.</li>
+<li>Theme, brand presets, shapes, dimensions, and appearance modes.</li>
+<li>Material-compatible color roles and typography roles.</li>
+<li>Surface and state layer tokens.</li>
+<li>Buttons and icon buttons.</li>
+<li>Top app bar, bottom navigation, app shell, and screen container.</li>
+<li>List group, list item, banking row, transaction row, notification row, and empty state.</li>
+<li>Account row, account summary row, account header, account carousel, and account list.</li>
+<li>Card face, card stack, and card detail stage.</li>
+<li>Text field, amount field, IBAN field, segmented control, value line, copy glyph, and share glyph.</li>
+<li>Status result and status mark.</li>
+<li>Consent overview, consent card, and consent scope row.</li>
+<li>Voucher tile, service tile, voucher store, and voucher value selector.</li>
+<li>Action dock, shortcut row, quick action button, insight card, metric strip, notification banner.</li>
+<li>Splash and planet mark.</li>
 </ul>
 <p>Phase 2:</p>
 <ul>
@@ -356,15 +521,17 @@ SignalCardFace</code></pre>
 <li>Search and select fields.</li>
 <li>OTP/passcode field.</li>
 <li>Account request forms.</li>
+<li>OpenWave detail screen templates.</li>
 <li>Language selector.</li>
 <li>Visual regression test fixtures.</li>
+<li>Generated preview app that renders every KMP component from the SDK module.</li>
 </ul>
 <p>Phase 3:</p>
 <ul>
-<li>Full banking patterns.</li>
 <li>Screen templates.</li>
 <li>Visual regression tests.</li>
 <li>Figma component parity.</li>
+<li>Flutter, SwiftUI, native Android, and web component SDKs.</li>
 </ul>
 <h2>KMP First</h2>
 <p>KMP is the first supported SDK because Neptune. products can share logic and UI across Android, iOS, and desktop where appropriate.</p>

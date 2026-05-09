@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -215,6 +250,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 </ul>
 <h2>Open Banking Consent</h2>
 <p>Open Banking consent is read access.</p>
+<p>The OpenWave landing page is a hub list. It should not expose every consent, metric, and mandate in one screen. Each object type opens its own page.</p>
 <p>Show:</p>
 <ul>
 <li>Provider.</li>
@@ -224,6 +260,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Expiry.</li>
 <li>Revoke/update actions.</li>
 </ul>
+<p>Do not mix Open Banking consent with payment mandates. The customer must understand that this object can read approved data only and cannot move money. Use read-only tags, scope rows, last-used time, expiry, and the exact consent reference.</p>
 <h2>Recurring Payment Subscription</h2>
 <p>Recurring payment consent is a payment mandate.</p>
 <p>Show:</p>
@@ -236,6 +273,7 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Mandate ID.</li>
 <li>Cancel/change limit actions.</li>
 </ul>
+<p>Recurring payments must look like controlled debit rules, not generic subscriptions. Always show the maximum amount, frequency, funding account, next charge, mandate ID, and cancel/change limit actions on the detail page. In lists, use semantic compact labels and clear payment tags.</p>
 <h2>One-Time Approval</h2>
 <p>One-time approval is a specific transaction request.</p>
 <p>Show:</p>
@@ -247,7 +285,8 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Expiry.</li>
 <li>Risk signal.</li>
 <li>Approve and decline actions.</li>
-</ul></div>
+</ul>
+<p>One-time approvals should look like a decision screen. The amount, merchant, alias, funding account, expiry, and request reference must be visible before the approve button. Approval requires the same sensitive-action treatment as transfers: passkey or biometric confirmation when available.</p></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

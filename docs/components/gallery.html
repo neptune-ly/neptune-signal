@@ -88,6 +88,13 @@
     .mark svg{width:23px;height:23px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
     .row-title{color:var(--ink);font-size:15px;font-weight:950}.row-sub{margin-top:3px;color:var(--muted);font-size:13px;font-weight:750}
     .amount{color:#078565;font-weight:950}.amount.out{color:var(--coral)}
+    .consent-preview{display:grid;gap:12px}
+    .consent-hero{display:grid;gap:10px;padding:16px;border-radius:24px;background:#EAF4F5;border:1px solid var(--line)}
+    .consent-alias{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:16px;color:var(--navy);font-weight:950}
+    .consent-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .consent-metrics div{padding:10px;background:#fff;border:1px solid var(--line);border-radius:16px}.consent-metrics span{display:block;color:var(--muted);font-size:11px;font-weight:850}.consent-metrics b{display:block;margin-top:4px;color:var(--navy);font-size:18px}
+    .consent-row{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:14px;background:#fff;border:1px solid var(--line);border-radius:18px}
+    .consent-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.consent-tags span{padding:5px 8px;color:var(--navy);background:var(--soft);border-radius:999px;font-size:11px;font-weight:900}.consent-tags span.pay{color:#074447;background:#D8F6F7}.consent-tags span.warn{color:#8A570F;background:#FFF4E1}
     .status-card{padding:26px;background:#fff;border:1px solid var(--line);border-radius:28px;text-align:center}
     .status-mark{width:110px;height:110px;margin:0 auto 18px;display:grid;place-items:center;border-radius:50%;background:#0E976F;color:#fff;box-shadow:0 0 0 20px rgba(14,151,111,.12)}
     .status-mark svg{width:54px;height:54px;stroke:currentColor;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -98,11 +105,47 @@
     .tile{min-height:132px;padding:16px;border:1px solid var(--line);border-radius:22px;background:#fff;display:grid;align-content:space-between}
     .tile .brand{color:var(--navy);font-size:17px;font-weight:950}.tile .type{color:var(--muted);font-size:13px;font-weight:800}
     .tile .price{color:var(--teal);font-size:18px;font-weight:950}
-    .segment{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px;background:var(--soft);border:1px solid var(--line);border-radius:20px}
+    .segment{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:6px;background:var(--soft);border:1px solid var(--line);border-radius:20px}
     .segment button{height:42px;border:0;border-radius:15px;background:transparent;color:var(--muted);font-weight:950}.segment button.active{color:var(--navy);background:#fff;box-shadow:0 8px 24px rgba(26,51,94,.08)}
+    .swatches{display:flex;align-items:center;gap:0}
+    .swatch{width:22px;height:22px;display:block;border:1px solid var(--line);border-radius:50%;margin-left:-5px}
+    .splash-mark{width:174px;height:174px;margin:auto;position:relative;display:grid;place-items:center}
+    .splash-mark:before,.splash-mark:after{content:"";position:absolute;border:1.5px solid rgba(0,168,174,.28);border-radius:50%;transform:scaleX(1.7) rotate(-14deg)}
+    .splash-mark:before{width:120px;height:54px}.splash-mark:after{width:156px;height:70px}
+    .planet{width:68px;height:68px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 22px rgba(235,78,77,.12), inset 0 0 0 2px rgba(255,255,255,.26)}
+    .moon{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--coral);top:52px;right:18px}
+    .moon.small{width:13px;height:13px;background:var(--teal);left:24px;bottom:48px;top:auto;right:auto}
+    .moon.tiny{width:10px;height:10px;background:var(--navy);right:36px;bottom:32px;top:auto}
+    .account-list{display:grid;gap:10px}
+    .account-row{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:12px;background:#fff;border:1px solid var(--line);border-radius:18px}
+    .account-row .small-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:var(--soft);color:var(--navy)}
+    .stage-card{padding:20px;border-radius:28px;background:#101820;color:#fff;box-shadow:0 24px 70px rgba(16,24,32,.18)}
+    .stage-card.visa{background:#173F8F}.stage-card.numo{background:#006D72}
+    .card-strip{display:grid;gap:12px}.flat-card{height:154px;padding:18px;border-radius:26px;color:#fff;display:grid;align-content:space-between;background:#101820;box-shadow:0 18px 44px rgba(7,28,46,.16)}
+    .flat-card.visa{background:#173F8F}.flat-card.numo{background:#006D72}.flat-card b{color:#fff}.flat-card span{color:rgba(255,255,255,.78);font-weight:850}
+    .action-dock{padding:14px;border:1px solid var(--line);border-radius:26px;background:#EAF4F5;display:grid;gap:12px}
+    .shortcut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.shortcut{height:82px;display:grid;place-items:center;gap:8px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--navy);font-weight:950}
+    .insight{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:14px;border:1px solid rgba(235,78,77,.28);border-radius:18px;background:rgba(235,78,77,.08)}
+    .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.category{height:54px;display:grid;place-items:center;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--navy);font-weight:950}.category.active{border-color:var(--teal);background:#D8F6F7;color:#06494C}
+    .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.product-card{min-height:124px;padding:14px;border:1px solid var(--line);border-radius:22px;background:#fff;display:grid;align-content:space-between}.product-card b{color:var(--navy)}.product-card span{color:var(--muted);font-size:13px;font-weight:800}.product-card strong{color:var(--teal)}
+    .metric-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{padding:10px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}.metric span{display:block;color:rgba(255,255,255,.72);font-size:11px;font-weight:850}.metric b{display:block;color:#fff;margin-top:4px}
     .footer-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
     .doc-btn{min-height:42px;display:inline-grid;place-items:center;padding:0 16px;color:#fff;background:var(--navy);border-radius:999px;text-decoration:none;font-weight:950}
     .doc-btn.secondary{color:var(--navy);background:var(--soft)}
+    @media(prefers-color-scheme:dark){
+      :root{--paper:#071217;--ink:#EEF7F8;--muted:#9DB1B8;--line:#263F48;--soft:#142832;--code:#050D12}
+      body{background:#071217}
+      aside,.component,.phone-card,.status-card,.tile,.bank-row,.input,.value-line,.consent-row,.consent-metrics div,.consent-alias{background:#09181E;border-color:var(--line)}
+      .account-row,.shortcut,.category,.product-card{background:#09181E;border-color:var(--line)}
+      .action-dock,.consent-hero{background:#0E1E25}
+      .category.active{background:#063D41;color:#D9FAFB}
+      .preview{background:linear-gradient(180deg,#071217 0%,#0E1E25 100%);border-color:var(--line)}
+      h1,h2,h3,.row-title,.field label,.value-line b,.receipt strong,.tile .brand,.nav-item.active,.btn.secondary,.doc-btn.secondary{color:#EEF7F8}
+      .chip,.status-pill.neutral,.mark,.icon-btn,.nav-item.active,.btn.secondary,.doc-btn.secondary{background:#142832;border-color:var(--line);color:#EEF7F8}
+      .bottom-nav{background:#09181E;border-color:var(--line)}
+      .account{background:#0B3766}
+      pre,.copybar{background:#050D12}
+    }
     @media(max-width:980px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}.content{padding:32px 18px}.component{grid-template-columns:1fr}.preview{border-right:0;border-bottom:1px solid var(--line)}h1{font-size:42px}}
   </style>
 </head>
@@ -185,6 +228,85 @@ SignalTheme(colors = bankTheme) {
             </div>
           </section>
 
+          <section class="component" id="personalization">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:14px">
+                <div class="segment">
+                  <button>System</button>
+                  <button>Light</button>
+                  <button class="active">Dark</button>
+                  <button>Black</button>
+                </div>
+                <div class="value-line"><span><b>Neptune Core</b><span class="value">Navy, teal, coral. Light, dark, and black ready.</span></span><span class="swatches"><i class="swatch" style="background:#07315F"></i><i class="swatch" style="background:#00A8AE"></i><i class="swatch" style="background:#EB4E4D"></i></span></div>
+                <div class="value-line"><span><b>ATIB Red</b><span class="value">Red identity, protected status colors.</span></span><span class="swatches"><i class="swatch" style="background:#981B1E"></i><i class="swatch" style="background:#FFFFFF"></i><i class="swatch" style="background:#D7282F"></i></span></div>
+                <div class="value-line"><span><b>NCB Green</b><span class="value">Green public banking preset.</span></span><span class="swatches"><i class="swatch" style="background:#0B5A3A"></i><i class="swatch" style="background:#35B56F"></i><i class="swatch" style="background:#D6B15B"></i></span></div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Personalization</h2>
+              <p>Customer appearance controls for system, light, dark, black, bank presets, and approved accent styles. It supports personalization without breaking banking hierarchy or status meaning.</p>
+              <div class="meta"><span class="chip">Dark mode</span><span class="chip">Bank presets</span><span class="chip">Customer safe</span></div>
+              <ul class="rules">
+                <li>Every preset must include light, dark, and black roles.</li>
+                <li>Customer accents are approved choices, not arbitrary unsafe colors.</li>
+                <li>Status colors, typography, spacing, and receipt hierarchy do not change.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-personalization">Copy code</button></div>
+<pre><code id="code-personalization">SignalAppearanceSelector(
+    selectedMode = SignalAppearanceMode.System,
+    onModeSelected = onModeSelected
+)
+
+SignalThemePresetList(
+    presets = SignalThemePresetDefaults.BankSamples,
+    selectedKey = selectedPreset,
+    onPresetSelected = onPresetSelected
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="component" id="splash">
+            <div class="preview">
+              <div class="phone-card" style="text-align:center;display:grid;gap:18px">
+                <div class="splash-mark" aria-label="Neptune. Signal planet mark">
+                  <div class="planet"></div>
+                  <div class="moon"></div>
+                  <div class="moon small"></div>
+                  <div class="moon tiny"></div>
+                </div>
+                <div>
+                  <h3>Neptune. Signal</h3>
+                  <p>Powered by Neptune. Fintech</p>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Splash and Planet Mark</h2>
+              <p>Boot surface for Neptune. Signal apps. The mark is token-driven and drawn in Compose, so it does not require Lottie, video, or heavy assets.</p>
+              <div class="meta"><span class="chip">Boot</span><span class="chip">Motion</span><span class="chip">Brand mark</span></div>
+              <ul class="rules">
+                <li>Use for short app boot only, then transition into the shell.</li>
+                <li>Respect reduced motion by setting `animated = false` from app state.</li>
+                <li>The title always writes `Neptune.` with the dot.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-splash">Copy code</button></div>
+<pre><code id="code-splash">SignalSplash(
+    title = "Neptune. Signal",
+    subtitle = "Powered by Neptune. Fintech",
+    animated = !reducedMotion
+)
+
+SignalPlanetMark(
+    progress = orbitProgress,
+    pulse = pulseProgress
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
           <section class="component" id="app-shell">
             <div class="preview">
               <div class="phone-card">
@@ -211,7 +333,7 @@ SignalTheme(colors = bankTheme) {
             <div class="spec">
               <h2>App Shell</h2>
               <p>Stable banking structure with top app bar, scroll content, safe areas, and persistent bottom navigation.</p>
-              <div class="meta"><span class="chip">KMP started</span><span class="chip">RTL ready</span><span class="chip">Safe areas</span></div>
+              <div class="meta"><span class="chip">KMP available</span><span class="chip">RTL ready</span><span class="chip">Safe areas</span></div>
               <ul class="rules">
                 <li>Bottom navigation remains visible across nested pages.</li>
                 <li>Root active state does not change when opening details.</li>
@@ -394,6 +516,287 @@ SignalValueLine(
             </div>
           </section>
 
+          <section class="component" id="account-patterns">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:14px">
+                <div class="account">
+                  <div class="row"><span class="label">حساب بالعملة الليبية</span><span class="label">1 / 3</span></div>
+                  <div class="balance">د.ل 1,000,000</div>
+                  <div class="ids">IBAN: LY81 0240 0101 0000 6712 0201 01</div>
+                </div>
+                <div class="account-list">
+                  <div class="account-row">
+                    <div class="small-mark"><svg viewBox="0 0 24 24" width="20" height="20"><rect x="5" y="5" width="14" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                    <div><div class="row-title">الحساب الجاري</div><div class="row-sub">جاري · نشط · IBAN ending 0101</div></div>
+                    <div class="amount">1,000,000 د.ل</div>
+                  </div>
+                  <div class="account-row">
+                    <div class="small-mark"><svg viewBox="0 0 24 24" width="20" height="20"><rect x="5" y="5" width="14" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                    <div><div class="row-title">حساب التوفير</div><div class="row-sub">توفير · نشط · IBAN ending 4421</div></div>
+                    <div class="amount">42,850 د.ل</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Account Patterns</h2>
+              <p>Reusable account carousel, opened account header, and account list. Compact rows use semantic identifiers, while detail headers show full grouped values.</p>
+              <div class="meta"><span class="chip">Carousel</span><span class="chip">List</span><span class="chip">Detail stage</span></div>
+              <ul class="rules">
+                <li>Home may use a carousel, but the accounts page should show all accounts as a clear list.</li>
+                <li>Account detail uses `DetailStage` so the opened surface carries the selected account color forward.</li>
+                <li>Copy/share actions belong beside the exact IBAN or alias value.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-account-patterns">Copy code</button></div>
+<pre><code id="code-account-patterns">SignalAccountCarousel(
+    accounts = accounts,
+    selectedIndex = selectedAccountIndex,
+    onSelectedIndexChange = onSelectedAccountIndexChange,
+    masked = masked,
+    onOpenDetails = onOpenAccount
+)
+
+SignalAccountList(
+    accounts = accounts,
+    masked = masked,
+    onAccountClick = onOpenAccount
+)
+
+SignalAccountHeader(
+    accountName = "حساب بالعملة الليبية",
+    balance = "د.ل 1,000,000",
+    iban = "LY810240010100006712020101",
+    alias = "mohamed@andalus",
+    mode = SignalAccountHeaderMode.DetailStage,
+    onCopyIban = onCopyIban,
+    onCopyAlias = onCopyAlias
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="component" id="card-patterns">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:16px">
+                <div class="card-strip">
+                  <div class="flat-card">
+                    <b>Mastercard</b>
+                    <span>•••• 4821</span>
+                    <span>MOHAMED TELLESY</span>
+                  </div>
+                  <div class="flat-card visa">
+                    <b>Visa</b>
+                    <span>•••• 1108</span>
+                    <span>MOHAMED TELLESY</span>
+                  </div>
+                </div>
+                <div class="stage-card">
+                  <div style="display:flex;justify-content:space-between;gap:12px"><b>Mastercard</b><span>•••• 4821</span></div>
+                  <div style="height:22px"></div>
+                  <div class="metric-strip">
+                    <div class="metric"><span>Balance</span><b>After open</b></div>
+                    <div class="metric"><span>Limit</span><b>After open</b></div>
+                    <div class="metric"><span>Status</span><b>Active</b></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Card Patterns</h2>
+              <p>Flat card list plus opened card detail stage. The detail page carries the selected card background forward, then loads balance, limits, and recent card transactions.</p>
+              <div class="meta"><span class="chip">Card stack</span><span class="chip">Container transform</span><span class="chip">Performance</span></div>
+              <ul class="rules">
+                <li>Card list never fetches balance or live limits.</li>
+                <li>Card detail stage uses the selected card color and content color.</li>
+                <li>Use card container transform motion for open/close.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-card-patterns">Copy code</button></div>
+<pre><code id="code-card-patterns">SignalCardStack(
+    cards = cards,
+    onCardClick = onOpenCard
+)
+
+SignalCardDetailStage(
+    card = selectedCard,
+    metrics = listOf(
+        SignalMetric("Balance", "Fetched"),
+        SignalMetric("Limit", "Fetched"),
+        SignalMetric("Status", "Active")
+    )
+) {
+    SignalTransactionRow(
+        title = "Card purchase",
+        metadata = "POS-9031 · Today 14:20",
+        amount = "-42 د.ل"
+    )
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="component" id="action-patterns">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:14px">
+                <div class="action-dock">
+                  <button class="btn">تحويل</button>
+                  <div class="shortcut-grid">
+                    <div class="shortcut">QR</div>
+                    <div class="shortcut">قسائم</div>
+                    <div class="shortcut">خدمات</div>
+                  </div>
+                </div>
+                <div class="insight">
+                  <div class="mark"><svg viewBox="0 0 24 24"><path d="M4 19V5M9 19v-8M14 19v-5M19 19V8" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <div><div class="row-title">مصاريفك أعلى بـ 12%</div><div class="row-sub">أغلب الزيادة من البطاقات والخدمات.</div></div>
+                  <span class="status-pill neutral">تفاصيل</span>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Action Dock and Insight</h2>
+              <p>Home action system for one primary task plus compact shortcuts and one useful customer insight. This keeps the first screen clear without hiding important actions.</p>
+              <div class="meta"><span class="chip">Home actions</span><span class="chip">Shortcuts</span><span class="chip">Insights</span></div>
+              <ul class="rules">
+                <li>One primary action per dock.</li>
+                <li>Shortcuts use stable equal cells and centered icons.</li>
+                <li>Insights are compact and link to a full analytics page.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-action-patterns">Copy code</button></div>
+<pre><code id="code-action-patterns">SignalActionDock(
+    primaryLabel = "تحويل",
+    onPrimaryClick = onTransfer,
+    actions = listOf(
+        SignalQuickAction("qr", "QR", onReceiveQr),
+        SignalQuickAction("vouchers", "قسائم", onVouchers),
+        SignalQuickAction("services", "خدمات", onServices)
+    )
+)
+
+SignalInsightCard(
+    title = "مصاريفك أعلى بـ 12%",
+    message = "أغلب الزيادة من البطاقات والخدمات.",
+    tone = SignalRowTone.Accent,
+    onClick = onOpenAnalytics
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="component" id="voucher-store">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:14px">
+                <div class="category-grid">
+                  <div class="category active">Internet</div>
+                  <div class="category">Mobile</div>
+                  <div class="category">Gaming</div>
+                </div>
+                <div class="product-grid">
+                  <div class="product-card"><div><b>LTT</b><br><span>ISP voucher</span></div><strong>from 50 د.ل</strong></div>
+                  <div class="product-card"><div><b>Connect</b><br><span>Home internet</span></div><strong>from 30 د.ل</strong></div>
+                  <div class="product-card"><div><b>Libyana</b><br><span>Mobile top up</span></div><strong>from 5 د.ل</strong></div>
+                  <div class="product-card"><div><b>Presto</b><br><span>Wallet load</span></div><strong>from 20 د.ل</strong></div>
+                </div>
+                <div class="segment">
+                  <button>10</button>
+                  <button class="active">20</button>
+                  <button>50</button>
+                  <button>100</button>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Voucher Store</h2>
+              <p>Categorized store pattern for gift cards, ISP vouchers, telecom top up, gaming, wallet load, and services. Product selection and value selection are separate so the page stays scannable.</p>
+              <div class="meta"><span class="chip">Store</span><span class="chip">Categories</span><span class="chip">Value selector</span></div>
+              <ul class="rules">
+                <li>Do not put history, saved products, and purchase form into the same surface.</li>
+                <li>Use category strip first, product grid second, value selector on product detail.</li>
+                <li>Receipt must show voucher PIN and serial as separate copyable values.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-voucher-store">Copy code</button></div>
+<pre><code id="code-voucher-store">SignalVoucherStore(
+    categories = categories,
+    products = products,
+    selectedCategoryKey = selectedCategoryKey,
+    onCategorySelected = onCategorySelected,
+    onProductSelected = onProductSelected
+)
+
+SignalVoucherValueSelector(
+    values = listOf("10 د.ل", "20 د.ل", "50 د.ل", "100 د.ل"),
+    selectedValue = selectedValue,
+    onValueSelected = onValueSelected
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="component" id="identity-consent">
+            <div class="preview">
+              <div class="phone-card consent-preview">
+                <div class="consent-hero">
+                  <h3>مركز موافقات OpenWave</h3>
+                  <div class="consent-alias"><span>NPT Alias</span><span>mohamed@andalus</span></div>
+                  <div class="consent-metrics">
+                    <div><span>قراءة بيانات</span><b>2</b></div>
+                    <div><span>خصم متكرر</span><b>3</b></div>
+                    <div><span>تحتاج تأكيد</span><b>1</b></div>
+                  </div>
+                </div>
+                <div class="consent-row">
+                  <div class="mark"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg></div>
+                  <div><div class="row-title">Budget Lens</div><div class="row-sub">قراءة حسابات وأرصدة وحركات فقط</div><div class="consent-tags"><span>قراءة فقط</span><span>آخر استخدام 08:14</span></div></div>
+                  <span class="status-pill">نشط</span>
+                </div>
+                <div class="consent-row">
+                  <div class="mark"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13-6"/><path d="M16 2v5h5"/><path d="M20 12a8 8 0 0 1-13 6"/><path d="M8 22v-5H3"/></svg></div>
+                  <div><div class="row-title">Tripoli Transit</div><div class="row-sub">شحن محفظة شهري بحد 100 د.ل</div><div class="consent-tags"><span class="pay">شهري</span><span class="pay">100 د.ل</span></div></div>
+                  <span class="status-pill">نشط</span>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Identity and Consent</h2>
+              <p>OpenWave and NPT Alias patterns distinguish customer identity, read-only data access, recurring payment mandates, and one-time approvals.</p>
+              <div class="meta"><span class="chip">NPT Alias</span><span class="chip">OpenWave</span><span class="chip">Consent scope</span></div>
+              <ul class="rules">
+                <li>Data access and payment mandates are separate objects.</li>
+                <li>One-time approvals show amount, merchant, alias, account, expiry, and reference before approval.</li>
+                <li>Consent and mandate IDs are critical values and never use vague truncation.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-consent">Copy code</button></div>
+                <pre><code id="code-consent">SignalConsentOverview(
+    title = "مركز موافقات OpenWave",
+    description = "قراءة بيانات، خصم متكرر، وموافقات دفع فورية",
+    alias = "mohamed@andalus",
+    defaultAccount = "IBAN ending 0101",
+    metrics = listOf(
+        SignalConsentMetric("قراءة بيانات", "2"),
+        SignalConsentMetric("خصم متكرر", "3"),
+        SignalConsentMetric("تحتاج تأكيد", "1")
+    )
+)
+
+SignalConsentCard(
+    title = "Tripoli Transit",
+    description = "شحن محفظة شهري بحد أقصى 100 د.ل",
+    status = "نشط",
+    kind = SignalConsentKind.RecurringPayment,
+    tags = listOf(
+        SignalConsentTag("شهري", SignalConsentKind.RecurringPayment),
+        SignalConsentTag("100 د.ل", SignalConsentKind.RecurringPayment)
+    ),
+    onClick = onOpenMandate
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
           <section class="component" id="status-result">
             <div class="preview">
               <div class="status-card">
@@ -506,6 +909,63 @@ SignalServiceTile(
     ),
     selectedKey = selectedMode,
     onSelected = onModeSelected
+)</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="component" id="feedback-states">
+            <div class="preview">
+              <div class="phone-card" style="display:grid;gap:12px">
+                <div class="bank-row">
+                  <div class="mark"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 21h4" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+                  <div><div class="row-title">تم قبول طلب البطاقة</div><div class="row-sub">اضغط لمعرفة مكان الاستلام</div></div>
+                  <span class="status-pill">جديد</span>
+                </div>
+                <div class="consent-hero" style="text-align:center">
+                  <h3>لا توجد طلبات مفتوحة</h3>
+                  <p>عند طلب بطاقة أو صك مصدق سيظهر التتبع هنا.</p>
+                  <button class="btn secondary">فتح الخدمات</button>
+                </div>
+                <div class="stage-card visa">
+                  <span class="status-pill neutral">عرض</span>
+                  <div>
+                    <b>خصم خاص لخدمات الإنترنت</b>
+                    <p style="color:rgba(255,255,255,.72);margin:8px 0 0">بانر قابل للنقر يظهر داخل مركز الإشعارات.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="spec">
+              <h2>Notifications and Empty States</h2>
+              <p>Rows, empty states, and banners for notifications, order tracking, ads, support tickets, and async banking updates.</p>
+              <div class="meta"><span class="chip">Notification</span><span class="chip">Empty state</span><span class="chip">Banner</span></div>
+              <ul class="rules">
+                <li>Unread notifications are clickable and open a details page.</li>
+                <li>Ad banners may show media, but must not block banking actions.</li>
+                <li>Empty states explain the customer state and offer one useful action.</li>
+              </ul>
+              <div class="codeblock">
+                <div class="copybar"><span>KMP Compose</span><button class="copy" data-copy="code-feedback-states">Copy code</button></div>
+<pre><code id="code-feedback-states">SignalNotificationRow(
+    title = "تم قبول طلب البطاقة",
+    message = "اضغط لمعرفة مكان الاستلام",
+    time = "09:41",
+    unread = true,
+    onClick = onOpenNotification
+)
+
+SignalEmptyState(
+    title = "لا توجد طلبات مفتوحة",
+    message = "عند طلب بطاقة أو صك مصدق سيظهر التتبع هنا.",
+    action = { SignalButton("فتح الخدمات", onClick = onOpenServices) }
+)
+
+SignalNotificationBanner(
+    title = "خصم خاص لخدمات الإنترنت",
+    message = "بانر قابل للنقر يظهر داخل مركز الإشعارات.",
+    label = "عرض",
+    onClick = onOpenOffer
 )</code></pre>
               </div>
             </div>

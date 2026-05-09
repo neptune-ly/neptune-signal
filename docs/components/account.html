@@ -147,6 +147,41 @@ tr:first-child th,tr:first-child td{border-top:0}
   font-weight:900;
 }
 .btn.secondary{color:var(--primary);background:var(--primary-container)}
+@media(prefers-color-scheme:dark){
+  :root{
+    --primary:#8FC7FF;
+    --on-primary:#041B32;
+    --primary-container:#17385E;
+    --on-primary-container:#E5F1FF;
+    --secondary:#4FD5D9;
+    --secondary-container:#0B464A;
+    --tertiary:#FFB3AE;
+    --surface:#071217;
+    --surface-container-low:#0E1E25;
+    --surface-container:#142832;
+    --surface-container-high:#1A333D;
+    --surface-container-highest:#254550;
+    --on-surface:#EEF7F8;
+    --on-surface-variant:#9DB1B8;
+    --outline:#38555F;
+    --outline-variant:#263F48;
+    --code:#050D12;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  body{
+    background:
+      radial-gradient(circle at 82% 8%, rgba(0,168,174,.10), transparent 0 24rem),
+      linear-gradient(180deg,#050D12 0%,var(--surface) 48%,#0A151B 100%);
+  }
+  aside,.doc-card,table{background:rgba(9,24,30,.92);border-color:var(--outline-variant)}
+  th{background:var(--surface-container);color:var(--on-surface)}
+  td{border-color:var(--outline-variant)}
+  tr:first-child th,tr:first-child td{border-top:0}
+  nav a:hover{background:var(--surface-container);color:var(--on-surface)}
+  nav a.active{background:var(--primary-container);color:var(--on-surface)}
+  p code,li code,td code{background:var(--primary-container);color:var(--on-surface)}
+  .btn.secondary{color:var(--on-surface);background:var(--surface-container)}
+}
 @media(max-width:900px){
   .shell{grid-template-columns:1fr}
   aside{position:static;height:auto}
@@ -213,17 +248,37 @@ tr:first-child th,tr:first-child td{border-top:0}
 </ul>
 <p>No summary block is shown above the list. Accounts is a real list of all accounts, not a repeated Home carousel.</p>
 <p>KMP provides both <code>SignalAccountRow</code> for the common IBAN-backed case and <code>SignalAccountSummaryRow</code> when the product already computed the compact identifier.</p>
+<h2>Home Account Surface</h2>
+<p>The Home account surface is a quick balance and routing surface, not a full account detail component.</p>
+<ul>
+<li>Show the selected account name, type/status, balance, and one IBAN value.</li>
+<li>Do not show the alias on Home; alias belongs in Account Details and NPT Alias management.</li>
+<li>Do not show a visible copy icon on Home.</li>
+<li>Tapping the IBAN value copies the full IBAN.</li>
+<li>Label the Home value as <code>IBAN</code> inline on the same row as the value, not as a separate field block.</li>
+<li>If space is tight, keep the IBAN on one horizontal value line before wrapping. Never use vague ellipsis for the value.</li>
+</ul>
 <h2>Account Detail Header</h2>
 <p>Account details are the opened state of the account row, not a duplicate carousel card.</p>
+<p>The whole upper detail stage uses the same primary surface as the Home account carousel. The account card should not animate into a white page and then show another card. It opens into a blue/primary header where the title, balance, and identifiers are part of one expanded surface.</p>
 <p>Content:</p>
 <ul>
 <li>Account name.</li>
 <li>Balance.</li>
 <li>Full grouped IBAN with copy/share.</li>
 <li>Full alias with copy/share if available.</li>
-<li>More info action.</li>
+<li>Account-specific operation list.</li>
+<li>Account-specific request list.</li>
 </ul>
 <p>The visual should feel like the selected account row expanded into a detail state. It should not repeat the exact Home account card inside the details page.</p>
+<p>Account Details must not become a second Home page. Avoid generic quick shortcut grids that duplicate Home actions. Every action should be phrased in account scope, such as <code>Transfer from this account</code>, <code>Receive to this account</code>, <code>Account documents</code>, and <code>Order card for this account</code>.</p>
+<p>Use consistent list sections in account details:</p>
+<ul>
+<li>Account operations.</li>
+<li>Account requests.</li>
+</ul>
+<p>Do not mix a request grid with an operations list on the same page unless the product has a strong reason and the hierarchy is visibly different.</p>
+<p>KMP uses <code>SignalAccountHeaderMode.DetailStage</code> for this opened account state. Use the default <code>Card</code> mode for Home or compact account cards.</p>
 <h2>Information Rules</h2>
 <ul>
 <li>Account lists optimize scanning and use semantic compact identifiers.</li>
@@ -237,10 +292,19 @@ tr:first-child th,tr:first-child td{border-top:0}
 <ol>
 <li>Row compresses.</li>
 <li>Sibling rows dim.</li>
-<li>Surface lifts.</li>
-<li>Surface expands into the detail header.</li>
-<li>Detail content settles.</li>
-</ol></div>
+<li>Primary surface lifts and expands upward into the detail stage.</li>
+<li>Header chrome appears on the same primary surface.</li>
+<li>Account text and balance settle.</li>
+<li>Identifiers fade/slide in.</li>
+<li>Detail content settles after the header lands.</li>
+</ol>
+<p>Motion rules:</p>
+<ul>
+<li>The destination top area must inherit <code>bankPrimary</code> from the source account surface.</li>
+<li>Avoid showing the exact same card twice.</li>
+<li>Use opacity, scale, and vertical movement only; do not rotate banking content or use decorative assets.</li>
+<li>Keep the transform around 420-460ms with content delays under 300ms.</li>
+</ul></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>
           <a class="btn secondary" href="../components/index.html">Components</a>

@@ -35,7 +35,13 @@ border.strong
 status.success
 status.warning
 status.danger
+appearance.mode
+appearance.preference
 ```
+
+`appearance.mode` is the resolved mode used by the UI: `light`, `dark`, or `black`.
+
+`appearance.preference` is the customer setting: `system`, `light`, `dark`, or `black`.
 
 ## Material-Compatible Role Tokens
 
@@ -83,6 +89,8 @@ onErrorContainer
 - `surface.paper`: app background.
 - `surface.card`: cards, rows, panels.
 - `border.default`: row and card strokes.
+- `appearance.preference`: stored customer choice.
+- `appearance.mode`: resolved rendering mode after system preference is applied. `black` is explicit; `system` resolves only to platform light or dark.
 
 ## White-Label Rule
 
@@ -94,12 +102,14 @@ Bank themes may replace `bank.primary`, `bank.secondary`, and `bank.accent`, but
 - Motion timing logic.
 - Accessibility rules.
 
+Dark mode is not a bank override. It is a required mode for every preset. A bank can provide preferred dark identity colors, but the system still owns contrast, surface hierarchy, state layers, and status meaning.
+
 ## Token Governance
 
 | Token family | Can bank override | Must stay Signal-controlled |
 | --- | --- | --- |
 | Brand hue | Yes | Contrast checks and role mapping |
-| Surface containers | Limited | Hierarchy and elevation meaning |
+| Surface containers | Limited | Light/dark hierarchy and elevation meaning |
 | Error/success/warning | No, unless approved | Meaning and accessibility |
 | Spacing and radius | No | Component stability |
 | Typography roles | No | Readability and density |

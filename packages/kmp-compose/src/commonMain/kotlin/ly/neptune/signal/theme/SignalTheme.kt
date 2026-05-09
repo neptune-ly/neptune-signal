@@ -2,6 +2,7 @@ package ly.neptune.signal.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -42,52 +43,140 @@ object SignalTheme {
 
     val typography: SignalTypography
         @Composable get() = LocalSignalTypography.current
+
+    val shapes: SignalShapes
+        @Composable get() = LocalSignalShapes.current
+
+    val dimensions: SignalDimensions
+        @Composable get() = LocalSignalDimensions.current
 }
 
 val LocalSignalColors = staticCompositionLocalOf { SignalColors() }
 val LocalSignalTypography = staticCompositionLocalOf { SignalTypography() }
+val LocalSignalShapes = staticCompositionLocalOf { SignalShapes() }
+val LocalSignalDimensions = staticCompositionLocalOf { SignalDimensions() }
 
 @Composable
 fun SignalTheme(
-    colors: SignalColors = SignalColorDefaults.Neptune,
+    colors: SignalColors? = null,
+    brand: SignalBrand? = null,
+    mode: SignalColorMode = SignalColorMode.Light,
     typography: SignalTypography = SignalTypography(),
+    shapes: SignalShapes = SignalShapes(),
+    dimensions: SignalDimensions = SignalDimensions(),
+    dark: Boolean = false,
+    black: Boolean = false,
     content: @Composable () -> Unit,
 ) {
+    val resolvedColors = colors ?: when {
+        brand != null -> SignalColorDefaults.fromBrand(brand = brand, mode = mode)
+        black -> SignalColorDefaults.NeptuneBlack
+        dark -> SignalColorDefaults.NeptuneDark
+        else -> SignalColorDefaults.Neptune
+    }
+    SignalThemeContent(
+        colors = resolvedColors,
+        typography = typography,
+        shapes = shapes,
+        dimensions = dimensions,
+        content = content,
+    )
+}
+
+@Composable
+fun SignalTheme(
+    config: SignalThemeConfig,
+    content: @Composable () -> Unit,
+) {
+    SignalThemeContent(
+        colors = config.colors ?: SignalColorDefaults.fromBrand(config.brand, config.mode),
+        typography = config.typography,
+        shapes = config.shapes,
+        dimensions = config.dimensions,
+        content = content,
+    )
+}
+
+@Composable
+private fun SignalThemeContent(
+    colors: SignalColors,
+    typography: SignalTypography,
+    shapes: SignalShapes,
+    dimensions: SignalDimensions,
+    content: @Composable () -> Unit,
+) {
+    val resolvedColors = colors
+    val materialColors = if (resolvedColors.dark) {
+        darkColorScheme(
+            primary = resolvedColors.primary,
+            onPrimary = resolvedColors.onPrimary,
+            primaryContainer = resolvedColors.primaryContainer,
+            onPrimaryContainer = resolvedColors.onPrimaryContainer,
+            inversePrimary = resolvedColors.secondary,
+            secondary = resolvedColors.secondary,
+            onSecondary = resolvedColors.onSecondary,
+            secondaryContainer = resolvedColors.secondaryContainer,
+            onSecondaryContainer = resolvedColors.onSecondaryContainer,
+            tertiary = resolvedColors.tertiary,
+            onTertiary = resolvedColors.onTertiary,
+            tertiaryContainer = resolvedColors.tertiaryContainer,
+            onTertiaryContainer = resolvedColors.onTertiaryContainer,
+            background = resolvedColors.surface,
+            onBackground = resolvedColors.onSurface,
+            surface = resolvedColors.surface,
+            onSurface = resolvedColors.onSurface,
+            surfaceVariant = resolvedColors.surfaceContainer,
+            onSurfaceVariant = resolvedColors.onSurfaceVariant,
+            surfaceTint = resolvedColors.primary,
+            inverseSurface = resolvedColors.inverseSurface,
+            inverseOnSurface = resolvedColors.inverseOnSurface,
+            error = resolvedColors.error,
+            onError = resolvedColors.onError,
+            errorContainer = resolvedColors.errorContainer,
+            onErrorContainer = resolvedColors.onErrorContainer,
+            outline = resolvedColors.outline,
+            outlineVariant = resolvedColors.outlineVariant,
+        )
+    } else {
+        lightColorScheme(
+            primary = resolvedColors.primary,
+            onPrimary = resolvedColors.onPrimary,
+            primaryContainer = resolvedColors.primaryContainer,
+            onPrimaryContainer = resolvedColors.onPrimaryContainer,
+            inversePrimary = resolvedColors.secondary,
+            secondary = resolvedColors.secondary,
+            onSecondary = resolvedColors.onSecondary,
+            secondaryContainer = resolvedColors.secondaryContainer,
+            onSecondaryContainer = resolvedColors.onSecondaryContainer,
+            tertiary = resolvedColors.tertiary,
+            onTertiary = resolvedColors.onTertiary,
+            tertiaryContainer = resolvedColors.tertiaryContainer,
+            onTertiaryContainer = resolvedColors.onTertiaryContainer,
+            background = resolvedColors.surface,
+            onBackground = resolvedColors.onSurface,
+            surface = resolvedColors.surface,
+            onSurface = resolvedColors.onSurface,
+            surfaceVariant = resolvedColors.surfaceContainer,
+            onSurfaceVariant = resolvedColors.onSurfaceVariant,
+            surfaceTint = resolvedColors.primary,
+            inverseSurface = resolvedColors.inverseSurface,
+            inverseOnSurface = resolvedColors.inverseOnSurface,
+            error = resolvedColors.error,
+            onError = resolvedColors.onError,
+            errorContainer = resolvedColors.errorContainer,
+            onErrorContainer = resolvedColors.onErrorContainer,
+            outline = resolvedColors.outline,
+            outlineVariant = resolvedColors.outlineVariant,
+        )
+    }
     androidx.compose.runtime.CompositionLocalProvider(
-        LocalSignalColors provides colors,
+        LocalSignalColors provides resolvedColors,
         LocalSignalTypography provides typography,
+        LocalSignalShapes provides shapes,
+        LocalSignalDimensions provides dimensions,
     ) {
         MaterialTheme(
-            colorScheme = lightColorScheme(
-                primary = colors.primary,
-                onPrimary = colors.onPrimary,
-                primaryContainer = colors.primaryContainer,
-                onPrimaryContainer = colors.onPrimaryContainer,
-                inversePrimary = colors.secondary,
-                secondary = colors.secondary,
-                onSecondary = colors.onSecondary,
-                secondaryContainer = colors.secondaryContainer,
-                onSecondaryContainer = colors.onSecondaryContainer,
-                tertiary = colors.tertiary,
-                onTertiary = colors.onTertiary,
-                tertiaryContainer = colors.tertiaryContainer,
-                onTertiaryContainer = colors.onTertiaryContainer,
-                background = colors.surface,
-                onBackground = colors.onSurface,
-                surface = colors.surface,
-                onSurface = colors.onSurface,
-                surfaceVariant = colors.surfaceContainer,
-                onSurfaceVariant = colors.onSurfaceVariant,
-                surfaceTint = colors.primary,
-                inverseSurface = colors.inverseSurface,
-                inverseOnSurface = colors.inverseOnSurface,
-                error = colors.error,
-                onError = colors.onError,
-                errorContainer = colors.errorContainer,
-                onErrorContainer = colors.onErrorContainer,
-                outline = colors.outline,
-                outlineVariant = colors.outlineVariant,
-            ),
+            colorScheme = materialColors,
             typography = Typography(
                 displayLarge = typography.displayLarge,
                 displayMedium = typography.displayMedium,

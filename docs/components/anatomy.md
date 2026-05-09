@@ -68,6 +68,18 @@ All interactive components must define:
 | Standard name | KMP | Flutter | SwiftUI | Android Compose | Web |
 | --- | --- | --- | --- | --- | --- |
 | SignalButton | `SignalButton` | `SignalButton` | `SignalButton` | `SignalButton` | `signal-button` |
+| SignalIconButton | `SignalIconButton` | `SignalIconButton` | `SignalIconButton` | `SignalIconButton` | `signal-icon-button` |
+| SignalAppShell | `SignalAppShell` | `SignalAppShell` | `SignalAppShell` | `SignalAppShell` | `signal-app-shell` |
+| SignalBottomNav | `SignalBottomNav` | `SignalBottomNav` | `SignalBottomNav` | `SignalBottomNav` | `signal-bottom-nav` |
 | SignalValueLine | `SignalValueLine` | `SignalValueLine` | `SignalValueLine` | `SignalValueLine` | `signal-value-line` |
 | SignalAccountRow | `SignalAccountRow` | `SignalAccountRow` | `SignalAccountRow` | `SignalAccountRow` | `signal-account-row` |
+| SignalAccountHeader | `SignalAccountHeader` | `SignalAccountHeader` | `SignalAccountHeader` | `SignalAccountHeader` | `signal-account-header` |
+| SignalAccountCarousel | `SignalAccountCarousel` | `SignalAccountCarousel` | `SignalAccountCarousel` | `SignalAccountCarousel` | `signal-account-carousel` |
+| SignalCardStack | `SignalCardStack` | `SignalCardStack` | `SignalCardStack` | `SignalCardStack` | `signal-card-stack` |
+| SignalCardDetailStage | `SignalCardDetailStage` | `SignalCardDetailStage` | `SignalCardDetailStage` | `SignalCardDetailStage` | `signal-card-detail-stage` |
 | SignalStatusResult | `SignalStatusResult` | `SignalStatusResult` | `SignalStatusResult` | `SignalStatusResult` | `signal-status-result` |
+| SignalVoucherStore | `SignalVoucherStore` | `SignalVoucherStore` | `SignalVoucherStore` | `SignalVoucherStore` | `signal-voucher-store` |
+| SignalConsentOverview | `SignalConsentOverview` | `SignalConsentOverview` | `SignalConsentOverview` | `SignalConsentOverview` | `signal-consent-overview` |
+| SignalActionDock | `SignalActionDock` | `SignalActionDock` | `SignalActionDock` | `SignalActionDock` | `signal-action-dock` |
+| SignalNotificationBanner | `SignalNotificationBanner` | `SignalNotificationBanner` | `SignalNotificationBanner` | `SignalNotificationBanner` | `signal-notification-banner` |
+| SignalSplash | `SignalSplash` | `SignalSplash` | `SignalSplash` | `SignalSplash` | `signal-splash` |

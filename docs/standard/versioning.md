@@ -9,7 +9,7 @@ MAJOR.MINOR.PATCH
 ## Standard Versions
 
 ```text
-0.2.0  Material-compatible foundations, color roles, surfaces, component anatomy, and SDK theme roles.
+0.2.0  Material-compatible foundations, color roles, surfaces, light/dark/black appearance roles, component anatomy, and SDK theme roles.
 0.1.1  Information presentation update for critical banking values.
 0.1.0  Initial public standard for mobile banking foundations.
 0.3.0  KMP Compose alpha.
