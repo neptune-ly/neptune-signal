@@ -86,21 +86,29 @@ SignalTheme(
 
 SignalTheme(
     brand = SignalBrandDefaults.Andalus,
-    mode = SignalColorMode.Dark,
-    shapes = SignalShapes(md = 16.dp, lg = 22.dp, xl = 28.dp),
-    dimensions = SignalDimensions(buttonHeight = 52.dp)
+    mode = SignalColorMode.Dark
 ) {
     BankingApp()
 }
 ```
 
+Do not override core sizing per bank. White-label brands change color, logo, copy, and optional imagery; field height, button height, navigation height, icon sizing, and auth layout come from `SignalMetrics`.
+
 Core configuration types:
 
 ```kotlin
 SignalThemeConfig
+SignalThemeSettings
+SignalThemeOverrides
 SignalBrand
 SignalBrandDefaults
 SignalColorMode
+SignalAppearanceMode
+SignalMetrics
+SignalScreenMetrics
+SignalComponentMetrics
+SignalAuthMetrics
+SignalMotionMetrics
 SignalColors
 SignalTypography
 SignalShapes
@@ -240,7 +248,7 @@ The GitHub Pages component gallery shows the current visual preview and KMP Comp
 - Forms and critical value lines.
 - Lists, banking rows, and account rows.
 - Account carousel and account detail header.
-- Card stack and card detail stage.
+- Card stack and card detail stage with shared card-open motion.
 - Action dock, shortcuts, and insight cards.
 - Voucher store and value selector.
 - Identity and consent.
@@ -259,3 +267,4 @@ The GitHub Pages component gallery shows the current visual preview and KMP Comp
 - Accessibility labels are required for icon-only actions.
 - Product screens should compose patterns, not duplicate component internals.
 - Bank colors are applied globally through `SignalTheme`, never by per-screen hardcoded overrides.
+- Product pages use SDK patterns directly. The card selector composes `SignalPaymentCardStack`; selected card pages compose `SignalCardDetailStage` and place contextual actions below it.

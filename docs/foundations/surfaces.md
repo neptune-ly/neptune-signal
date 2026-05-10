@@ -34,6 +34,8 @@ Neptune. Signal uses restrained elevation:
 - Use stroke and container color before heavy shadows.
 - Important financial receipt screens may use a full-width surface because receipts need room.
 - Detail pages should not repeat the same account card from the home carousel. They should transform the source into a new header layout.
+- Bottom navigation is an elevated high-container control. It must keep enough contrast from the app surface in every mode.
+- Card detail pages may use the selected card color as the upper stage background when it improves object continuity.
 
 ## State Layers
 

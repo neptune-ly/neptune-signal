@@ -316,16 +316,32 @@ SignalTheme(
     BankingHome()
 }</code></pre>
 <p>Use Material role names when mapping into platform primitives, then use Signal component names for banking UI.</p>
-<p>For app-wide reuse, keep one configuration object near your app root:</p>
-<pre><code class="language-kotlin">val signalConfig = SignalThemeConfig(
+<p>Sizing comes from the SDK contract. <code>1dp</code> in Compose maps to <code>1px</code> in the web demo contract.</p>
+<pre><code class="language-kotlin">SignalScreenMetrics.compactHorizontalPadding // 16.dp
+SignalScreenMetrics.contentMaxWidth          // 430.dp
+SignalComponentMetrics.textFieldHeight       // 62.dp
+SignalComponentMetrics.buttonHeight          // 58.dp
+SignalAuthMetrics.headerHeight               // 58.dp
+SignalMotionMetrics.sharedElementMillis      // 420</code></pre>
+<p>Do not replace these with local screen constants in app code.</p>
+<p>For app-wide reuse, keep one settings object near your app root. This is the preferred API for new apps because it resolves <code>system</code>, <code>light</code>, <code>dark</code>, and <code>black</code> from one global source.</p>
+<pre><code class="language-kotlin">val signalTheme = SignalThemeSettings(
     brand = SignalBrandDefaults.Andalus,
-    mode = SignalColorMode.Dark
+    appearance = SignalAppearanceMode.System,
+    overrides = SignalThemeOverrides(
+        darkSurface = Color(0xFF081A27),
+        blackSurface = Color(0xFF000000)
+    )
 )
 
-SignalTheme(config = signalConfig) {
+SignalTheme(settings = signalTheme) {
     BankingApp()
 }</code></pre>
-<p>For customer personalization, presets convert into the same configuration model. The app should never fork component styling per screen.</p>
+<p>For customer personalization, presets convert into the same settings model. The app should never fork component styling per screen.</p>
+<pre><code class="language-kotlin">val settings = selectedPreset.toThemeSettings(
+    appearance = selectedAppearance,
+    overrides = SignalThemeOverrides(accent = selectedAccent)
+)</code></pre>
 <pre><code class="language-kotlin">val selectedPreset = SignalThemePresetDefaults.BankSamples.first { it.key == &quot;ncb&quot; }
 
 SignalTheme(
@@ -495,7 +511,68 @@ SignalNotificationRow
 SignalTile
 SignalSegmentedControl
 SignalSplash
-SignalPlanetMark</code></pre>
+SignalPlanetMark
+SignalAuthStateIcon
+SignalLoginPanel
+SignalOtpChallengePanel
+SignalPasswordChangePanel
+SignalPasswordResetRequestPanel
+SignalPasswordResetVerifyPanel
+SignalOtpCodeField</code></pre>
+<h3>Login Entry Contract</h3>
+<p><code>SignalLoginPanel</code> is the SDK component for the first authenticated customer entry point. It supports existing customers and non-customers without mixing onboarding into login.</p>
+<p>Rules:</p>
+<ul>
+<li>Existing customers use the same bank customer ID and password.</li>
+<li>New devices are verified by the backend before access.</li>
+<li>App Check, tamper checks, token binding, OTP, passkey, and <code>N-Fingerprint</code> are app/backend responsibilities.</li>
+<li>Passkey login is optional and must be displayed only when the device has an enrolled credential.</li>
+<li>Forgot password is optional and must route to a separate reset flow. Use the current Andalus pattern: customer ID, OTP verification reference, protected password reset reference, then new password confirmation.</li>
+<li>The UI keeps onboarding as a separate action.</li>
+</ul>
+<pre><code class="language-kotlin">SignalLoginPanel(
+    customerId = customerId,
+    password = password,
+    onCustomerIdChange = { customerId = it },
+    onPasswordChange = { password = it },
+    onLogin = { auth.login(customerId, password) },
+    onPasskeyLogin = { auth.loginWithPasskey() },
+    onForgotPassword = { navigator.openPasswordReset(customerId) },
+    onNonCustomer = { navigator.openOnboarding() },
+    loading = authState.loading,
+    errorText = authState.error,
+)</code></pre>
+<h3>Auth Continuation Contract</h3>
+<p>The SDK also owns the continuation states that commonly follow login. Use these components instead of local app layouts:</p>
+<pre><code class="language-kotlin">SignalOtpChallengePanel(...)
+SignalPasswordChangePanel(...)
+SignalPasswordResetRequestPanel(...)
+SignalPasswordResetVerifyPanel(...)</code></pre>
+<p>Apps provide state and secure events. The components provide the Neptune. Signal layout, Material 3.1 touch sizing, step indicator, OTP field, password field density, and RTL/LTR behavior.</p>
+<h3>Terms Gate Contract</h3>
+<p><code>SignalTermsPanel</code> is the reusable first-login terms screen. Apps show it after credentials, OTP, passkey, and required password change checks, but before Home. Terms content should come from the backend as structured blocks, not raw HTML.</p>
+<pre><code class="language-kotlin">SignalTermsPanel(
+    title = terms.title,
+    subtitle = terms.subtitle,
+    versionLabel = terms.version,
+    sections = terms.sections.map { section -&gt;
+        SignalTermsSection(
+            title = section.title,
+            blocks = section.blocks.map { block -&gt;
+                when (block.type) {
+                    &quot;paragraph&quot; -&gt; SignalTermsBlock.Paragraph(block.text)
+                    &quot;bullets&quot; -&gt; SignalTermsBlock.BulletList(block.items)
+                    &quot;callout&quot; -&gt; SignalTermsBlock.Callout(block.text)
+                    else -&gt; SignalTermsBlock.Paragraph(block.text)
+                }
+            },
+        )
+    },
+    acceptText = terms.acceptText,
+    acceptLabel = &quot;Accept and continue&quot;,
+    onAccept = { auth.acceptTerms(terms.version) },
+    loading = authState.loading,
+)</code></pre>
 <h2>Implementation Priorities</h2>
 <p>KMP 0.2 available:</p>
 <ul>

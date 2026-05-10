@@ -42,6 +42,7 @@ fun SignalButton(
     val minModifier = modifier.defaultMinSize(minHeight = SignalTheme.dimensions.buttonHeight)
     val primaryContainer = colors.bankPrimary
     val primaryContent = colors.textInverse
+    val secondaryContent = if (colors.dark) colors.onSurface else colors.bankPrimary
 
     val content: @Composable () -> Unit = {
         Row(
@@ -83,7 +84,7 @@ fun SignalButton(
             shape = shape,
             border = BorderStroke(1.dp, colors.outline),
             colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = colors.bankPrimary,
+                contentColor = secondaryContent,
                 disabledContentColor = colors.onSurfaceVariant.copy(alpha = 0.38f),
             ),
             content = { content() },

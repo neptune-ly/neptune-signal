@@ -238,6 +238,16 @@ tr:first-child th,tr:first-child td{border-top:0}
         <div class="doc-card"><h1>Components</h1>
 <p>Neptune. Signal components are platform-neutral specifications. KMP is the first implementation target, but the component contract should also work for Flutter, native iOS, native Android, and web SDKs.</p>
 <p>Components follow Material 3 implementation expectations for state, shape, touch target, typography, and accessibility. Signal adds banking data rules, white-label behavior, Arabic-first layout, and performance constraints.</p>
+<h2>Shared Measurement Contract</h2>
+<p>The web demo is the visual golden source, but the SDK owns the numbers. Components must read sizing from:</p>
+<ul>
+<li><code>SignalMetrics</code></li>
+<li><code>SignalScreenMetrics</code></li>
+<li><code>SignalComponentMetrics</code></li>
+<li><code>SignalAuthMetrics</code></li>
+<li><code>SignalMotionMetrics</code></li>
+</ul>
+<p><code>1dp</code> in KMP Compose equals <code>1px</code> in the web demo design contract. Do not create screen-local replacements for auth padding, field height, button height, navigation height, icon size, or carousel height.</p>
 <h2>Use the Catalog</h2>
 <p>The component catalog is the working documentation surface for product teams:</p>
 <ul>
@@ -339,6 +349,16 @@ tr:first-child th,tr:first-child td{border-top:0}
 <li>Action dock.</li>
 <li>Insight card.</li>
 </ul>
+<h2>Card Experience Standard</h2>
+<p>Cards follow a selector-to-detail model:</p>
+<ul>
+<li>The card list is only for choosing a card. Do not add freeze, limits, top-up, or request-card button rows on the selector screen.</li>
+<li>Card actions live inside the selected card detail page, where they have context.</li>
+<li>The selected card opens with a shared card motion. The detail header must keep the card color and scheme identity so the user feels the same object expanded.</li>
+<li>Card details may fetch balance, limits, and transactions after open. The list must not show live balances or other heavy data.</li>
+<li>Scheme visuals, card color, and accent rail come from backend/configurable card metadata, not hardcoded bank screens.</li>
+<li>The card detail stage uses a high-contrast primary/card surface, a translucent physical-card plane, and compact metrics below it.</li>
+</ul>
 <h3>Feedback</h3>
 <ul>
 <li>Status mark.</li>
@@ -356,6 +376,14 @@ SignalThemeConfig
 SignalBrand
 SignalBrandDefaults
 SignalColorMode
+SignalAppearanceMode
+SignalThemeSettings
+SignalThemeOverrides
+SignalMetrics
+SignalScreenMetrics
+SignalComponentMetrics
+SignalAuthMetrics
+SignalMotionMetrics
 SignalColors
 SignalTypography
 SignalShapes
@@ -410,7 +438,67 @@ SignalSplash
 SignalPlanetMark
 SignalSectionHeader
 SignalEmptyState
-SignalNotificationRow</code></pre>
+SignalNotificationRow
+SignalAuthStateIcon
+SignalLoginPanel
+SignalOtpChallengePanel
+SignalPasswordChangePanel
+SignalPasswordResetRequestPanel
+SignalPasswordResetVerifyPanel
+SignalOtpCodeField</code></pre>
+<h2>Authentication Entry</h2>
+<p><code>SignalLoginPanel</code> is the standard mobile banking login entry. It has two required choices and two optional recovery/fast-entry actions:</p>
+<ul>
+<li>Login with existing customer credentials. The backend may register and verify a new device before creating a session.</li>
+<li>Continue as a non-customer. This starts onboarding, which is a separate flow.</li>
+<li>Forgot password. This opens a separate reset flow using customer ID, OTP, and a secure server reset reference.</li>
+<li>Passkey login. This appears only when the device has an enrolled credential.</li>
+</ul>
+<p>The component does not own credential validation, OTP, App Check, passkey, password reset, or <code>N-Fingerprint</code> logic. It exposes clean events so the app can call the secure auth flow.</p>
+<pre><code class="language-kotlin">SignalLoginPanel(
+    customerId = state.customerId,
+    password = state.password,
+    onCustomerIdChange = viewModel::setCustomerId,
+    onPasswordChange = viewModel::setPassword,
+    onLogin = viewModel::login,
+    onPasskeyLogin = viewModel::loginWithPasskey,
+    onForgotPassword = navigator::openPasswordReset,
+    onNonCustomer = navigator::openOnboarding,
+)</code></pre>
+<h2>Authentication Continuation</h2>
+<p>OTP, required password change, and forgot-password states are SDK components. Apps must not rebuild these as one-off local screens, because the spacing, typography, language direction, and flow indicator need to match login exactly.</p>
+<p>Available panels:</p>
+<ul>
+<li><code>SignalOtpChallengePanel</code> for device verification, transfer verification, and passkey recovery challenges.</li>
+<li><code>SignalPasswordChangePanel</code> for first-login or backend-required password rotation.</li>
+<li><code>SignalPasswordResetRequestPanel</code> for the customer-ID reset request.</li>
+<li><code>SignalPasswordResetVerifyPanel</code> for OTP plus new-password confirmation.</li>
+<li><code>SignalOtpCodeField</code> for fixed-length numeric OTP entry.</li>
+</ul>
+<p>These panels own layout, not security. The backend and app still own OTP issuing, retry policy, App Check, tamper checks, passkey state, and <code>N-Fingerprint</code> registration.</p>
+<h2>Terms Gate</h2>
+<p><code>SignalTermsPanel</code> is shown after the first successful login, after a required password change, or whenever the bank publishes a new terms version. It renders backend-provided structured content, not raw HTML. Supported blocks are paragraph, bullet list, and callout, so banks can format terms without breaking app layout.</p>
+<p>Backend payloads should use portable block data:</p>
+<ul>
+<li><code>paragraph</code> for normal legal copy.</li>
+<li><code>bullets</code> for grouped obligations or feature lists.</li>
+<li><code>callout</code> for important security or fee notes.</li>
+</ul>
+<p>The component owns visual formatting, direction, spacing, and accessibility. The backend owns content and version.</p>
+<pre><code class="language-kotlin">SignalTermsPanel(
+    title = &quot;Terms of service&quot;,
+    subtitle = &quot;Shown after first login or when the bank updates terms.&quot;,
+    versionLabel = &quot;Version 2026.05&quot;,
+    sections = terms.sections.map { section -&gt;
+        SignalTermsSection(
+            title = section.title,
+            blocks = section.blocks.map { it.toSignalTermsBlock() },
+        )
+    },
+    acceptText = &quot;I understand that app access continues after accepting the current terms.&quot;,
+    acceptLabel = &quot;Accept and continue&quot;,
+    onAccept = viewModel::acceptTerms,
+)</code></pre>
 <h2>Demo Source</h2>
 <p>The first component set is extracted from the Mobile Banking Demo 0.2:</p>
 <p><a href="../demos/mobile/prototype.html">Open interactive mobile demo</a></p></div>

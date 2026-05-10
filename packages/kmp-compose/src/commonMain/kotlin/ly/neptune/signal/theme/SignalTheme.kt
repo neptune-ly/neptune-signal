@@ -1,5 +1,6 @@
 package ly.neptune.signal.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
@@ -8,33 +9,52 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+
+private fun signalTextStyle(
+    fontFamily: FontFamily?,
+    fontSize: TextUnit,
+    lineHeight: TextUnit,
+    fontWeight: FontWeight,
+): TextStyle = TextStyle(
+    fontFamily = fontFamily,
+    fontSize = fontSize,
+    lineHeight = lineHeight,
+    fontWeight = fontWeight,
+)
 
 @Immutable
 data class SignalTypography(
-    val displayLarge: TextStyle = TextStyle(fontSize = 44.sp, lineHeight = 44.sp, fontWeight = FontWeight.Black),
-    val displayMedium: TextStyle = TextStyle(fontSize = 36.sp, lineHeight = 36.sp, fontWeight = FontWeight.Black),
-    val displaySmall: TextStyle = TextStyle(fontSize = 32.sp, lineHeight = 34.sp, fontWeight = FontWeight.ExtraBold),
-    val headlineLarge: TextStyle = TextStyle(fontSize = 32.sp, lineHeight = 36.sp, fontWeight = FontWeight.Black),
-    val headlineMedium: TextStyle = TextStyle(fontSize = 28.sp, lineHeight = 32.sp, fontWeight = FontWeight.Black),
-    val headlineSmall: TextStyle = TextStyle(fontSize = 24.sp, lineHeight = 28.sp, fontWeight = FontWeight.ExtraBold),
-    val titleLarge: TextStyle = TextStyle(fontSize = 20.sp, lineHeight = 23.sp, fontWeight = FontWeight.Black),
-    val titleMedium: TextStyle = TextStyle(fontSize = 16.sp, lineHeight = 20.sp, fontWeight = FontWeight.ExtraBold),
-    val titleSmall: TextStyle = TextStyle(fontSize = 14.sp, lineHeight = 18.sp, fontWeight = FontWeight.ExtraBold),
-    val bodyLarge: TextStyle = TextStyle(fontSize = 16.sp, lineHeight = 23.sp, fontWeight = FontWeight.SemiBold),
-    val bodyMedium: TextStyle = TextStyle(fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.SemiBold),
-    val bodySmall: TextStyle = TextStyle(fontSize = 12.sp, lineHeight = 17.sp, fontWeight = FontWeight.SemiBold),
-    val labelLarge: TextStyle = TextStyle(fontSize = 15.sp, lineHeight = 18.sp, fontWeight = FontWeight.Black),
-    val labelMedium: TextStyle = TextStyle(fontSize = 12.sp, lineHeight = 15.sp, fontWeight = FontWeight.ExtraBold),
-    val labelSmall: TextStyle = TextStyle(fontSize = 11.sp, lineHeight = 14.sp, fontWeight = FontWeight.ExtraBold),
-    val displayBalance: TextStyle = displayMedium,
-    val pageTitle: TextStyle = titleLarge,
-    val sectionTitle: TextStyle = TextStyle(fontSize = 15.sp, lineHeight = 18.sp, fontWeight = FontWeight.Black),
+    val fontFamily: FontFamily? = null,
+    val displayLarge: TextStyle = signalTextStyle(fontFamily, 42.sp, 44.sp, FontWeight.Black),
+    val displayMedium: TextStyle = signalTextStyle(fontFamily, 36.sp, 38.sp, FontWeight.Black),
+    val displaySmall: TextStyle = signalTextStyle(fontFamily, 32.sp, 34.sp, FontWeight.ExtraBold),
+    val headlineLarge: TextStyle = signalTextStyle(fontFamily, 32.sp, 36.sp, FontWeight.Black),
+    val headlineMedium: TextStyle = signalTextStyle(fontFamily, 28.sp, 32.sp, FontWeight.Black),
+    val headlineSmall: TextStyle = signalTextStyle(fontFamily, 24.sp, 28.sp, FontWeight.ExtraBold),
+    val titleLarge: TextStyle = signalTextStyle(fontFamily, 19.sp, 24.sp, FontWeight.Black),
+    val titleMedium: TextStyle = signalTextStyle(fontFamily, 16.sp, 21.sp, FontWeight.Black),
+    val titleSmall: TextStyle = signalTextStyle(fontFamily, 15.sp, 20.sp, FontWeight.Black),
+    val bodyLarge: TextStyle = signalTextStyle(fontFamily, 17.sp, 24.sp, FontWeight.SemiBold),
+    val bodyMedium: TextStyle = signalTextStyle(fontFamily, 15.sp, 21.sp, FontWeight.SemiBold),
+    val bodySmall: TextStyle = signalTextStyle(fontFamily, 13.sp, 18.sp, FontWeight.SemiBold),
+    val labelLarge: TextStyle = signalTextStyle(fontFamily, 16.sp, 19.sp, FontWeight.Black),
+    val labelMedium: TextStyle = signalTextStyle(fontFamily, 14.sp, 17.sp, FontWeight.ExtraBold),
+    val labelSmall: TextStyle = signalTextStyle(fontFamily, 13.sp, 17.sp, FontWeight.ExtraBold),
+    val balance: TextStyle = signalTextStyle(fontFamily, 36.sp, 38.sp, FontWeight.Black),
+    val displayBalance: TextStyle = balance,
+    val pageTitle: TextStyle = signalTextStyle(fontFamily, 20.sp, 26.sp, FontWeight.Black),
+    val screenTitle: TextStyle = signalTextStyle(fontFamily, 17.sp, 23.sp, FontWeight.Black),
+    val sectionTitle: TextStyle = signalTextStyle(fontFamily, 15.sp, 20.sp, FontWeight.Black),
     val rowTitle: TextStyle = titleSmall,
     val rowMeta: TextStyle = labelSmall,
-    val button: TextStyle = labelLarge,
-    val statusPill: TextStyle = TextStyle(fontSize = 10.sp, lineHeight = 12.sp, fontWeight = FontWeight.ExtraBold),
+    val fieldLabel: TextStyle = signalTextStyle(fontFamily, 13.sp, 16.sp, FontWeight.ExtraBold),
+    val fieldValue: TextStyle = signalTextStyle(fontFamily, 17.sp, 22.sp, FontWeight.Black),
+    val button: TextStyle = signalTextStyle(fontFamily, 16.sp, 20.sp, FontWeight.Black),
+    val statusPill: TextStyle = signalTextStyle(fontFamily, 12.5.sp, 15.sp, FontWeight.ExtraBold),
 )
 
 object SignalTheme {
@@ -49,12 +69,24 @@ object SignalTheme {
 
     val dimensions: SignalDimensions
         @Composable get() = LocalSignalDimensions.current
+
+    val config: SignalThemeConfig
+        @Composable get() = LocalSignalThemeConfig.current
+
+    val settings: SignalThemeSettings
+        @Composable get() = LocalSignalThemeSettings.current
+
+    val mode: SignalColorMode
+        @Composable get() = LocalSignalResolvedMode.current
 }
 
 val LocalSignalColors = staticCompositionLocalOf { SignalColors() }
 val LocalSignalTypography = staticCompositionLocalOf { SignalTypography() }
 val LocalSignalShapes = staticCompositionLocalOf { SignalShapes() }
 val LocalSignalDimensions = staticCompositionLocalOf { SignalDimensions() }
+val LocalSignalThemeConfig = staticCompositionLocalOf { SignalThemeConfig() }
+val LocalSignalThemeSettings = staticCompositionLocalOf { SignalThemeSettings() }
+val LocalSignalResolvedMode = staticCompositionLocalOf { SignalColorMode.Light }
 
 @Composable
 fun SignalTheme(
@@ -68,14 +100,32 @@ fun SignalTheme(
     black: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val resolvedColors = colors ?: when {
-        brand != null -> SignalColorDefaults.fromBrand(brand = brand, mode = mode)
-        black -> SignalColorDefaults.NeptuneBlack
-        dark -> SignalColorDefaults.NeptuneDark
-        else -> SignalColorDefaults.Neptune
+    val resolvedMode = when {
+        black -> SignalColorMode.Black
+        dark -> SignalColorMode.Dark
+        else -> mode
     }
-    SignalThemeContent(
+    val resolvedBrand = brand ?: SignalBrandDefaults.Neptune
+    val resolvedColors = colors ?: SignalColorDefaults.fromBrand(brand = resolvedBrand, mode = resolvedMode)
+    val config = SignalThemeConfig(
+        brand = resolvedBrand,
+        mode = resolvedMode,
         colors = resolvedColors,
+        typography = typography,
+        shapes = shapes,
+        dimensions = dimensions,
+    )
+    SignalThemeContent(
+        config = config,
+        settings = SignalThemeSettings(
+            brand = resolvedBrand,
+            appearance = resolvedMode.toAppearanceMode(),
+            typography = typography,
+            shapes = shapes,
+            dimensions = dimensions,
+        ),
+        colors = resolvedColors,
+        mode = resolvedMode,
         typography = typography,
         shapes = shapes,
         dimensions = dimensions,
@@ -88,8 +138,37 @@ fun SignalTheme(
     config: SignalThemeConfig,
     content: @Composable () -> Unit,
 ) {
+    val resolvedColors = config.colors ?: SignalColorDefaults.fromBrand(config.brand, config.mode)
     SignalThemeContent(
+        config = config.copy(colors = resolvedColors),
+        settings = SignalThemeSettings(
+            brand = config.brand,
+            appearance = config.mode.toAppearanceMode(),
+            typography = config.typography,
+            shapes = config.shapes,
+            dimensions = config.dimensions,
+        ),
+        colors = resolvedColors,
+        mode = config.mode,
+        typography = config.typography,
+        shapes = config.shapes,
+        dimensions = config.dimensions,
+        content = content,
+    )
+}
+
+@Composable
+fun SignalTheme(
+    settings: SignalThemeSettings,
+    systemDark: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val config = settings.toThemeConfig(systemDark = systemDark)
+    SignalThemeContent(
+        config = config,
+        settings = settings,
         colors = config.colors ?: SignalColorDefaults.fromBrand(config.brand, config.mode),
+        mode = config.mode,
         typography = config.typography,
         shapes = config.shapes,
         dimensions = config.dimensions,
@@ -99,7 +178,10 @@ fun SignalTheme(
 
 @Composable
 private fun SignalThemeContent(
+    config: SignalThemeConfig,
+    settings: SignalThemeSettings,
     colors: SignalColors,
+    mode: SignalColorMode,
     typography: SignalTypography,
     shapes: SignalShapes,
     dimensions: SignalDimensions,
@@ -174,6 +256,9 @@ private fun SignalThemeContent(
         LocalSignalTypography provides typography,
         LocalSignalShapes provides shapes,
         LocalSignalDimensions provides dimensions,
+        LocalSignalThemeConfig provides config,
+        LocalSignalThemeSettings provides settings,
+        LocalSignalResolvedMode provides mode,
     ) {
         MaterialTheme(
             colorScheme = materialColors,

@@ -203,12 +203,18 @@ internal fun signalDisplayValue(
     }
     return when (format) {
         SignalValueFormat.Iban,
-        SignalValueFormat.Secret -> value.filter { it.isLetterOrDigit() }.chunked(4).joinToString(" ")
+        SignalValueFormat.Secret -> signalGroupCriticalValue(value)
         SignalValueFormat.Plain,
         SignalValueFormat.Amount,
         SignalValueFormat.Alias,
         SignalValueFormat.Reference -> value
     }
+}
+
+private fun signalGroupCriticalValue(value: String): String {
+    val groups = value.filter { it.isLetterOrDigit() }.chunked(4)
+    if (groups.size <= 5) return groups.joinToString(" ")
+    return groups.take(5).joinToString(" ") + " " + groups.drop(5).joinToString("")
 }
 
 private fun signalMaskedValue(format: SignalValueFormat): String = when (format) {

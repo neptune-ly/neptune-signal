@@ -22,16 +22,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ly.neptune.signal.theme.SignalBrand
 import ly.neptune.signal.theme.SignalColorMode
+import ly.neptune.signal.theme.SignalThemeOverrides
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalThemeConfig
+import ly.neptune.signal.theme.SignalThemeSettings
 import ly.neptune.signal.theme.SignalTheme
-
-enum class SignalAppearanceMode {
-    System,
-    Light,
-    Dark,
-    Black,
-}
 
 data class SignalThemePreset(
     val key: String,
@@ -64,6 +59,17 @@ fun SignalThemePreset.toThemeConfig(
     mode = mode,
 )
 
+fun SignalThemePreset.toThemeSettings(
+    appearance: SignalAppearanceMode = SignalAppearanceMode.System,
+    overrides: SignalThemeOverrides = SignalThemeOverrides(),
+    ink: Color = Color(0xFF071C2E),
+    surface: Color = Color(0xFFFAFCFC),
+): SignalThemeSettings = SignalThemeSettings(
+    brand = toBrand(ink = ink, surface = surface),
+    appearance = appearance,
+    overrides = overrides,
+)
+
 object SignalThemePresetDefaults {
     val Neptune = SignalThemePreset(
         key = "neptune",
@@ -80,6 +86,8 @@ object SignalThemePresetDefaults {
         SignalThemePreset("yaqeen", "Yaqeen Gold", Color(0xFF4C3324), Color(0xFFC7A15D), Color(0xFF8E6A2F), "Brown and gold"),
         SignalThemePreset("ncb", "NCB Green", Color(0xFF0B5A3A), Color(0xFF35B56F), Color(0xFFD6B15B), "Green public bank"),
         SignalThemePreset("nub", "Nuran NUB", Color(0xFF1E2430), Color(0xFFD5A332), Color(0xFFF0C75E), "Slate and gold"),
+        SignalThemePreset("aman", "Aman Blue", Color(0xFF004B7A), Color(0xFF00A17A), Color(0xFF42B7E8), "Blue and green"),
+        SignalThemePreset("public", "Public Green", Color(0xFF103F35), Color(0xFF148F67), Color(0xFFB7A66A), "Institutional green"),
     )
 }
 

@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("com.android.library")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
     `maven-publish`
@@ -9,6 +10,9 @@ group = "ly.neptune.signal"
 version = "0.2.0"
 
 kotlin {
+    androidTarget {
+        publishLibraryVariants("debug", "release")
+    }
     jvm()
 
     sourceSets {
@@ -20,6 +24,20 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
+    }
+}
+
+android {
+    namespace = "ly.neptune.signal"
+    compileSdk = 36
+
+    defaultConfig {
+        minSdk = 26
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

@@ -17,14 +17,14 @@ object SignalRadius {
     val xs = 8.dp
     val sm = 12.dp
     val md = 16.dp
-    val lg = 22.dp
+    val lg = 20.dp
     val xl = 28.dp
 }
 
 object SignalSize {
-    val touchTarget = 44.dp
-    val iconButton = 44.dp
-    val navHeight = 88.dp
-    val fieldHeight = 56.dp
-    val tileMinHeight = 112.dp
+    val touchTarget = SignalComponentMetrics.touchTarget
+    val iconButton = SignalComponentMetrics.iconButtonBox
+    val navHeight = SignalComponentMetrics.bottomNavHeight
+    val fieldHeight = SignalComponentMetrics.textFieldHeight
+    val tileMinHeight = 96.dp
 }

@@ -8,20 +8,31 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ly.neptune.signal.theme.SignalComponentMetrics
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -30,7 +41,225 @@ data class SignalQuickAction(
     val label: String,
     val onClick: () -> Unit,
     val icon: @Composable () -> Unit = {},
+    val subtitle: String? = null,
 )
+
+@Composable
+fun SignalBankHeader(
+    bankName: String,
+    subtitle: String,
+    modifier: Modifier = Modifier,
+    mark: String = "N.",
+    brandVisual: (@Composable () -> Unit)? = null,
+    actionContentDescription: String = "Notifications",
+    onActionClick: (() -> Unit)? = null,
+) {
+    val colors = SignalTheme.colors
+    val titleColor = if (colors.dark) colors.onSurface else colors.bankPrimary
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .heightIn(min = 68.dp)
+            .padding(vertical = SignalSpacing.x2),
+        horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(SignalTheme.shapes.sm))
+                .background(colors.bankSecondary),
+            contentAlignment = Alignment.Center,
+        ) {
+            CompositionLocalProvider(LocalContentColor provides Color.White) {
+                if (brandVisual != null) {
+                    brandVisual()
+                } else {
+                    Text(
+                        text = mark,
+                        color = Color.White,
+                        style = SignalTheme.typography.screenTitle,
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip,
+                    )
+                }
+            }
+        }
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = bankName,
+                color = titleColor,
+                style = SignalTheme.typography.titleLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (subtitle.isNotBlank()) {
+                Text(
+                    text = subtitle,
+                    color = colors.onSurfaceVariant,
+                    style = SignalTheme.typography.rowMeta,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+        Box(
+            modifier = Modifier
+                .size(42.dp)
+                .clickable(enabled = onActionClick != null) { onActionClick?.invoke() }
+                .semantics { contentDescription = actionContentDescription },
+            contentAlignment = Alignment.Center,
+        ) {
+            SignalIcon(
+                name = SignalIconName.Bell,
+                tint = titleColor,
+                size = 24.dp,
+            )
+        }
+    }
+}
+
+@Composable
+fun SignalCustomerGreeting(
+    greeting: String,
+    name: String,
+    metadata: String,
+    modifier: Modifier = Modifier,
+    identifier: String? = null,
+    trailing: (@Composable () -> Unit)? = null,
+) {
+    val colors = SignalTheme.colors
+    val shapes = SignalTheme.shapes
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 64.dp)
+            .background(colors.surfaceContainerLow, RoundedCornerShape(shapes.lg))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(shapes.lg))
+            .padding(SignalSpacing.x2),
+        horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        SignalCustomerAvatar(name = name)
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Text(
+                text = greeting,
+                color = colors.onSurfaceVariant,
+                style = SignalTheme.typography.rowMeta,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = name,
+                color = colors.onSurface,
+                style = SignalTheme.typography.screenTitle,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (identifier != null) {
+                Text(
+                    text = identifier,
+                    color = colors.onSurfaceVariant,
+                    style = SignalTheme.typography.rowMeta,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip,
+                )
+            }
+            Text(
+                text = metadata,
+                color = colors.onSurfaceVariant,
+                style = SignalTheme.typography.rowMeta,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        if (trailing != null) {
+            Box(modifier = Modifier.size(30.dp), contentAlignment = Alignment.Center) {
+                trailing()
+            }
+        }
+    }
+}
+
+@Composable
+fun SignalCustomerStrip(
+    greeting: String,
+    name: String,
+    metadata: String,
+    modifier: Modifier = Modifier,
+    identifier: String? = null,
+    trailing: (@Composable () -> Unit)? = null,
+) {
+    val colors = SignalTheme.colors
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp)
+            .padding(horizontal = SignalSpacing.x1),
+        horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(1.dp),
+        ) {
+            Text(
+                text = "$greeting $name",
+                color = colors.onSurfaceVariant,
+                style = SignalTheme.typography.rowTitle,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = listOfNotNull(identifier, metadata.takeIf { it.isNotBlank() }).joinToString(" · "),
+                color = colors.onSurfaceVariant,
+                style = SignalTheme.typography.rowMeta,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        if (trailing != null) {
+            Box(modifier = Modifier.size(32.dp), contentAlignment = Alignment.Center) {
+                trailing()
+            }
+        }
+    }
+}
+
+@Composable
+private fun SignalCustomerAvatar(name: String, size: Dp = 40.dp) {
+    val colors = SignalTheme.colors
+    Box(
+        modifier = Modifier
+            .size(size)
+            .background(colors.bankPrimary, RoundedCornerShape(SignalTheme.shapes.full)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = signalInitials(name),
+            color = Color.White,
+            style = SignalTheme.typography.rowTitle,
+            maxLines = 1,
+            overflow = TextOverflow.Clip,
+        )
+    }
+}
+
+private fun signalInitials(name: String): String {
+    val parts = name.trim().split(Regex("\\s+")).filter { it.isNotBlank() }
+    return parts.take(2).mapNotNull { part ->
+        val normalized = if (part.startsWith("ال") && part.length > 2) part.drop(2) else part
+        normalized.firstOrNull()?.toString()
+    }.joinToString("").ifBlank { "N." }
+}
 
 @Composable
 fun SignalActionDock(
@@ -46,12 +275,12 @@ fun SignalActionDock(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceContainerLow, RoundedCornerShape(shapes.lg))
-            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(shapes.lg))
-            .padding(SignalSpacing.x3),
-        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
+            .background(colors.surfaceCard.copy(alpha = if (colors.dark) 0.88f else 0.94f), RoundedCornerShape(28.dp))
+            .border(BorderStroke(1.dp, colors.outlineVariant.copy(alpha = 0.72f)), RoundedCornerShape(28.dp))
+            .padding(SignalSpacing.x2),
+        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
     ) {
-        SignalButton(
+        SignalCommandButton(
             label = primaryLabel,
             onClick = onPrimaryClick,
             modifier = Modifier.fillMaxWidth(),
@@ -60,6 +289,67 @@ fun SignalActionDock(
         SignalShortcutRow(actions = actions)
     }
 }
+
+@Composable
+private fun SignalCommandButton(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    leading: (@Composable () -> Unit)? = null,
+) {
+    val colors = SignalTheme.colors
+    val shapes = SignalTheme.shapes
+    val layoutDirection = LocalLayoutDirection.current
+    val labelAlign = if (layoutDirection == LayoutDirection.Rtl || label.hasSignalRtlScript()) {
+        TextAlign.Right
+    } else {
+        TextAlign.Left
+    }
+    Row(
+        modifier = modifier
+            .heightIn(min = 66.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(colors.bankPrimary)
+            .clickable(onClick = onClick)
+            .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
+        horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (leading != null) {
+            CompositionLocalProvider(LocalContentColor provides colors.textInverse) {
+                Box(
+                    modifier = Modifier
+                        .size(38.dp)
+                        .background(colors.bankSecondary, RoundedCornerShape(16.dp)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    leading()
+                }
+            }
+        } else {
+            Box(modifier = Modifier.size(38.dp))
+        }
+        Text(
+            text = label,
+            modifier = Modifier.weight(1f),
+            color = colors.textInverse,
+            style = SignalTheme.typography.screenTitle,
+            textAlign = labelAlign,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Box(modifier = Modifier.size(34.dp), contentAlignment = Alignment.Center) {
+            SignalIcon(
+                name = SignalIconName.ChevronEnd,
+                tint = colors.textInverse,
+                size = 22.dp,
+            )
+        }
+    }
+}
+
+private fun String.hasSignalRtlScript(): Boolean =
+    any { it in '\u0590'..'\u08FF' || it in '\uFB50'..'\uFDFF' || it in '\uFE70'..'\uFEFF' }
 
 @Composable
 fun SignalShortcutRow(
@@ -90,25 +380,39 @@ fun SignalQuickActionButton(
 
     Column(
         modifier = modifier
-            .heightIn(min = 68.dp)
-            .background(colors.surfaceContainerLowest, RoundedCornerShape(shapes.md))
-            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(shapes.md))
+            .heightIn(min = if (action.subtitle == null) 67.dp else 80.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(colors.surfaceContainerLowest, RoundedCornerShape(22.dp))
+            .border(BorderStroke(1.dp, colors.outlineVariant.copy(alpha = 0.82f)), RoundedCornerShape(22.dp))
             .clickable(onClick = action.onClick)
-            .padding(SignalSpacing.x2),
+            .padding(horizontal = SignalSpacing.x2, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Box(modifier = Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-            action.icon()
+        Box(modifier = Modifier.size(SignalComponentMetrics.rowIconGlyph), contentAlignment = Alignment.Center) {
+            CompositionLocalProvider(LocalContentColor provides colors.bankSecondary) {
+                action.icon()
+            }
         }
+        Spacer(modifier = Modifier.size(width = 1.dp, height = 4.dp))
         Text(
             text = action.label,
             color = colors.onSurface,
-            style = typography.statusPill,
+            style = typography.rowTitle,
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
+        if (action.subtitle != null) {
+            Text(
+                text = action.subtitle,
+                color = colors.onSurfaceVariant,
+                style = typography.statusPill,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 
@@ -126,19 +430,22 @@ fun SignalInsightCard(
     val shapes = SignalTheme.shapes
     val accent = signalToneColor(tone)
     val click = if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier
+    val background = if (colors.dark) colors.surfaceContainerHigh else colors.surfaceContainerLowest
 
     Row(
         modifier = modifier
             .then(click)
             .fillMaxWidth()
-            .heightIn(min = 62.dp)
-            .background(accent.copy(alpha = if (colors.dark) 0.16f else 0.08f), RoundedCornerShape(shapes.md))
-            .border(BorderStroke(1.dp, accent.copy(alpha = if (colors.dark) 0.32f else 0.20f)), RoundedCornerShape(shapes.md))
+            .heightIn(min = 67.dp)
+            .background(background, RoundedCornerShape(shapes.md))
+            .border(BorderStroke(1.dp, colors.outlineVariant), RoundedCornerShape(shapes.md))
             .padding(SignalSpacing.x3),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(modifier = Modifier.size(32.dp), contentAlignment = Alignment.Center) { leading() }
+        CompositionLocalProvider(LocalContentColor provides accent) {
+            Box(modifier = Modifier.size(32.dp), contentAlignment = Alignment.Center) { leading() }
+        }
         Column(modifier = Modifier.weight(1f)) {
             Text(text = title, color = colors.onSurface, style = typography.rowTitle, maxLines = 1)
             Text(text = message, color = colors.onSurfaceVariant, style = typography.rowMeta, maxLines = 2)
@@ -157,7 +464,7 @@ data class SignalAccountUiModel(
 )
 
 @Composable
-fun SignalAccountCarousel(
+fun SignalLegacyAccountCarousel(
     accounts: List<SignalAccountUiModel>,
     selectedIndex: Int,
     onSelectedIndexChange: (Int) -> Unit,

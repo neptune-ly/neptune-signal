@@ -34,6 +34,7 @@ Neptune. Signal extends Material 3 ideas instead of copying Material visuals:
 
 - Color roles map to Material role names, then receive Neptune and bank tokens.
 - Typography uses Material type-scale discipline, then adds banking roles such as balance, receipt, row metadata, and critical values.
+- Sizing uses a shared SDK metric contract where `1dp` in Compose equals `1px` in the web demo.
 - Components keep Material state layers, touch targets, elevation, and accessibility expectations.
 - Banking patterns add rules Material does not define: IBAN handling, voucher PINs, LyPay status, OpenWave consent, white-label banks, and performance-aware financial data.
 
@@ -45,7 +46,7 @@ Version `0.2.0` covers:
 - Light/dark/black appearance model and bounded customer personalization.
 - Material-style color roles and surface containers.
 - Typography scale and density.
-- Spacing, layout, shape, elevation, and icon rules.
+- Spacing, layout, shape, elevation, icon rules, and locked component metrics.
 - Core mobile app shell.
 - Banking rows and information hierarchy.
 - Critical value presentation for IBAN, alias, amount, voucher, reference, MTCN, and consent values.
@@ -74,6 +75,7 @@ A product can claim Neptune. Signal compatibility only when it follows:
 - Token model.
 - Light, dark, and black mode role mapping.
 - Typography roles.
+- Shared `SignalMetrics` sizing contract.
 - Root navigation model.
 - Component behavior.
 - Motion behavior.

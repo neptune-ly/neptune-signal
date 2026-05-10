@@ -23,7 +23,7 @@
 | --- | ---: | ---: | --- |
 | Small | 36 | 999 | Compact controls |
 | Medium | 44 | 999 | Forms and sheets |
-| Large | 56 | 22-999 | Primary actions |
+| Large | 58 | 22-999 | Primary actions |
 
 ## KMP API
 
@@ -39,4 +39,3 @@ fun SignalButton(
     icon: SignalIcon? = null
 )
 ```
-

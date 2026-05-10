@@ -83,23 +83,23 @@ data class SignalShapes(
     val xs: Dp = 8.dp,
     val sm: Dp = 12.dp,
     val md: Dp = 16.dp,
-    val lg: Dp = 22.dp,
+    val lg: Dp = 20.dp,
     val xl: Dp = 28.dp,
     val full: Dp = 999.dp,
 )
 
 @Immutable
 data class SignalDimensions(
-    val touchTarget: Dp = 44.dp,
-    val iconButton: Dp = 44.dp,
-    val buttonHeight: Dp = 52.dp,
-    val navHeight: Dp = 88.dp,
-    val fieldHeight: Dp = 56.dp,
-    val tileMinHeight: Dp = 112.dp,
-    val rowMinHeight: Dp = 64.dp,
-    val accountRowMinHeight: Dp = 76.dp,
-    val accountCardMinHeight: Dp = 176.dp,
-    val cardFaceMinHeight: Dp = 156.dp,
+    val touchTarget: Dp = SignalComponentMetrics.touchTarget,
+    val iconButton: Dp = SignalComponentMetrics.iconButtonBox,
+    val buttonHeight: Dp = SignalComponentMetrics.buttonHeight,
+    val navHeight: Dp = SignalComponentMetrics.bottomNavHeight,
+    val fieldHeight: Dp = SignalComponentMetrics.textFieldHeight,
+    val tileMinHeight: Dp = 78.dp,
+    val rowMinHeight: Dp = SignalComponentMetrics.rowMinHeight,
+    val accountRowMinHeight: Dp = SignalComponentMetrics.accountRowMinHeight,
+    val accountCardMinHeight: Dp = SignalComponentMetrics.accountCarouselHeight,
+    val cardFaceMinHeight: Dp = SignalComponentMetrics.cardFaceListHeight,
 )
 
 @Immutable

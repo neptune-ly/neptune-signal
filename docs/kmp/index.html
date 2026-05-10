@@ -306,17 +306,24 @@ ly.neptune.signal.patterns</code></pre>
 
 SignalTheme(
     brand = SignalBrandDefaults.Andalus,
-    mode = SignalColorMode.Dark,
-    shapes = SignalShapes(md = 16.dp, lg = 22.dp, xl = 28.dp),
-    dimensions = SignalDimensions(buttonHeight = 52.dp)
+    mode = SignalColorMode.Dark
 ) {
     BankingApp()
 }</code></pre>
+<p>Do not override core sizing per bank. White-label brands change color, logo, copy, and optional imagery; field height, button height, navigation height, icon sizing, and auth layout come from <code>SignalMetrics</code>.</p>
 <p>Core configuration types:</p>
 <pre><code class="language-kotlin">SignalThemeConfig
+SignalThemeSettings
+SignalThemeOverrides
 SignalBrand
 SignalBrandDefaults
 SignalColorMode
+SignalAppearanceMode
+SignalMetrics
+SignalScreenMetrics
+SignalComponentMetrics
+SignalAuthMetrics
+SignalMotionMetrics
 SignalColors
 SignalTypography
 SignalShapes
@@ -433,7 +440,7 @@ SignalTheme(
 <li>Forms and critical value lines.</li>
 <li>Lists, banking rows, and account rows.</li>
 <li>Account carousel and account detail header.</li>
-<li>Card stack and card detail stage.</li>
+<li>Card stack and card detail stage with shared card-open motion.</li>
 <li>Action dock, shortcuts, and insight cards.</li>
 <li>Voucher store and value selector.</li>
 <li>Identity and consent.</li>
@@ -451,6 +458,7 @@ SignalTheme(
 <li>Accessibility labels are required for icon-only actions.</li>
 <li>Product screens should compose patterns, not duplicate component internals.</li>
 <li>Bank colors are applied globally through <code>SignalTheme</code>, never by per-screen hardcoded overrides.</li>
+<li>Product pages use SDK patterns directly. The card selector composes <code>SignalPaymentCardStack</code>; selected card pages compose <code>SignalCardDetailStage</code> and place contextual actions below it.</li>
 </ul></div>
         <div class="footer-links">
           <a class="btn" href="../demos/mobile/prototype.html">Open mobile demo</a>

@@ -238,19 +238,37 @@ tr:first-child th,tr:first-child td{border-top:0}
         <div class="doc-card"><h1>Foundations: Layout</h1>
 <h2>Grid</h2>
 <ul>
-<li>Base unit: <code>4px</code>.</li>
-<li>Primary rhythm: <code>8px</code>.</li>
-<li>Page horizontal padding: <code>16px</code>.</li>
-<li>Dense row gap: <code>8px</code>.</li>
-<li>Section gap: <code>12-16px</code>.</li>
-<li>Major block gap: <code>20-24px</code>.</li>
+<li>Base unit: <code>4px / 4dp</code>.</li>
+<li>Primary rhythm: <code>8px / 8dp</code>.</li>
+<li>Compact screen horizontal padding: <code>16px / 16dp</code>.</li>
+<li>Wide compact screen horizontal padding: <code>20px / 20dp</code>.</li>
+<li>Content max width: <code>430px / 430dp</code>.</li>
+<li>Dense row gap: <code>8px / 8dp</code>.</li>
+<li>Card/list gap: <code>12px / 12dp</code>.</li>
+<li>Section gap: <code>16px / 16dp</code>.</li>
+<li>Major block gap: <code>20-24px / 20-24dp</code>.</li>
 </ul>
+<p><code>1dp</code> in KMP Compose equals <code>1px</code> in the web demo contract. Product screens must use the SDK metrics rather than local screen constants.</p>
 <h2>Phone Shell</h2>
 <p>Mobile target:</p>
 <pre><code class="language-text">390 x 844
 375 x 812
 430 x 932</code></pre>
 <p>Desktop preview should use a stable phone frame with aspect ratio <code>390 / 844</code>.</p>
+<h2>Locked Component Metrics</h2>
+<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Minimum touch target</td><td><code>48px / 48dp</code></td></tr><tr><td>Standard icon</td><td><code>31px / 31dp</code></td></tr><tr><td>Row icon glyph</td><td><code>29px / 29dp</code></td></tr><tr><td>Bottom navigation icon</td><td><code>26.5px / 26.5dp</code></td></tr><tr><td>Small action icon</td><td><code>25px / 25dp</code></td></tr><tr><td>Icon button box</td><td><code>44px / 44dp</code></td></tr><tr><td>Text field</td><td><code>62px / 62dp</code></td></tr><tr><td>Button</td><td><code>58px / 58dp</code></td></tr><tr><td>Bottom navigation</td><td><code>86px / 86dp</code> plus safe area</td></tr><tr><td>Banking row</td><td><code>58px / 58dp</code> minimum</td></tr><tr><td>Transaction row</td><td><code>72px / 72dp</code> minimum</td></tr><tr><td>Account row</td><td><code>76px / 76dp</code> minimum</td></tr><tr><td>Account carousel</td><td><code>176px / 176dp</code></td></tr><tr><td>Card face</td><td><code>136px / 136dp</code> list, <code>190px / 190dp</code> detail</td></tr></tbody></table>
+<h2>Auth Reference Screen</h2>
+<p>The login screen is the sizing reference for Neptune. Signal:</p>
+<ul>
+<li>Screen padding: <code>16px / 16dp</code> horizontal and <code>22px / 22dp</code> vertical.</li>
+<li>Brand header: <code>58px / 58dp</code>.</li>
+<li>Header icon box: <code>40px / 40dp</code>, glyph <code>24px / 24dp</code>, radius <code>13px / 13dp</code>.</li>
+<li>Login state card: full width, radius <code>20px / 20dp</code>, padding <code>12px / 12dp</code>.</li>
+<li>Form panel: full width, radius <code>20px / 20dp</code>, padding <code>12px / 12dp</code>, gap <code>10px / 10dp</code>.</li>
+<li>Text field: <code>62px / 62dp</code>.</li>
+<li>Button: <code>58px / 58dp</code>.</li>
+<li>Passkey glyph: <code>24px / 24dp</code>.</li>
+</ul>
 <h2>Navigation</h2>
 <p>Root tabs:</p>
 <ul>

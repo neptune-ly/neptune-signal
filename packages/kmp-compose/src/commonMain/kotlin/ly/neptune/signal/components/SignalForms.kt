@@ -1,21 +1,26 @@
 package ly.neptune.signal.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
 @Composable
@@ -33,44 +38,66 @@ fun SignalTextField(
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     val colors = SignalTheme.colors
-    val shapes = SignalTheme.shapes
     val dimensions = SignalTheme.dimensions
-    Column(modifier = modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
+    val containerColor = when {
+        colors.black -> colors.surfaceContainerLow
+        colors.dark -> colors.surfaceContainerLowest
+        else -> colors.surfaceContainerLowest
+    }
+    Column(
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = dimensions.fieldHeight),
-            enabled = enabled,
-            singleLine = singleLine,
-            isError = errorText != null,
-            label = { Text(label) },
-            trailingIcon = trailingIcon,
-            keyboardOptions = keyboardOptions,
-            visualTransformation = visualTransformation,
-            shape = RoundedCornerShape(shapes.md),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = colors.bankPrimary,
-                unfocusedBorderColor = colors.outlineVariant,
-                errorBorderColor = colors.error,
-                focusedLabelColor = colors.bankPrimary,
-                unfocusedLabelColor = colors.onSurfaceVariant,
-                focusedTextColor = colors.onSurface,
-                unfocusedTextColor = colors.onSurface,
-                cursorColor = colors.bankPrimary,
-            ),
-            supportingText = {
-                val text = errorText ?: supportingText
-                if (text != null) {
-                    Text(
-                        text = text,
-                        color = if (errorText != null) colors.error else colors.onSurfaceVariant,
-                        style = SignalTheme.typography.rowMeta,
-                    )
-                }
-            },
-        )
+            color = containerColor,
+            shape = RoundedCornerShape(SignalTheme.shapes.md),
+            border = BorderStroke(1.dp, if (errorText != null) colors.error else colors.outlineVariant),
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = SignalSpacing.x3, vertical = 11.dp),
+            ) {
+                Text(
+                    text = label,
+                    color = if (errorText != null) colors.error else colors.onSurfaceVariant,
+                    style = SignalTheme.typography.fieldLabel,
+                )
+                BasicTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = enabled,
+                    singleLine = singleLine,
+                    keyboardOptions = keyboardOptions,
+                    visualTransformation = visualTransformation,
+                    cursorBrush = SolidColor(colors.bankPrimary),
+                    textStyle = SignalTheme.typography.fieldValue.copy(
+                        color = colors.onSurface,
+                    ),
+                    decorationBox = { innerTextField ->
+                        androidx.compose.foundation.layout.Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                        ) {
+                            androidx.compose.foundation.layout.Box(modifier = Modifier.weight(1f)) {
+                                innerTextField()
+                            }
+                            trailingIcon?.invoke()
+                        }
+                    },
+                )
+            }
+        }
+        val text = errorText ?: supportingText
+        if (text != null) {
+            Text(
+                text = text,
+                modifier = Modifier.padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x1),
+                color = if (errorText != null) colors.error else colors.onSurfaceVariant,
+                style = SignalTheme.typography.rowMeta,
+            )
+        }
     }
 }
 
@@ -124,7 +151,11 @@ fun SignalIbanField(
                         .size(SignalTheme.dimensions.iconButton)
                         .semantics { contentDescription = "Copy $label" },
                 ) {
-                    SignalCopyGlyph()
+                    SignalIcon(
+                        name = SignalIconName.Copy,
+                        tint = SignalTheme.colors.bankPrimary,
+                        size = 18.dp,
+                    )
                 }
             }
         } else {

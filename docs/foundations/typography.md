@@ -27,27 +27,48 @@ Signal keeps the Material 3 type-scale structure so implementation teams can map
 
 | Role | Size | Weight | Line | Usage |
 | --- | ---: | ---: | ---: | --- |
-| Display Balance | 32-36 | 900-950 | 0.98-1.05 | Account balances and high-value amounts |
-| Page Title | 18-20 | 900-950 | 1.15 | App bar titles |
-| Section Title | 13-15 | 900-950 | 1.2 | Section headers |
-| Row Title | 13-14 | 850-950 | 1.25 | Banking list rows |
-| Row Meta | 10.5-12 | 750-850 | 1.35 | Transaction metadata |
-| Button | 13-15 | 900-950 | 1.2 | Filled and secondary buttons |
-| Status Pill | 9.5-11 | 850-950 | 1.1 | Active, pending, failed |
-| Receipt Title | 22-28 | 900-950 | 1.15 | Success/failure states |
+| Balance | 36sp | 950 | 38sp | Account balances and high-value amounts |
+| Page Title | 20sp | 950 | 26sp | Full page and result titles |
+| Screen Title | 17sp | 950 | 23sp | Auth state cards and compact page headers |
+| Section Title | 15sp | 950 | 20sp | Section headers |
+| Row Title | 15sp | 850-950 | 20sp | Banking list rows |
+| Row Meta | 13sp | 750-850 | 17sp | Transaction metadata |
+| Field Label | 13sp | 850 | 16sp | Text field labels |
+| Field Value | 17sp | 950 | 22sp | Text field values |
+| Button | 16sp | 950 | 20sp | Filled and secondary buttons |
+| Status Pill | 12.5sp | 850-950 | 15sp | Active, pending, failed |
+| Receipt Title | 22-26 | 900-950 | 1.15 | Success/failure states |
 | Legal/Support | 11-13 | 650-800 | 1.45 | Consent scope, support copy |
 
-## 0.2.0 KMP Defaults
+## Density Rules
+
+Signal uses Material 3 type roles but keeps banking screens compact. Dense does not mean small: touch targets stay at least 48dp, fields stay stable, and type is reduced only where the user is scanning repeated banking data.
+
+| Surface | Default height | Type rule |
+| --- | ---: | --- |
+| Button | 58dp | `labelLarge`, one line |
+| Field | 62dp | 17sp input text |
+| Banking row | 58dp minimum | One row title plus compact metadata |
+| Account row | 76dp minimum | Balance and semantic identifier visible |
+| Bottom navigation | 86dp plus safe area | 26.5dp nav icon plus 12.5sp label |
+
+Do not enlarge login, OTP, settings, or support copy to hero sizes. Authentication screens are operational banking screens, not marketing pages.
+
+## 0.2.1 KMP Defaults
 
 | SDK role | Size | Weight | Usage |
 | --- | ---: | ---: | --- |
-| `displayLarge` | 44 | 950 | Large financial hero only |
+| `displayLarge` | 42 | 950 | Large financial hero only |
 | `headlineMedium` | 28 | 950 | Result title and major detail title |
-| `titleLarge` | 20 | 950 | Page app bar title |
-| `titleMedium` | 16 | 900 | Section and card title |
-| `bodyMedium` | 14 | 650 | Supporting text |
-| `labelLarge` | 15 | 950 | Primary buttons |
-| `labelSmall` | 11 | 850 | Status, nav, compact metadata |
+| `pageTitle` | 20 | 950 | Full page and result title |
+| `screenTitle` | 17 | 950 | Compact state title |
+| `titleLarge` | 19 | 950 | Large component title |
+| `titleMedium` | 16 | 950 | Section and card title |
+| `bodyMedium` | 15 | 650 | Supporting text |
+| `labelLarge` | 16 | 950 | Primary buttons |
+| `labelSmall` | 13 | 850 | Status, nav, compact metadata |
+| `fieldLabel` | 13 | 850 | Text field labels |
+| `fieldValue` | 17 | 950 | Text field values |
 
 ## Rules
 

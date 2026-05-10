@@ -38,6 +38,34 @@
       --radius: 8px;
       --radius-lg: 14px;
       --shadow: 0 20px 58px rgba(7, 49, 95, .14);
+      --signal-grid: 4px;
+      --signal-screen-x: 16px;
+      --signal-screen-y: 22px;
+      --signal-content-max: 430px;
+      --signal-touch-target: 48px;
+      --signal-icon: 31px;
+      --signal-row-icon: 29px;
+      --signal-nav-icon: 26.5px;
+      --signal-small-icon: 25px;
+      --signal-icon-button: 44px;
+      --signal-field-h: 62px;
+      --signal-button-h: 58px;
+      --signal-auth-gap: 10px;
+      --signal-section-gap: 16px;
+      --signal-nav-h: 86px;
+      --signal-row-h: 58px;
+      --signal-transaction-row-h: 72px;
+      --signal-account-row-h: 76px;
+      --signal-account-carousel-h: 176px;
+      --signal-card-face-h: 136px;
+      --signal-card-detail-face-h: 190px;
+      --signal-auth-header-h: 58px;
+      --signal-auth-header-icon: 40px;
+      --signal-auth-header-radius: 13px;
+      --signal-auth-state-icon: 38px;
+      --signal-auth-note-icon: 36px;
+      --signal-auth-panel-padding: 12px;
+      --signal-auth-panel-radius: 20px;
       font-family: "SF Compact Rounded", "SF Pro Rounded", "Beiruti", "Noto Sans Arabic", Inter, system-ui, sans-serif;
     }
 
@@ -184,9 +212,9 @@
 
     .screen {
       position: absolute;
-      inset: 42px 0 74px;
+      inset: 42px 0 var(--signal-nav-h);
       overflow: auto;
-      padding: 0 18px 24px;
+      padding: 0 var(--signal-screen-x) 24px;
       opacity: 0;
       transform: translateY(10px);
       pointer-events: none;
@@ -863,32 +891,34 @@
     .bottom-nav {
       position: absolute;
       z-index: 35;
-      inset: auto 0 0;
-      height: 74px;
+      inset: auto 12px 10px;
+      height: var(--signal-nav-h);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 4px;
-      padding: 8px 12px 10px;
-      background: rgba(255,255,255,.96);
-      border-top: 1px solid var(--line);
-      backdrop-filter: blur(14px);
+      padding: 6px;
+      background: color-mix(in srgb, var(--bank-primary) 96%, black 4%);
+      border: 1px solid color-mix(in srgb, var(--signal) 34%, transparent);
+      border-radius: 32px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 40px rgba(7,49,95,.22);
     }
     .nav-btn {
       display: grid;
       place-items: center;
       align-content: center;
       gap: 4px;
-      color: var(--muted);
+      color: rgba(255,255,255,.74);
       background: transparent;
       border: 0;
       border-radius: var(--radius);
       font-size: 10px;
       font-weight: 850;
     }
-    .nav-btn svg { width: 20px; height: 20px; stroke-width: 2.25; }
+    .nav-btn svg { width: var(--signal-nav-icon); height: var(--signal-nav-icon); stroke-width: 2.25; }
     .nav-btn.active {
       color: var(--bank-primary);
-      background: rgba(7,49,95,.08);
+      background: rgba(255,255,255,.96);
     }
 
     /* Neptune. Signal: app-first shell and modern banking language */
@@ -1096,6 +1126,30 @@
       border-color: color-mix(in srgb, var(--bank-accent) 70%, white);
       background: rgba(255,255,255,.16);
     }
+    .palette-rule {
+      width: 1px;
+      height: 24px;
+      align-self: center;
+      background: rgba(255,255,255,.16);
+    }
+    .palette-mode {
+      min-width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 930;
+      letter-spacing: 0;
+    }
+    .palette-mode.active {
+      color: white;
+      border-color: color-mix(in srgb, var(--bank-accent) 70%, white);
+      background: color-mix(in srgb, var(--bank-accent) 26%, rgba(255,255,255,.12));
+    }
     .phone::before {
       content: "";
       position: absolute;
@@ -1299,6 +1353,282 @@
     }
     .splash-copy b { font-size: 19px; letter-spacing: 0; }
     .splash-copy span { color: rgba(255,255,255,.68); font-size: 12px; font-weight: 760; }
+
+    .auth-shell {
+      min-height: 100%;
+      display: grid;
+      align-content: start;
+      gap: var(--signal-auth-gap);
+      padding: 6px 0 8px;
+    }
+    .auth-head {
+      min-height: var(--signal-auth-header-h);
+      display: grid;
+      grid-template-columns: var(--signal-auth-header-icon) minmax(0,1fr) var(--signal-auth-header-icon);
+      align-items: center;
+      gap: var(--signal-auth-gap);
+      padding-top: 4px;
+    }
+    .auth-state-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      color: #fff;
+      background: var(--bank-primary);
+      border-radius: var(--signal-auth-panel-radius);
+      box-shadow: 0 16px 42px color-mix(in srgb, var(--bank-primary) 22%, transparent);
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-state-card:after {
+      content: "";
+      position: absolute;
+      inset-inline-end: -34px;
+      top: -42px;
+      width: 108px;
+      height: 108px;
+      border: 16px solid var(--bank-accent);
+      border-radius: 999px;
+      opacity: .72;
+    }
+    .auth-state-card > * { position: relative; z-index: 1; }
+    .auth-state-title {
+      display: grid;
+      grid-template-columns: var(--signal-auth-state-icon) 1fr;
+      align-items: center;
+      gap: var(--signal-auth-gap);
+    }
+    .auth-state-title .row-icon {
+      width: var(--signal-auth-state-icon);
+      height: var(--signal-auth-state-icon);
+      color: var(--bank-primary);
+      background: rgba(255,255,255,.92);
+    }
+    .auth-copy { display: grid; gap: 3px; }
+    .auth-copy h1 {
+      margin: 0;
+      color: inherit;
+      font-size: 16px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+    .auth-copy p {
+      margin: 0;
+      color: rgba(255,255,255,.74);
+      font-size: 10.5px;
+      line-height: 1.38;
+      font-weight: 760;
+    }
+    .auth-panel {
+      display: grid;
+      gap: var(--signal-auth-gap);
+      padding: var(--signal-auth-panel-padding);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--signal-auth-panel-radius);
+      box-shadow: none;
+    }
+    .auth-panel .field { margin-top: 0; }
+    .auth-panel .primary-btn,
+    .auth-panel .secondary-btn { min-height: var(--signal-button-h); }
+    .otp-grid {
+      direction: ltr;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 7px;
+    }
+    .otp-grid input {
+      width: 100%;
+      height: 48px;
+      color: var(--bank-primary);
+      background: var(--md-surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 950;
+      outline: none;
+    }
+    .otp-grid input:focus {
+      border-color: var(--bank-accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--bank-accent) 18%, transparent);
+    }
+    .auth-step {
+      display: grid;
+      gap: 4px;
+      padding: 12px;
+      color: var(--bank-primary);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: 16px;
+    }
+    .auth-step b { font-size: 13px; }
+    .auth-step span { color: var(--muted); font-size: 11px; font-weight: 800; line-height: 1.45; }
+    .auth-flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .auth-flow span {
+      min-height: 28px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+      text-align: center;
+    }
+    .auth-flow span.active {
+      color: var(--md-on-primary);
+      background: var(--bank-primary);
+      border-color: var(--bank-primary);
+    }
+    .auth-state-card .auth-flow span {
+      color: rgba(255,255,255,.70);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.14);
+    }
+    .auth-state-card .auth-flow span.active {
+      color: var(--bank-primary);
+      background: rgba(255,255,255,.92);
+      border-color: rgba(255,255,255,.92);
+    }
+    .auth-action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .auth-link {
+      min-height: 34px;
+      justify-self: end;
+      align-self: end;
+      padding: 4px 8px;
+      color: var(--bank-primary);
+      background: transparent;
+      border: 0;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 930;
+      text-align: end;
+    }
+    .auth-link:active {
+      transform: scale(.98);
+      background: color-mix(in srgb, var(--bank-primary) 8%, transparent);
+    }
+    .auth-secondary-stack {
+      display: grid;
+      gap: 8px;
+    }
+    .passkey-login {
+      min-height: var(--signal-button-h);
+      grid-template-columns: var(--signal-row-icon) auto;
+      justify-content: center;
+      align-items: center;
+      color: var(--bank-primary);
+      background: color-mix(in srgb, var(--bank-accent) 10%, var(--surface));
+      border: 1px solid color-mix(in srgb, var(--bank-accent) 26%, var(--line));
+    }
+    .auth-note {
+      display: grid;
+      grid-template-columns: var(--signal-auth-note-icon) 1fr;
+      align-items: center;
+      gap: var(--signal-auth-gap);
+      padding: 10px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--radius-lg);
+      font-size: 11px;
+      font-weight: 820;
+      line-height: 1.45;
+    }
+    .auth-note .row-icon { width: var(--signal-auth-note-icon); height: var(--signal-auth-note-icon); border-radius: 12px; }
+    .phone.auth-mode .bottom-nav { display: none; }
+    .phone.auth-mode .screen {
+      bottom: 0;
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+    .auth-result { display: none; }
+
+    .language-sheet {
+      position: absolute;
+      z-index: 80;
+      inset: 0;
+      display: grid;
+      align-items: end;
+      padding: 16px;
+      background: rgba(3, 18, 32, .42);
+      backdrop-filter: blur(10px);
+      animation: sheetFade .18s ease both;
+    }
+    .language-panel {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      color: var(--ink);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: 24px;
+      box-shadow: 0 24px 54px rgba(3,18,32,.28);
+      animation: sheetUp .24s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .language-panel-head {
+      display: grid;
+      grid-template-columns: 1fr 38px;
+      gap: 10px;
+      align-items: center;
+    }
+    .language-panel-head b {
+      display: block;
+      color: var(--bank-primary);
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .language-panel-head span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 780;
+      line-height: 1.4;
+    }
+    .language-option {
+      width: 100%;
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 40px minmax(0,1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      text-align: start;
+    }
+    .language-option.active {
+      border-color: color-mix(in srgb, var(--bank-accent) 36%, var(--line));
+      background: color-mix(in srgb, var(--bank-accent) 10%, var(--surface));
+    }
+    .language-option > i {
+      width: var(--signal-auth-header-icon);
+      height: var(--signal-auth-header-icon);
+      display: grid;
+      place-items: center;
+      color: var(--bank-primary);
+      background: var(--primary-soft);
+      border-radius: 12px;
+      font-style: normal;
+      font-weight: 950;
+      font-size: 11px;
+    }
+    .language-option b { display: block; font-size: 13px; line-height: 1.2; }
+    .language-option span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.35; font-weight: 760; }
+    .language-option .status-pill { margin: 0; }
 
     .topbar, .home-head {
       min-height: 62px;
@@ -1718,6 +2048,164 @@
       background: rgba(255,255,255,.86);
       border-color: var(--primary-line);
       box-shadow: inset 0 -1px 0 var(--ledger-line);
+    }
+
+    /* M3-aligned compact banking density: 48px targets, 14/20 body, 12/16 labels. */
+    .topbar, .home-head { min-height: 56px; }
+    .page-title { font-size: 16px; line-height: 1.25; }
+    .page-subtitle, .bank-name span { font-size: 11px; line-height: 1.35; }
+    .bank-name b { font-size: 13.5px; line-height: 1.25; }
+    .section-head { margin-top: 14px; margin-bottom: 7px; font-size: 12.5px; }
+    .row { min-height: var(--signal-row-h); grid-template-columns: 34px minmax(0,1fr) auto; gap: 9px; padding: 9px 10px; }
+    .row-icon { width: 34px; height: 34px; border-radius: 11px; }
+    .row .row-icon svg { width: 19px; height: 19px; }
+    .row b { font-size: 12.25px; line-height: 1.25; }
+    .row > span:nth-child(2) > span { font-size: 10.25px; line-height: 1.34; }
+    .status-pill { min-height: 24px; padding: 0 8px; font-size: 10px; }
+    .field { min-height: var(--signal-field-h); padding: 11px 12px; }
+    .field label { font-size: 10.5px; line-height: 1.3; }
+    .field input { margin-top: 5px; font-size: 15px; line-height: 1.35; }
+    .primary-btn, .secondary-btn, .icon-footer { min-height: var(--signal-button-h); font-size: 14px; }
+    .quick { min-height: 62px; font-size: 10.5px; }
+    .quick svg { width: 19px; height: 19px; }
+    .account-panel { padding: 14px; border-radius: 20px; }
+    .balance { font-size: clamp(27px, 7.2vw, 34px); }
+    .account-label b { font-size: 12.5px; }
+    .account-label span, .account-panel .meta { font-size: 10.5px; }
+    .amount-entry { padding: 15px; }
+    .amount-entry strong { font-size: 34px; line-height: 1.05; }
+    .detail-line { min-height: 48px; }
+    .detail-line span { font-size: 10.5px; }
+    .detail-line b { font-size: 12.5px; }
+
+    .tos-hero {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+      padding: 14px;
+      color: white;
+      background: var(--bank-primary);
+      border-radius: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tos-hero:after {
+      content: "";
+      position: absolute;
+      width: 118px;
+      height: 118px;
+      inset-block-start: -56px;
+      inset-inline-end: -38px;
+      border: 16px solid var(--bank-accent);
+      border-radius: 999px;
+      opacity: .58;
+    }
+    .tos-hero > * { position: relative; z-index: 1; }
+    .tos-hero b { font-size: 16px; line-height: 1.2; }
+    .tos-hero span { max-width: 260px; color: rgba(255,255,255,.76); font-size: 10.75px; line-height: 1.45; font-weight: 760; }
+    .tos-scroll {
+      max-height: 286px;
+      overflow: auto;
+      margin-top: 10px;
+      padding: 4px;
+      background: color-mix(in srgb, var(--bank-primary) 4%, white);
+      border: 1px solid var(--primary-line);
+      border-radius: 20px;
+      scrollbar-width: none;
+    }
+    .tos-scroll::-webkit-scrollbar { display: none; }
+    .tos-item {
+      display: grid;
+      grid-template-columns: 32px minmax(0,1fr);
+      gap: 10px;
+      padding: 10px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--ledger-line);
+      text-align: start;
+    }
+    .tos-item:first-child { border-start-start-radius: 16px; border-start-end-radius: 16px; }
+    .tos-item:last-child { border-bottom: 0; border-end-start-radius: 16px; border-end-end-radius: 16px; }
+    .tos-item i {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      color: var(--bank-primary);
+      background: var(--primary-soft);
+      border-radius: 10px;
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 950;
+    }
+    .tos-item b { display: block; color: var(--bank-primary); font-size: 12.5px; line-height: 1.25; }
+    .tos-item span { display: block; margin-top: 3px; color: var(--muted); font-size: 10.5px; line-height: 1.42; font-weight: 760; }
+    .tos-item p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.42;
+      font-weight: 760;
+    }
+    .tos-bullets {
+      display: grid;
+      gap: 4px;
+      margin: 7px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .tos-bullets li {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr);
+      gap: 6px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.42;
+      font-weight: 760;
+    }
+    .tos-bullets li:before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      margin-top: 5px;
+      border-radius: 999px;
+      background: var(--bank-accent);
+    }
+    .tos-callout {
+      margin-top: 8px;
+      padding: 8px 9px;
+      color: var(--bank-primary);
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-line);
+      border-radius: 12px;
+      font-size: 10.5px;
+      line-height: 1.38;
+      font-weight: 850;
+    }
+    .tos-accept {
+      display: grid;
+      grid-template-columns: 24px minmax(0,1fr);
+      gap: 9px;
+      align-items: center;
+      margin-top: 10px;
+      padding: 10px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      font-size: 10.75px;
+      line-height: 1.4;
+      font-weight: 780;
+      text-align: start;
+    }
+    .tos-accept i {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--bank-accent);
+      border-radius: 8px;
+      font-style: normal;
     }
 
     .account-carousel {
@@ -2472,14 +2960,14 @@
       position: relative;
       display: grid;
       gap: 0;
-      min-height: 328px;
+      min-height: 402px;
       margin: 0 0 12px;
       color: white;
       background:
         radial-gradient(circle at 20% 12%, color-mix(in srgb, var(--card-signal) 30%, transparent) 0 1px, transparent 2px),
         radial-gradient(circle at 82% 5%, color-mix(in srgb, var(--card-signal) 32%, transparent), transparent 26%),
         var(--card-bg, #202936);
-      border-radius: 0 0 30px 30px;
+      border-radius: 0 0 38px 38px;
       box-shadow: 0 20px 40px color-mix(in srgb, var(--card-bg, #202936) 22%, transparent);
       overflow: hidden;
       transform-origin: center top;
@@ -2545,19 +3033,19 @@
     }
     .card-open-hero {
       display: grid;
-      gap: 12px;
-      padding: 6px 18px 18px;
+      gap: 14px;
+      padding: 10px 18px 18px;
       transform-style: preserve-3d;
     }
     .card-detail-visual {
-      min-height: 170px;
+      min-height: 214px;
       display: grid;
       align-content: space-between;
-      padding: 4px 4px 2px;
+      padding: 18px;
       color: white;
-      background: transparent;
-      border: 0;
-      border-radius: 0;
+      background: rgba(255,255,255,.105);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 30px;
       box-shadow: none;
       position: relative;
       overflow: hidden;
@@ -2573,7 +3061,6 @@
         linear-gradient(90deg, var(--card-signal, var(--signal)) 0 6px, transparent 6px),
         radial-gradient(circle at 86% 18%, rgba(255,255,255,.18), transparent 24%);
       pointer-events: none;
-      display: none;
     }
     .card-detail-visual > * {
       position: relative;
@@ -2594,9 +3081,10 @@
     .card-live-strip .metric {
       margin: 0;
       color: white;
-      background: rgba(255,255,255,.10);
+      min-height: 62px;
+      background: rgba(255,255,255,.115);
       border-color: rgba(255,255,255,.14);
-      border-radius: 16px;
+      border-radius: 18px;
     }
     .card-live-strip .metric span,
     .card-live-strip .metric b {
@@ -3325,7 +3813,7 @@
       border-top: 1px solid var(--primary-line);
     }
     .primary-btn, .secondary-btn, .icon-footer {
-      min-height: 50px;
+      min-height: var(--signal-button-h);
       border-radius: 999px;
     }
     .primary-btn { background: var(--bank-primary); }
@@ -3342,7 +3830,7 @@
     }
     .result-actions .primary-btn,
     .result-actions .secondary-btn {
-      grid-template-columns: 22px auto;
+      grid-template-columns: var(--signal-row-icon) auto;
       justify-content: center;
       align-items: center;
     }
@@ -3448,18 +3936,19 @@
     .bottom-nav {
       z-index: 45;
       height: 78px;
-      padding: 8px 12px 12px;
-      background: rgba(255,255,255,.94);
-      border-top: 1px solid var(--primary-line);
+      padding: 6px;
+      background: color-mix(in srgb, var(--bank-primary) 96%, black 4%);
+      border: 1px solid color-mix(in srgb, var(--signal) 34%, transparent);
+      border-radius: 32px;
     }
     .nav-btn {
-      border-radius: 16px;
+      border-radius: 24px;
       font-size: 10px;
       position: relative;
     }
     .nav-btn.active {
       color: var(--bank-primary);
-      background: var(--primary-soft);
+      background: rgba(255,255,255,.96);
     }
     .nav-btn.active::before {
       content: "";
@@ -3471,7 +3960,7 @@
       border-radius: 999px;
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .bottom-nav {
-      background: color-mix(in srgb, var(--paper-strong) 92%, rgba(255,255,255,.04));
+      background: color-mix(in srgb, var(--paper-strong) 82%, var(--bank-primary) 18%);
       border-top-color: var(--primary-line);
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .list,
@@ -3500,6 +3989,11 @@
     :root:is([data-mode="dark"], [data-mode="black"]) .result-card,
     :root:is([data-mode="dark"], [data-mode="black"]) .receipt-summary,
     :root:is([data-mode="dark"], [data-mode="black"]) .copy-line,
+    :root:is([data-mode="dark"], [data-mode="black"]) .tos-scroll,
+    :root:is([data-mode="dark"], [data-mode="black"]) .tos-item,
+    :root:is([data-mode="dark"], [data-mode="black"]) .tos-accept,
+    :root:is([data-mode="dark"], [data-mode="black"]) .language-panel,
+    :root:is([data-mode="dark"], [data-mode="black"]) .language-option,
     :root:is([data-mode="dark"], [data-mode="black"]) .secondary-btn,
     :root:is([data-mode="dark"], [data-mode="black"]) .qr-code,
     :root:is([data-mode="dark"], [data-mode="black"]) .home-insight {
@@ -3580,6 +4074,9 @@
     :root:is([data-mode="dark"], [data-mode="black"]) .status-step b,
     :root:is([data-mode="dark"], [data-mode="black"]) .detail-line b,
     :root:is([data-mode="dark"], [data-mode="black"]) .copy-line b,
+    :root:is([data-mode="dark"], [data-mode="black"]) .tos-item b,
+    :root:is([data-mode="dark"], [data-mode="black"]) .language-panel-head b,
+    :root:is([data-mode="dark"], [data-mode="black"]) .language-option b,
     :root:is([data-mode="dark"], [data-mode="black"]) .scope-item b,
     :root:is([data-mode="dark"], [data-mode="black"]) .consent-hero b,
     :root:is([data-mode="dark"], [data-mode="black"]) .consent-alias-strip b,
@@ -3896,6 +4393,14 @@
         filter: blur(0);
       }
     }
+    @keyframes sheetFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes sheetUp {
+      from { opacity: 0; transform: translateY(22px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
     @media (max-width: 920px) {
       .workspace {
@@ -3949,6 +4454,11 @@
       <button class="palette-dot tap" data-theme="nub" aria-label="Nuran NUB Gold"><i style="--p:#1E2430;--s:#D5A332;--a:#F0C75E"></i></button>
       <button class="palette-dot tap" data-theme="aman" aria-label="Aman Blue Green"><i style="--p:#004B7A;--s:#00A17A;--a:#42B7E8"></i></button>
       <button class="palette-dot tap" data-theme="public" aria-label="Public Bank Green"><i style="--p:#103F35;--s:#148F67;--a:#B7A66A"></i></button>
+      <span class="palette-rule" aria-hidden="true"></span>
+      <button class="palette-mode tap" data-mode-choice="system" aria-label="System appearance">A</button>
+      <button class="palette-mode tap" data-mode-choice="light" aria-label="Light appearance">L</button>
+      <button class="palette-mode tap" data-mode-choice="dark" aria-label="Dark appearance">D</button>
+      <button class="palette-mode tap" data-mode-choice="black" aria-label="Black appearance">B</button>
     </div>
     <aside class="rail" aria-label="Design system controls">
       <div class="brand">
@@ -3978,6 +4488,7 @@
       </section>
       <section class="rail-section">
         <div class="rail-title">Screens</div>
+        <button class="jump-button tap" data-go="login"><span><b>Login</b><span>Customer and non-customer entry</span></span><span data-icon="arrow"></span></button>
         <button class="jump-button tap" data-go="home"><span><b>Home</b><span>Account, two latest transactions</span></span><span data-icon="arrow"></span></button>
         <button class="jump-button tap" data-go="transfer"><span><b>Transfer</b><span>Internal, own, LyPay, WU</span></span><span data-icon="arrow"></span></button>
         <button class="jump-button tap" data-go="cards"><span><b>Cards</b><span>Lazy detail loading</span></span><span data-icon="arrow"></span></button>
@@ -4119,6 +4630,7 @@
           categories: { telecom: 'اتصالات', internet: 'إنترنت', gaming: 'ألعاب', entertainment: 'ترفيه', shopping: 'تسوق' }
         },
         titles: {
+          login: 'تسجيل الدخول', loginOtp: 'تحقق الجهاز', changePassword: 'تغيير كلمة المرور', resetPassword: 'استعادة كلمة المرور', resetPasswordVerify: 'تعيين كلمة المرور', resetPasswordDone: 'تم التغيير', onboarding: 'فتح حساب جديد',
           transfer: 'تحويل', internalTransfer: 'حوالة داخلية', ownTransfer: 'بين حساباتي', lypay: 'LyPay',
           confirm: 'تأكيد الحوالة', westernUnion: 'Western Union', wuSend: 'إرسال WU', wuReceive: 'استلام WU',
           wuStatus: 'حوالات WU', transferStatus: 'حالة التحويلات', lypayStatus: 'حالة LyPay', lypayStatusDetail: 'تفاصيل LyPay',
@@ -4136,7 +4648,7 @@
           passkey: 'مفتاح الدخول', sessions: 'الجلسات والأجهزة', signOut: 'تسجيل الخروج',
           profile: 'الملف الشخصي', language: 'اللغة', support: 'الدعم', chat: 'محادثة الدعم', faq: 'الأسئلة الشائعة',
           ticket: 'تذكرة دعم', locations: 'الفروع والصرافات', notifications: 'الإشعارات', notificationDetail: 'تفاصيل الإشعار', insights: 'تحليل المصروفات',
-          contacts: 'جهات LyPay', personalization: 'التخصيص'
+          contacts: 'جهات LyPay', personalization: 'التخصيص', terms: 'شروط الاستخدام'
         },
         languagePreview: 'نفس التصميم، نفس المسافات، نفس الحالات، مع اتجاه ونصوص قابلة للتبديل.',
         short: {
@@ -4177,6 +4689,7 @@
           categories: { telecom: 'Telecom', internet: 'Internet', gaming: 'Gaming', entertainment: 'Media', shopping: 'Shopping' }
         },
         titles: {
+          login: 'Login', loginOtp: 'Device verification', changePassword: 'Change password', resetPassword: 'Forgot password', resetPasswordVerify: 'Set new password', resetPasswordDone: 'Password changed', onboarding: 'Open an account',
           transfer: 'Transfer', internalTransfer: 'Internal transfer', ownTransfer: 'Between my accounts', lypay: 'LyPay',
           confirm: 'Confirm transfer', westernUnion: 'Western Union', wuSend: 'Send WU', wuReceive: 'Receive WU',
           wuStatus: 'WU transfers', transferStatus: 'Transfer status', lypayStatus: 'LyPay status', lypayStatusDetail: 'LyPay details',
@@ -4194,7 +4707,7 @@
           passkey: 'Passkey', sessions: 'Sessions and devices', signOut: 'Sign out',
           profile: 'Profile', language: 'Language', support: 'Support', chat: 'Support chat', faq: 'FAQ',
           ticket: 'Support ticket', locations: 'Branches and ATMs', notifications: 'Notifications', notificationDetail: 'Notification detail', insights: 'Spending insights',
-          contacts: 'LyPay contacts', personalization: 'Personalization'
+          contacts: 'LyPay contacts', personalization: 'Personalization', terms: 'Terms of service'
         },
         languagePreview: 'Same design, spacing, states, and behavior with left-to-right English content.',
         short: {
@@ -4235,6 +4748,7 @@
           categories: { telecom: 'Telecom', internet: 'Internet', gaming: 'Jeux', entertainment: 'Media', shopping: 'Shopping' }
         },
         titles: {
+          login: 'Connexion', loginOtp: 'Verification appareil', changePassword: 'Changer mot de passe', resetPassword: 'Mot de passe oublie', resetPasswordVerify: 'Nouveau mot de passe', resetPasswordDone: 'Mot de passe modifie', onboarding: 'Ouvrir un compte',
           transfer: 'Virement', internalTransfer: 'Virement interne', ownTransfer: 'Entre mes comptes', lypay: 'LyPay',
           confirm: 'Confirmer le virement', westernUnion: 'Western Union', wuSend: 'Envoyer WU', wuReceive: 'Recevoir WU',
           wuStatus: 'Virements WU', transferStatus: 'Statut des virements', lypayStatus: 'Statut LyPay', lypayStatusDetail: 'Details LyPay',
@@ -4252,7 +4766,7 @@
           passkey: 'Passkey', sessions: 'Sessions et appareils', signOut: 'Deconnexion',
           profile: 'Profil', language: 'Langue', support: 'Support', chat: 'Chat support', faq: 'FAQ',
           ticket: 'Ticket support', locations: 'Agences et DAB', notifications: 'Notifications', notificationDetail: 'Detail notification', insights: 'Analyse depenses',
-          contacts: 'Contacts LyPay', personalization: 'Personnalisation'
+          contacts: 'Contacts LyPay', personalization: 'Personnalisation', terms: 'Conditions d utilisation'
         },
         languagePreview: 'La meme structure, les memes espacements et les memes etats avec un contenu francais.',
         short: {
@@ -4265,6 +4779,52 @@
     const uiText = {
       ar: {
         alias: 'الاسم المختصر',
+        loginTitle: 'تسجيل الدخول',
+        loginSubtitle: 'رقم العميل وكلمة المرور نفسها. الجهاز الجديد يحتاج تحقق قبل الدخول.',
+        customerId: 'رقم العميل',
+        password: 'كلمة المرور',
+        loginButton: 'دخول',
+        passkeyLogin: 'الدخول بمفتاح الجهاز',
+        forgotPassword: 'نسيت كلمة المرور؟',
+        resetPasswordTitle: 'استعادة كلمة المرور',
+        resetPasswordSubtitle: 'أدخل رقم العميل. نرسل رمز تحقق للرقم المسجل وننشئ مرجع استعادة آمن.',
+        resetPasswordSend: 'إرسال رمز التحقق',
+        resetPasswordVerifyTitle: 'تعيين كلمة مرور جديدة',
+        resetPasswordVerifySubtitle: 'أدخل الرمز المرسل ثم كلمة المرور الجديدة. مرجع الاستعادة محفوظ في النظام ولا يظهر للعميل.',
+        resetPasswordDoneTitle: 'تم تغيير كلمة المرور',
+        resetPasswordDoneText: 'يمكنك تسجيل الدخول الآن بنفس رقم العميل وكلمة المرور الجديدة.',
+        passwordResetReference: 'مرجع الاستعادة محفوظ آمنًا',
+        nonCustomerButton: 'لست عميلاً',
+        chooseLanguage: 'اختيار اللغة',
+        chooseLanguageSub: 'اختر لغة التطبيق. الاتجاه والنصوص تتغير بدون تغيير التصميم.',
+        deviceProtection: 'يتم فحص التطبيق والجهاز وربط الجلسة قبل الوصول للحساب.',
+        otpTitle: 'الجهاز الحالي',
+        otpSubtitle: 'أدخل الرمز المرسل لتأكيد هذا الجهاز. بعد التحقق يتم إصدار N-Fingerprint.',
+        otpCode: 'رمز التحقق',
+        resendCode: 'إعادة الإرسال',
+        changePasswordTitle: 'مطلوبة الآن',
+        changePasswordSubtitle: 'هذه خطوة مطلوبة عند أول دخول أو عند انتهاء صلاحية كلمة المرور.',
+        termsTitle: 'مراجعة الشروط قبل الدخول',
+        termsSubtitle: 'هذه تظهر بعد أول دخول أو عند تحديث الشروط من المصرف. لا تدخل للتطبيق قبل قبول النسخة الحالية.',
+        termsUpdated: 'آخر تحديث: 09-05-2026',
+        termsAcceptText: 'أوافق على شروط الاستخدام وسياسة الخصوصية ومعالجة بيانات الجهاز للحماية.',
+        acceptTerms: 'قبول ومتابعة',
+        termsItem1Title: 'استخدام الحساب',
+        termsItem1Text: 'استخدم التطبيق لإدارة حساباتك، التحويل، البطاقات، القسائم، والخدمات المتاحة من المصرف.',
+        termsItem2Title: 'الحماية والجهاز',
+        termsItem2Text: 'يربط التطبيق الجلسة بالجهاز و N-Fingerprint، وقد يطلب OTP أو Passkey للعمليات الحساسة.',
+        termsItem3Title: 'الرسوم والحدود',
+        termsItem3Text: 'تعرض الرسوم والحدود قبل التنفيذ عندما تكون متاحة، وبعض العمليات تحتاج معالجة غير متزامنة.',
+        termsItem4Title: 'الموافقات والبيانات',
+        termsItem4Text: 'موافقات OpenWave والاشتراكات تعرض النطاق والحساب والمدة ويمكن إدارتها من التطبيق.',
+        currentPassword: 'كلمة المرور الحالية',
+        newPassword: 'كلمة المرور الجديدة',
+        confirmPassword: 'تأكيد كلمة المرور',
+        savePassword: 'حفظ ومتابعة',
+        authStepCredentials: 'البيانات',
+        authStepOtp: 'التحقق',
+        authStepPassword: 'كلمة المرور',
+        onboardingLater: 'فتح الحساب سيبدأ من هنا كتدفق مستقل لاحقاً.',
         accountNumber: 'رقم الحساب',
         currentAccount: 'الحساب الجاري',
         personalTransfer: 'حوالة شخصية',
@@ -4403,6 +4963,11 @@
         passcodeSub: 'OTP ثم رمز جديد',
         trustedSession: 'جهاز موثوق • جلسة فعالة',
         primaryPasskey: 'مفتاح أساسي • أضيف اليوم',
+        passkeyReady: 'مفتاح الجهاز جاهز للدخول والتأكيد',
+        lastSuccessLogin: 'آخر دخول ناجح',
+        lastFailedLogin: 'محاولة فاشلة',
+        loginSecurityEvents: 'سجل الدخول والحماية',
+        deviceFingerprint: 'N-Fingerprint مرتبط بهذا الجهاز',
         recovery: 'الاسترداد',
         recoverySub: 'KYC في الفرع أو تأكيد من جهاز موثوق',
         sensitiveActions: 'عمليات حساسة',
@@ -4464,7 +5029,39 @@
         ispBills: 'فواتير الإنترنت'
       },
       en: {
-        alias: 'Alias', accountNumber: 'Account number', currentAccount: 'Current account', personalTransfer: 'Personal transfer',
+        alias: 'Alias', loginTitle: 'Login', loginSubtitle: 'Use the same customer ID and password. New devices are verified before access.',
+        customerId: 'Customer ID', password: 'Password', loginButton: 'Login', passkeyLogin: 'Login with passkey', nonCustomerButton: 'Not a customer',
+        forgotPassword: 'Forgot password?',
+        resetPasswordTitle: 'Recover password',
+        resetPasswordSubtitle: 'Enter the customer ID. We send a verification code to the registered phone and create a secure reset reference.',
+        resetPasswordSend: 'Send verification code',
+        resetPasswordVerifyTitle: 'Set a new password',
+        resetPasswordVerifySubtitle: 'Enter the sent code and the new password. The reset reference stays protected in the system.',
+        resetPasswordDoneTitle: 'Password changed',
+        resetPasswordDoneText: 'You can sign in now using the same customer ID and the new password.',
+        passwordResetReference: 'Reset reference stored securely',
+        chooseLanguage: 'Choose language', chooseLanguageSub: 'Choose the app language. Direction and copy update without changing the design.',
+        deviceProtection: 'The app, device, and session are checked before account access.',
+        otpTitle: 'Current device', otpSubtitle: 'Enter the code sent to confirm this device. N-Fingerprint is issued after verification.',
+        otpCode: 'Verification code', resendCode: 'Resend code',
+        changePasswordTitle: 'Required now', changePasswordSubtitle: 'Required on first login or when the password has expired.',
+        termsTitle: 'Review terms before access',
+        termsSubtitle: 'Shown after first login or when the bank updates terms. App access continues after accepting the current version.',
+        termsUpdated: 'Last updated: 09-05-2026',
+        termsAcceptText: 'I accept the terms of service, privacy policy, and device data processing for security.',
+        acceptTerms: 'Accept and continue',
+        termsItem1Title: 'Account use',
+        termsItem1Text: 'Use the app to manage accounts, transfers, cards, vouchers, and available bank services.',
+        termsItem2Title: 'Security and device',
+        termsItem2Text: 'The app binds the session to the device and N-Fingerprint, and may require OTP or passkey for sensitive actions.',
+        termsItem3Title: 'Fees and limits',
+        termsItem3Text: 'Fees and limits are shown before execution when available. Some operations are processed asynchronously.',
+        termsItem4Title: 'Consents and data',
+        termsItem4Text: 'OpenWave consents and subscriptions show scope, account, duration, and can be managed in the app.',
+        currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm password', savePassword: 'Save and continue',
+        authStepCredentials: 'Credentials', authStepOtp: 'Verify', authStepPassword: 'Password',
+        onboardingLater: 'Account opening starts here later as a separate flow.',
+        accountNumber: 'Account number', currentAccount: 'Current account', personalTransfer: 'Personal transfer',
         recipient: 'Recipient', country: 'Country', sender: 'Sender', readyPickup: 'Ready for pickup', twoMinutesAgo: '2 min ago',
         reviewRequired: 'Review required', complianceReview: 'Compliance review', directUpdate: 'Direct update received',
         transfersTracked: '2 transfers tracked', refresh: 'Refresh', back: 'Back', copy: 'Copy', share: 'Share', send: 'Send',
@@ -4519,13 +5116,53 @@
         mapOnDemandText: 'List loads first to avoid heavy map rendering by default.', spendingMix: 'Spending mix', movement30: '30 day movement',
         services: 'Services', transfers: 'Transfers', cash: 'Cash', subscriptions: 'Subscriptions', forecast: 'Forecast',
         domestic: 'Domestic', online: 'Online', travel: 'Travel', apps: 'Apps', instantFreeze: 'Instant freeze',
+        trustedSession: 'Trusted device • Active session', primaryPasskey: 'Primary passkey • Added today',
+        passkeyReady: 'Device passkey is ready for login and approval',
+        lastSuccessLogin: 'Last successful login', lastFailedLogin: 'Failed attempt', loginSecurityEvents: 'Login and security history',
+        deviceFingerprint: 'N-Fingerprint is bound to this device',
         token: 'Token', pin: 'PIN', mask: 'Mask', type: 'Type', transactionTab: 'Transaction', cardTab: 'Card',
         chartAria: 'Spending categories', cardDetailsFaq: 'Card details', ispBills: 'ISP bills'
       },
       fr: {
-        alias: 'Alias', accountNumber: 'Numero de compte', currentAccount: 'Compte courant', personalTransfer: 'Virement personnel',
+        alias: 'Alias', loginTitle: 'Connexion', loginSubtitle: 'Utilisez le meme ID client et mot de passe. Un nouvel appareil est verifie avant acces.',
+        customerId: 'ID client', password: 'Mot de passe', loginButton: 'Connexion', passkeyLogin: 'Connexion par passkey', nonCustomerButton: 'Pas client',
+        forgotPassword: 'Mot de passe oublie ?',
+        resetPasswordTitle: 'Recuperer le mot de passe',
+        resetPasswordSubtitle: 'Entrez l ID client. Nous envoyons un code au telephone enregistre et creons une reference securisee.',
+        resetPasswordSend: 'Envoyer le code',
+        resetPasswordVerifyTitle: 'Definir un nouveau mot de passe',
+        resetPasswordVerifySubtitle: 'Entrez le code recu et le nouveau mot de passe. La reference reste protegee dans le systeme.',
+        resetPasswordDoneTitle: 'Mot de passe modifie',
+        resetPasswordDoneText: 'Vous pouvez vous connecter avec le meme ID client et le nouveau mot de passe.',
+        passwordResetReference: 'Reference securisee conservee',
+        chooseLanguage: 'Choisir la langue', chooseLanguageSub: 'Choisissez la langue. Direction et textes changent sans casser le design.',
+        deviceProtection: 'L app, l appareil et la session sont controles avant acces.',
+        otpTitle: 'Appareil actuel', otpSubtitle: 'Entrez le code recu pour confirmer cet appareil. N-Fingerprint est emis ensuite.',
+        otpCode: 'Code de verification', resendCode: 'Renvoyer',
+        changePasswordTitle: 'Requis maintenant', changePasswordSubtitle: 'Obligatoire au premier acces ou si le mot de passe expire.',
+        termsTitle: 'Verifier les conditions avant acces',
+        termsSubtitle: 'Affiche apres premiere connexion ou mise a jour par la banque. Acces apres acceptation de la version actuelle.',
+        termsUpdated: 'Derniere mise a jour: 09-05-2026',
+        termsAcceptText: 'J accepte les conditions, la politique de confidentialite et le traitement des donnees appareil pour securite.',
+        acceptTerms: 'Accepter et continuer',
+        termsItem1Title: 'Utilisation compte',
+        termsItem1Text: 'Utilisez l app pour gerer comptes, virements, cartes, coupons et services disponibles.',
+        termsItem2Title: 'Securite et appareil',
+        termsItem2Text: 'L app lie la session a l appareil et N-Fingerprint, avec OTP ou passkey pour actions sensibles.',
+        termsItem3Title: 'Frais et limites',
+        termsItem3Text: 'Frais et limites sont affiches avant execution si disponibles. Certaines operations sont asynchrones.',
+        termsItem4Title: 'Consentements et donnees',
+        termsItem4Text: 'OpenWave affiche portee, compte, duree et permet la gestion dans l app.',
+        currentPassword: 'Mot de passe actuel', newPassword: 'Nouveau mot de passe', confirmPassword: 'Confirmer', savePassword: 'Enregistrer',
+        authStepCredentials: 'Identifiants', authStepOtp: 'Verifier', authStepPassword: 'Mot de passe',
+        onboardingLater: 'L ouverture de compte commencera ici dans un flux separe.',
+        accountNumber: 'Numero de compte', currentAccount: 'Compte courant', personalTransfer: 'Virement personnel',
         recipient: 'Beneficiaire', country: 'Pays', sender: 'Expediteur', readyPickup: 'Pret au retrait', twoMinutesAgo: 'il y a 2 min',
         reviewRequired: 'Verification requise', complianceReview: 'Controle conformite', directUpdate: 'Mise a jour directe recue',
+        trustedSession: 'Appareil fiable • session active', primaryPasskey: 'Passkey principal • ajoute aujourd hui',
+        passkeyReady: 'Le passkey appareil est pret pour connexion et validation',
+        lastSuccessLogin: 'Derniere connexion reussie', lastFailedLogin: 'Tentative echouee', loginSecurityEvents: 'Historique connexion et securite',
+        deviceFingerprint: 'N-Fingerprint lie a cet appareil',
         transfersTracked: '2 virements suivis', refresh: 'Actualiser', back: 'Retour', copy: 'Copier', share: 'Partager', send: 'Envoyer',
         activeCards: '3 cartes actives', onDemand: 'A l ouverture', localDebit: 'Debit local', travelCard: 'Carte voyage', virtualCard: 'Virtuelle',
         internationalUse: 'Usage international • Details a l ouverture', digitalServices: 'Services numeriques • Details a l ouverture',
@@ -4865,8 +5502,16 @@
       }
     ];
 
-    const state = { route: 'home', activeRoot: 'home', lang: 'ar', theme: 'neptune', mode: 'system', accentStyle: 'default', lypayMode: 'iban', selectedLyPayId: 'PAY-7781', selectedCardId: 'master', selectedNotificationId: 'travel-card', selectedService: 'wallet', selectedTransactionKind: 'standard', ticketContext: null, accountIndex: 0, masked: false, voucherCategory: 'telecom', voucherProduct: 'libyana', voucherAmount: '10 د.ل', motion: 'standard', processResult: 'success', isBooted: false, showSplash: true };
+    const state = { route: 'login', activeRoot: 'home', lang: 'ar', theme: 'neptune', mode: 'system', accentStyle: 'default', lypayMode: 'iban', selectedLyPayId: 'PAY-7781', selectedCardId: 'master', selectedNotificationId: 'travel-card', selectedService: 'wallet', selectedTransactionKind: 'standard', ticketContext: null, accountIndex: 0, masked: false, voucherCategory: 'telecom', voucherProduct: 'libyana', voucherAmount: '10 د.ل', motion: 'standard', processResult: 'success', isBooted: false, showSplash: true, languageSheet: false, loginCustomerId: '27010310408770', loginPassword: '', otpCode: '', resetOtpCode: '', resetCustomerId: '27010310408770', currentPassword: '', newPassword: '', resetNewPassword: '', confirmPasswordValue: '', resetConfirmPassword: '' };
+    const themeStorageKey = 'neptune.signal.theme.v1';
+    try {
+      const savedTheme = JSON.parse(localStorage.getItem(themeStorageKey) || '{}');
+      if (themes[savedTheme.theme]) state.theme = savedTheme.theme;
+      if (['system', 'light', 'dark', 'black'].includes(savedTheme.mode)) state.mode = savedTheme.mode;
+      if (Object.prototype.hasOwnProperty.call(accentStyles, savedTheme.accentStyle)) state.accentStyle = savedTheme.accentStyle;
+    } catch (_) {}
     const tabMap = {
+      login: 'home', loginOtp: 'home', changePassword: 'home', resetPassword: 'home', resetPasswordVerify: 'home', resetPasswordDone: 'home', onboarding: 'home', terms: 'home',
       home: 'home', insights: 'home', transfer: 'home', internalTransfer: 'home', ownTransfer: 'home',
       lypay: 'home', contacts: 'home', confirm: 'home', westernUnion: 'home', wuSend: 'home',
       wuReceive: 'home', wuStatus: 'home', transferStatus: 'home', lypayStatus: 'home', lypayStatusDetail: 'home', qr: 'home',
@@ -4885,6 +5530,7 @@
       faq: 'more', ticket: 'more', locations: 'more', notifications: 'more', notificationDetail: 'more'
     };
     const screenMeta = {
+      login: renderLogin, loginOtp: renderLoginOtp, changePassword: renderChangePassword, resetPassword: renderResetPassword, resetPasswordVerify: renderResetPasswordVerify, resetPasswordDone: renderResetPasswordDone, onboarding: renderOnboarding, terms: renderTerms,
       home: renderHome, transfer: renderTransfer, internalTransfer: renderInternalTransfer, ownTransfer: renderOwnTransfer,
       lypay: renderLyPay, contacts: renderContacts, confirm: renderConfirm, westernUnion: renderWesternUnion,
       wuSend: renderWuSend, wuReceive: renderWuReceive, wuStatus: renderWuStatus, transferStatus: renderTransferStatus,
@@ -4914,6 +5560,65 @@
     function lang() { return copy[state.lang]; }
     function t(key) { return uiText[state.lang]?.[key] || uiText.en[key] || key; }
     function icon(name) { return icons[name] || ''; }
+    function termsDocument() {
+      return {
+        title: t('termsTitle'),
+        subtitle: t('termsSubtitle'),
+        updated: t('termsUpdated'),
+        acceptText: t('termsAcceptText'),
+        sections: [
+          {
+            title: t('termsItem1Title'),
+            blocks: [
+              { type: 'paragraph', text: t('termsItem1Text') },
+              { type: 'bullets', items: i18n({
+                ar: ['إدارة الحسابات والتحويلات والبطاقات والقسائم والخدمات.', 'تأكيد البيانات قبل تنفيذ أي عملية مالية.', 'عرض الرسوم والحدود قبل التنفيذ عندما يوفرها المصرف.'],
+                en: ['Manage accounts, transfers, cards, vouchers, and services.', 'Confirm details before any financial action is executed.', 'Show fees and limits before execution when provided by the bank.'],
+                fr: ['Gerer comptes, virements, cartes, coupons et services.', 'Confirmer les donnees avant toute operation financiere.', 'Afficher frais et limites avant execution quand la banque les fournit.']
+              }) }
+            ]
+          },
+          {
+            title: t('termsItem2Title'),
+            blocks: [
+              { type: 'paragraph', text: t('termsItem2Text') },
+              { type: 'callout', text: i18n({
+                ar: 'يمكن طلب OTP أو Passkey أو تحقق إضافي عند تغيير الجهاز أو تنفيذ عملية حساسة.',
+                en: 'OTP, passkey, or extra verification may be requested for new devices and sensitive actions.',
+                fr: 'OTP, passkey ou verification supplementaire peuvent etre demandes pour nouvel appareil ou action sensible.'
+              }) }
+            ]
+          },
+          {
+            title: t('termsItem3Title'),
+            blocks: [
+              { type: 'paragraph', text: t('termsItem3Text') },
+              { type: 'bullets', items: i18n({
+                ar: ['التحويلات غير المتزامنة تعرض حالة التنفيذ والمتابعة.', 'القسائم تعرض الرقم السري والرقم التسلسلي بعد الشراء فقط.'],
+                en: ['Async transfers show execution and follow-up status.', 'Voucher PIN and serial are shown only after purchase.'],
+                fr: ['Les virements asynchrones affichent execution et suivi.', 'PIN et serie du coupon sont affiches apres achat seulement.']
+              }) }
+            ]
+          },
+          {
+            title: t('termsItem4Title'),
+            blocks: [
+              { type: 'paragraph', text: t('termsItem4Text') },
+              { type: 'callout', text: i18n({
+                ar: 'النصوص الفعلية تأتي من الخلفية كوثيقة منظمة، وليست HTML حر داخل التطبيق.',
+                en: 'Production terms come from the backend as a structured document, not raw app HTML.',
+                fr: 'Les conditions viennent du backend comme document structure, pas HTML libre.'
+              }) }
+            ]
+          }
+        ]
+      };
+    }
+    function renderTermsBlock(block) {
+      if (block.type === 'bullets') return `<ul class="tos-bullets">${block.items.map((item) => `<li>${item}</li>`).join('')}</ul>`;
+      if (block.type === 'callout') return `<div class="tos-callout">${block.text}</div>`;
+      return `<p>${block.text}</p>`;
+    }
     function directionIcon(kind) {
       const rtl = document.documentElement.dir !== 'ltr';
       if (kind === 'next') return icon(rtl ? 'back' : 'arrow');
@@ -4928,6 +5633,7 @@
       state.route = route;
       state.activeRoot = activeRoot || (['home', 'accounts', 'cards', 'more'].includes(route) ? route : rootFor(route));
       state.motion = motion;
+      state.languageSheet = false;
       render();
     }
     function animateThenGo(route, motion, source, activeRoot = null) {
@@ -5187,6 +5893,154 @@
       </div>`;
     }
 
+    function renderLogin() {
+      const c = lang();
+      return `<div class="auth-shell">
+        <div class="auth-head">
+          <div class="bank-chip">${icon('neptune')}</div>
+          <div class="bank-name"><b>${c.bank}</b><span>${c.powered}</span></div>
+          <button class="icon-btn subtle tap" data-open-language="true" aria-label="${c.titles.language}">${icon('language')}</button>
+        </div>
+        <div class="auth-state-card">
+          <div class="auth-state-title">
+            <span class="row-icon">${icon('lock')}</span>
+            <div class="auth-copy"><h1>${t('loginTitle')}</h1><p>${t('loginSubtitle')}</p></div>
+          </div>
+        </div>
+        <div class="auth-panel">
+          ${field(t('customerId'), state.loginCustomerId).replace('<input', '<input data-auth-field="customerId" autocomplete="username"')}
+          ${field(t('password'), state.loginPassword).replace('<input', '<input data-auth-field="password" type="password" autocomplete="current-password"')}
+          <button class="auth-link tap" data-go="resetPassword">${t('forgotPassword')}</button>
+          <button class="primary-btn tap" data-login-submit="true">${t('loginButton')}</button>
+          <button class="secondary-btn passkey-login tap" data-passkey-login="true">${icon('key')}<span>${t('passkeyLogin')}</span></button>
+          <div class="auth-secondary-stack">
+            <button class="secondary-btn tap" data-go="onboarding">${t('nonCustomerButton')}</button>
+          </div>
+          <div class="auth-note"><span class="row-icon dark">${icon('shield')}</span><span>${t('deviceProtection')}</span></div>
+        </div>
+      </div>`;
+    }
+
+    function renderResetPassword() {
+      const c = lang();
+      return `${header(c.titles.resetPassword, 'login')}
+        <div class="auth-shell">
+          <div class="auth-state-card">
+            <div class="auth-state-title">
+              <span class="row-icon">${icon('shield')}</span>
+              <div class="auth-copy"><h1>${t('resetPasswordTitle')}</h1><p>${t('resetPasswordSubtitle')}</p></div>
+            </div>
+          </div>
+          <div class="auth-panel">
+            ${field(t('customerId'), state.resetCustomerId).replace('<input', '<input data-auth-field="resetCustomerId" autocomplete="username"')}
+            <button class="primary-btn tap" data-password-reset-request="true">${t('resetPasswordSend')}</button>
+            <button class="secondary-btn tap" data-go="login">${t('back')}</button>
+            <div class="auth-note"><span class="row-icon dark">${icon('phone')}</span><span>${i18n({ ar: 'نستخدم نفس نموذج الأندلس الحالي: رقم العميل، OTP، ومرجع استعادة آمن.', en: 'Uses the current Andalus model: customer ID, OTP, and a secure reset reference.', fr: 'Utilise le modele Andalus actuel: ID client, OTP et reference securisee.' })}</span></div>
+          </div>
+        </div>`;
+    }
+
+    function renderResetPasswordVerify() {
+      const c = lang();
+      const digits = (state.resetOtpCode || '').padEnd(6, ' ').slice(0, 6).split('');
+      return `${header(c.titles.resetPasswordVerify, 'resetPassword')}
+        <div class="auth-shell">
+          <div class="auth-state-card">
+            <div class="auth-state-title"><span class="row-icon">${icon('key')}</span><div class="auth-copy"><h1>${t('resetPasswordVerifyTitle')}</h1><p>${t('resetPasswordVerifySubtitle')}</p></div></div>
+            <div class="auth-flow"><span>${t('authStepCredentials')}</span><span class="active">${t('authStepOtp')}</span><span class="active">${t('authStepPassword')}</span></div>
+          </div>
+          <div class="auth-panel">
+            <div class="otp-grid" aria-label="${t('otpCode')}">
+              ${digits.map((digit, index) => `<input data-reset-otp-index="${index}" inputmode="numeric" maxlength="1" value="${digit.trim()}">`).join('')}
+            </div>
+            ${field(t('newPassword'), state.resetNewPassword).replace('<input', '<input data-auth-field="resetNewPassword" type="password" autocomplete="new-password"')}
+            ${field(t('confirmPassword'), state.resetConfirmPassword).replace('<input', '<input data-auth-field="resetConfirmPassword" type="password" autocomplete="new-password"')}
+            <button class="primary-btn tap" data-go="resetPasswordDone" data-motion="result">${t('savePassword')}</button>
+            <button class="secondary-btn tap" data-auth-resend="true">${t('resendCode')}</button>
+            <div class="auth-note"><span class="row-icon dark">${icon('shield')}</span><span>${t('passwordResetReference')}</span></div>
+          </div>
+        </div>`;
+    }
+
+    function renderResetPasswordDone() {
+      return `${header(t('resetPasswordDoneTitle'), 'login')}
+        <div class="process-wrap">
+          <div class="status-orbit success"><span>${icon('check')}</span></div>
+          <h2>${t('resetPasswordDoneTitle')}</h2>
+          <p>${t('resetPasswordDoneText')}</p>
+          <button class="primary-btn tap" data-go="login">${t('loginButton')}</button>
+        </div>`;
+    }
+
+    function renderLoginOtp() {
+      const c = lang();
+      const digits = (state.otpCode || '').padEnd(6, ' ').slice(0, 6).split('');
+      return `${header(c.titles.loginOtp, 'login')}
+        <div class="auth-shell">
+          <div class="auth-state-card">
+            <div class="auth-state-title"><span class="row-icon">${icon('phone')}</span><div class="auth-copy"><h1>${t('otpTitle')}</h1><p>${t('otpSubtitle')}</p></div></div>
+            <div class="auth-flow"><span>${t('authStepCredentials')}</span><span class="active">${t('authStepOtp')}</span><span>${t('authStepPassword')}</span></div>
+          </div>
+          <div class="auth-panel">
+            <div class="otp-grid" aria-label="${t('otpCode')}">
+              ${digits.map((digit, index) => `<input data-otp-index="${index}" inputmode="numeric" maxlength="1" value="${digit.trim()}">`).join('')}
+            </div>
+            <button class="primary-btn tap" data-go="changePassword">${c.common.continue}</button>
+            <button class="secondary-btn tap" data-auth-resend="true">${t('resendCode')}</button>
+            <div class="auth-note"><span class="row-icon dark">${icon('phone')}</span><span>${i18n({ ar: 'للجهاز الجديد يتم حفظ N-Fingerprint بعد نجاح OTP.', en: 'For a new device, N-Fingerprint is stored only after OTP succeeds.', fr: 'Pour un nouvel appareil, N-Fingerprint est stocke apres OTP.' })}</span></div>
+          </div>
+        </div>`;
+    }
+
+    function renderChangePassword() {
+      const c = lang();
+      return `${header(c.titles.changePassword, 'loginOtp')}
+        <div class="auth-shell">
+          <div class="auth-state-card">
+            <div class="auth-state-title"><span class="row-icon">${icon('key')}</span><div class="auth-copy"><h1>${t('changePasswordTitle')}</h1><p>${t('changePasswordSubtitle')}</p></div></div>
+            <div class="auth-flow"><span>${t('authStepCredentials')}</span><span>${t('authStepOtp')}</span><span class="active">${t('authStepPassword')}</span></div>
+          </div>
+          <div class="auth-panel">
+            ${field(t('currentPassword'), state.currentPassword).replace('<input', '<input data-auth-field="currentPassword" type="password" autocomplete="current-password"')}
+            ${field(t('newPassword'), state.newPassword).replace('<input', '<input data-auth-field="newPassword" type="password" autocomplete="new-password"')}
+            ${field(t('confirmPassword'), state.confirmPasswordValue).replace('<input', '<input data-auth-field="confirmPasswordValue" type="password" autocomplete="new-password"')}
+            <button class="primary-btn tap" data-go="terms">${t('savePassword')}</button>
+            <div class="auth-note"><span class="row-icon dark">${icon('key')}</span><span>${i18n({ ar: 'لا نعرض قواعد كثيرة هنا. التحقق الحقيقي يكون في الخلفية مع رسالة خطأ واضحة.', en: 'Keep rules quiet here. Backend validation returns focused errors when needed.', fr: 'Les regles restent discretes. La validation renvoie une erreur claire.' })}</span></div>
+          </div>
+        </div>`;
+    }
+
+    function renderTerms() {
+      const c = lang();
+      const doc = termsDocument();
+      return `${header(c.titles.terms, 'changePassword')}
+        <div class="tos-hero">
+          <span class="status-pill">${doc.updated}</span>
+          <b>${doc.title}</b>
+          <span>${doc.subtitle}</span>
+        </div>
+        <div class="tos-scroll">
+          ${doc.sections.map((section, index) => `<div class="tos-item"><i>${index + 1}</i><span><b>${section.title}</b>${section.blocks.map(renderTermsBlock).join('')}</span></div>`).join('')}
+        </div>
+        <div class="tos-accept"><i>${icon('check')}</i><span>${doc.acceptText}</span></div>
+        ${footer([primary(t('acceptTerms'), 'data-go="home" data-motion="result"')])}`;
+    }
+
+    function renderOnboarding() {
+      const c = lang();
+      return `${header(c.titles.onboarding, 'login')}
+        <div class="auth-shell">
+          <div class="auth-state-card">
+            <div class="auth-state-title"><span class="row-icon">${icon('account')}</span><div class="auth-copy"><h1>${c.titles.onboarding}</h1><p>${t('onboardingLater')}</p></div></div>
+          </div>
+          <div class="auth-panel">
+            ${row({ iconName: 'shield', dark: true, titleText: i18n({ ar: 'هوية موثوقة', en: 'Trusted identity', fr: 'Identite verifiee' }), subText: i18n({ ar: 'KYC، مستندات، وتحقق آمن', en: 'KYC, documents, and secure verification', fr: 'KYC, documents et verification' }) })}
+            ${row({ iconName: 'account', titleText: i18n({ ar: 'فتح حساب', en: 'Open account', fr: 'Ouvrir compte' }), subText: i18n({ ar: 'سنصمم التدفق لاحقاً', en: 'Flow will be designed next', fr: 'Flux a concevoir ensuite' }) })}
+            ${secondary(t('back'), 'data-go="login"')}
+          </div>
+        </div>`;
+    }
+
     function renderHome() {
       const c = lang();
       return `
@@ -5385,8 +6239,7 @@
             <div class="card-chipline">${tags}</div>
           </button>`;
       }).join('');
-      return `${header(c.titles.cards, null, iconButton('plusCard', 'requestCard', c.titles.requestCard))}
-        <div class="section-head"><span>${t('activeCards')}</span><span class="status-pill neutral">${t('onDemand')}</span></div>
+      return `${header(c.titles.cards)}
         <div class="card-stack">${cardMarkup}</div>`;
     }
 
@@ -5752,7 +6605,7 @@
           ${row({ iconName: 'link', titleText: c.titles.openwaveConsents, subText: t('consentsMandates'), route: 'openwaveConsents' })}
           ${row({ iconName: 'shield', dark: true, titleText: c.titles.security, subText: t('securitySub'), route: 'security' })}
           ${row({ iconName: 'profile', titleText: c.titles.profile, subText: t('profileSub'), route: 'profile' })}
-          ${row({ iconName: 'language', titleText: c.titles.language, subText: 'العربية • English • Francais', route: 'language' })}
+          ${row({ iconName: 'language', titleText: c.titles.language, subText: 'العربية • English • Francais' }).replace('<button class="row tap"', '<button class="row tap" data-open-language="true"')}
           ${row({ iconName: 'palette', dark: true, titleText: c.titles.personalization, subText: t('personalizationSub'), route: 'personalization' })}
           ${row({ iconName: 'bell', titleText: c.titles.notifications, subText: t('notificationsSub'), route: 'notifications' })}
           ${row({ iconName: 'support', dark: true, titleText: c.titles.support, subText: t('supportSub'), route: 'support' })}
@@ -6036,22 +6889,26 @@
     function renderSecurity() {
       const c = lang();
       return `${header(c.titles.security, 'more')}
+        <div class="insight">${icon('shield')}<span><b>${t('loginSecurityEvents')}</b><span>${t('deviceFingerprint')}</span></span><span class="status-pill">${c.common.active}</span></div>
         <div class="list">
-          ${row({ iconName: 'key', dark: true, titleText: c.titles.passkey, subText: t('passkeySub'), route: 'passkey', status: { label: c.common.active } })}
+          ${row({ iconName: 'key', dark: true, titleText: c.titles.passkey, subText: t('passkeyReady'), route: 'passkey', status: { label: c.common.active } })}
+          ${row({ iconName: 'phone', titleText: c.titles.sessions, subText: t('trustedSession'), route: 'sessions', status: { label: '2', type: 'neutral' } })}
+          ${row({ iconName: 'check', titleText: t('lastSuccessLogin'), subText: i18n({ ar: 'اليوم 09:41 • هذا الجهاز • طرابلس', en: 'Today 09:41 • this device • Tripoli', fr: 'Aujourd hui 09:41 • cet appareil • Tripoli' }), status: { label: c.common.completed } })}
+          ${row({ iconName: 'fail', titleText: t('lastFailedLogin'), subText: i18n({ ar: 'أمس 22:18 • كلمة مرور غير صحيحة • تم الحظر بعد المحاولة', en: 'Yesterday 22:18 • wrong password • blocked after attempt', fr: 'Hier 22:18 • mot de passe incorrect • bloque apres tentative' }), status: { label: c.common.failed, type: 'danger' } })}
           ${row({ iconName: 'profile', titleText: t('biometrics'), subText: t('biometricsSub'), status: { label: c.common.active } })}
           ${row({ iconName: 'lock', titleText: t('passcode'), subText: t('passcodeSub') })}
-          ${row({ iconName: 'phone', titleText: c.titles.sessions, subText: t('trustedSession'), route: 'sessions' })}
         </div>`;
     }
 
     function renderPasskey() {
       const c = lang();
       return `${header(c.titles.passkey, 'security')}
-        <div class="insight">${icon('key')}<span><b>${i18n({ ar: 'تسجيل دخول بدون كلمة مرور', en: 'Passwordless sign-in', fr: 'Connexion sans mot de passe' })}</b><span>${i18n({ ar: 'مفتاح الجهاز يؤكد الدخول والتحويلات الحساسة بدون رسائل ضعيفة.', en: 'Device passkey confirms login and sensitive transfers without weak SMS dependency.', fr: 'Le passkey confirme la connexion et les operations sensibles.' })}</span></span><span class="status-pill">${c.common.active}</span></div>
+        <div class="insight">${icon('key')}<span><b>${i18n({ ar: 'دخول وتأكيد بمفتاح الجهاز', en: 'Device passkey for login and approval', fr: 'Passkey appareil pour connexion et validation' })}</b><span>${i18n({ ar: 'يستخدم للدخول السريع، وتأكيد التحويلات، وتغيير بيانات الحماية.', en: 'Used for fast login, transfer approval, and security changes.', fr: 'Utilise pour connexion rapide, validation virements et securite.' })}</span></span><span class="status-pill">${c.common.active}</span></div>
         <div class="list" style="margin-top:10px">
-          ${row({ iconName: 'phone', dark: true, titleText: 'iPhone 15 Pro', subText: t('primaryPasskey') })}
-          ${row({ iconName: 'shield', titleText: t('recovery'), subText: t('recoverySub') })}
-          ${row({ iconName: 'lock', titleText: t('sensitiveActions'), subText: t('sensitiveActionsSub') })}
+          ${row({ iconName: 'phone', dark: true, titleText: 'iPhone 15 Pro', subText: `${t('primaryPasskey')} • ${t('deviceFingerprint')}`, status: { label: c.common.active } })}
+          ${row({ iconName: 'key', titleText: i18n({ ar: 'الدخول بمفتاح الجهاز', en: 'Passkey login', fr: 'Connexion passkey' }), subText: i18n({ ar: 'يظهر كاختيار في شاشة الدخول بعد تسجيل الجهاز', en: 'Shown on login after device registration', fr: 'Affiche a la connexion apres enregistrement' }), status: { label: c.common.active } })}
+          ${row({ iconName: 'shield', titleText: t('sensitiveActions'), subText: t('sensitiveActionsSub'), status: { label: c.common.active } })}
+          ${row({ iconName: 'lock', titleText: t('recovery'), subText: t('recoverySub') })}
         </div>
         ${footer([secondary(i18n({ ar: 'تعطيل', en: 'Disable', fr: 'Desactiver' }), 'data-process="fail"'), primary(i18n({ ar: 'إضافة جهاز', en: 'Add device', fr: 'Ajouter appareil' }), 'data-process="success"')])}`;
     }
@@ -6059,9 +6916,11 @@
     function renderSessions() {
       const c = lang();
       return `${header(c.titles.sessions, 'security')}
+        <div class="insight">${icon('phone')}<span><b>${i18n({ ar: 'إدارة الأجهزة والجلسات', en: 'Manage devices and sessions', fr: 'Gerer appareils et sessions' })}</b><span>${i18n({ ar: 'كل دخول يعرض الجهاز، المكان التقريبي، آخر نشاط، وحالة N-Fingerprint.', en: 'Each login shows device, approximate location, last activity, and N-Fingerprint status.', fr: 'Chaque connexion affiche appareil, lieu, activite et N-Fingerprint.' })}</span></span><span></span></div>
         <div class="list">
-          ${row({ iconName: 'phone', dark: true, titleText: 'iPhone 15 Pro', subText: t('thisDevice'), status: { label: c.common.active } })}
-          ${row({ iconName: 'globe', titleText: t('webSession'), subText: t('webSessionSub'), status: { label: t('expired'), type: 'neutral' } })}
+          ${row({ iconName: 'phone', dark: true, titleText: 'iPhone 15 Pro', subText: `${t('thisDevice')} • ${t('lastSuccessLogin')} 09:41`, status: { label: c.common.active } })}
+          ${row({ iconName: 'globe', titleText: t('webSession'), subText: `${t('webSessionSub')} • ${t('lastSuccessLogin')} ${t('yesterday')} 18:22`, status: { label: t('expired'), type: 'neutral' } })}
+          ${row({ iconName: 'fail', titleText: i18n({ ar: 'محاولة مرفوضة', en: 'Rejected attempt', fr: 'Tentative rejetee' }), subText: `${t('lastFailedLogin')} • Android غير موثوق • 22:18`, status: { label: c.common.failed, type: 'danger' } })}
           ${row({ iconName: 'shield', titleText: i18n({ ar: 'تجميد الجلسات الأخرى', en: 'Freeze other sessions', fr: 'Bloquer autres sessions' }), subText: i18n({ ar: 'يبقي هذا الجهاز فقط', en: 'Keeps only this device active', fr: 'Garde seulement cet appareil' }), route: 'security' })}
         </div>
         ${footer([primary(i18n({ ar: 'تسجيل خروج من الأجهزة الأخرى', en: 'Sign out other devices', fr: 'Deconnecter autres appareils' }), 'data-process="success"')])}`;
@@ -6106,6 +6965,28 @@
           ${option('fr', 'Francais', i18n({ ar: 'واجهة فرنسية من اليسار إلى اليمين', en: 'French left-to-right banking interface', fr: 'Interface bancaire en francais' }))}
         </div>
         <div class="insight">${icon('language')}<span><b>${c.titles.language}</b><span>${c.languagePreview}</span></span><span></span></div>`;
+    }
+
+    function renderLanguageSheet() {
+      const c = lang();
+      const options = [
+        ['ar', 'العربية', i18n({ ar: 'واجهة عربية من اليمين إلى اليسار', en: 'Arabic right-to-left interface', fr: 'Interface arabe de droite a gauche' })],
+        ['en', 'English', i18n({ ar: 'واجهة إنجليزية من اليسار إلى اليمين', en: 'English left-to-right interface', fr: 'Interface anglaise de gauche a droite' })],
+        ['fr', 'Francais', i18n({ ar: 'واجهة فرنسية من اليسار إلى اليمين', en: 'French left-to-right interface', fr: 'Interface francaise de gauche a droite' })],
+      ];
+      return `<div class="language-sheet" data-close-language="true">
+        <div class="language-panel" role="dialog" aria-modal="true" aria-label="${c.titles.language}" data-language-panel="true">
+          <div class="language-panel-head">
+            <span><b>${t('chooseLanguage')}</b><span>${t('chooseLanguageSub')}</span></span>
+            <button class="icon-btn tap" data-close-language-button="true" aria-label="${t('back')}">${icon('fail')}</button>
+          </div>
+          ${options.map(([code, title, sub]) => `<button class="language-option tap ${state.lang === code ? 'active' : ''}" data-lang="${code}">
+            <i>${code.toUpperCase()}</i>
+            <span><b>${title}</b><span>${sub}</span></span>
+            ${state.lang === code ? `<span class="status-pill">${c.common.active}</span>` : '<span></span>'}
+          </button>`).join('')}
+        </div>
+      </div>`;
     }
 
     function renderSupport() {
@@ -6333,17 +7214,28 @@
       return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 
-    function applyMode(mode) {
+    function persistThemeSettings() {
+      try {
+        localStorage.setItem(themeStorageKey, JSON.stringify({
+          theme: state.theme,
+          mode: state.mode,
+          accentStyle: state.accentStyle
+        }));
+      } catch (_) {}
+    }
+
+    function applyMode(mode, persist = true) {
       state.mode = ['system', 'light', 'dark', 'black'].includes(mode) ? mode : 'system';
       document.documentElement.dataset.mode = resolvedMode();
       document.documentElement.dataset.modePreference = state.mode;
       applyTheme(state.theme, false);
+      if (persist) persistThemeSettings();
       document.querySelectorAll('[data-mode-choice]').forEach(node => {
         node.classList.toggle('active', node.dataset.modeChoice === state.mode);
       });
     }
 
-    function applyTheme(name) {
+    function applyTheme(name, persist = true) {
       const theme = themes[name] || themes.neptune;
       state.theme = themes[name] ? name : 'neptune';
       const mode = resolvedMode();
@@ -6371,11 +7263,13 @@
       document.querySelectorAll('[data-mode-choice]').forEach(node => {
         node.classList.toggle('active', node.dataset.modeChoice === state.mode);
       });
+      if (persist) persistThemeSettings();
     }
 
     function applyAccentStyle(style) {
       state.accentStyle = Object.prototype.hasOwnProperty.call(accentStyles, style) ? style : 'default';
-      applyTheme(state.theme);
+      applyTheme(state.theme, false);
+      persistThemeSettings();
       render();
     }
 
@@ -6396,11 +7290,14 @@
       const motion = state.motion || 'standard';
       screen.className = `screen active motion-${motion}`;
       screen.dataset.screen = state.route;
+      phone.classList.toggle('auth-mode', state.route === 'login' || state.route === 'loginOtp' || state.route === 'changePassword' || state.route === 'resetPassword' || state.route === 'resetPasswordVerify' || state.route === 'resetPasswordDone' || state.route === 'onboarding' || state.route === 'terms');
       phone.classList.toggle('account-open', state.route === 'accountDetails');
       phone.classList.toggle('card-open', state.route === 'cardDetails');
       phone.style.setProperty('--active-card-bg', selectedCard().bg);
       screen.innerHTML = renderer();
       renderBottomNav();
+      phone.querySelector('.language-sheet')?.remove();
+      if (state.languageSheet) phone.insertAdjacentHTML('beforeend', renderLanguageSheet());
       screen.scrollTop = 0;
       document.querySelectorAll('[data-icon]').forEach(node => { node.innerHTML = icon(node.dataset.icon); });
       state.motion = 'standard';
@@ -6437,6 +7334,19 @@
       const replaySplash = event.target.closest('[data-replay-splash]');
       if (replaySplash) {
         bootSplash();
+        return;
+      }
+
+      const openLanguage = event.target.closest('[data-open-language]');
+      if (openLanguage) {
+        state.languageSheet = true;
+        render();
+        return;
+      }
+
+      if (event.target.closest('[data-close-language-button]') || event.target.classList.contains('language-sheet')) {
+        state.languageSheet = false;
+        render();
         return;
       }
 
@@ -6532,7 +7442,11 @@
       }
 
       const language = event.target.closest('[data-lang]');
-      if (language) applyLanguage(language.dataset.lang);
+      if (language) {
+        state.languageSheet = false;
+        applyLanguage(language.dataset.lang);
+        return;
+      }
 
       const notification = event.target.closest('[data-notification-id]');
       if (notification) {
@@ -6547,6 +7461,24 @@
         return;
       }
 
+      const loginSubmit = event.target.closest('[data-login-submit]');
+      if (loginSubmit) {
+        go('loginOtp', 'standard');
+        return;
+      }
+
+      const resetRequest = event.target.closest('[data-password-reset-request]');
+      if (resetRequest) {
+        go('resetPasswordVerify', 'standard');
+        return;
+      }
+
+      const passkeyLogin = event.target.closest('[data-passkey-login]');
+      if (passkeyLogin) {
+        go('terms', 'result');
+        return;
+      }
+
       const target = event.target.closest('[data-go]');
       if (target) {
         const motion = target.dataset.motion || 'standard';
@@ -6554,6 +7486,35 @@
         if (motion === 'account') animateThenGo(target.dataset.go, motion, target, originRoot);
         else go(target.dataset.go, motion);
       }
+    });
+
+    document.addEventListener('input', event => {
+      const otpInput = event.target.closest('[data-otp-index]');
+      if (otpInput) {
+        otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 1);
+        const values = Array.from(document.querySelectorAll('[data-otp-index]')).map(input => input.value);
+        state.otpCode = values.join('');
+        if (otpInput.value && otpInput.nextElementSibling) otpInput.nextElementSibling.focus();
+        return;
+      }
+      const resetOtpInput = event.target.closest('[data-reset-otp-index]');
+      if (resetOtpInput) {
+        resetOtpInput.value = resetOtpInput.value.replace(/\D/g, '').slice(0, 1);
+        const values = Array.from(document.querySelectorAll('[data-reset-otp-index]')).map(input => input.value);
+        state.resetOtpCode = values.join('');
+        if (resetOtpInput.value && resetOtpInput.nextElementSibling) resetOtpInput.nextElementSibling.focus();
+        return;
+      }
+      const authField = event.target.closest('[data-auth-field]');
+      if (!authField) return;
+      if (authField.dataset.authField === 'customerId') state.loginCustomerId = authField.value;
+      if (authField.dataset.authField === 'password') state.loginPassword = authField.value;
+      if (authField.dataset.authField === 'resetCustomerId') state.resetCustomerId = authField.value;
+      if (authField.dataset.authField === 'currentPassword') state.currentPassword = authField.value;
+      if (authField.dataset.authField === 'newPassword') state.newPassword = authField.value;
+      if (authField.dataset.authField === 'resetNewPassword') state.resetNewPassword = authField.value;
+      if (authField.dataset.authField === 'confirmPasswordValue') state.confirmPasswordValue = authField.value;
+      if (authField.dataset.authField === 'resetConfirmPassword') state.resetConfirmPassword = authField.value;
     });
 
     let accountSwipe = null;
@@ -6581,7 +7542,7 @@
       }
     });
 
-    applyMode(state.mode);
+    applyMode(state.mode, false);
     render();
     bootSplash();
   </script>
