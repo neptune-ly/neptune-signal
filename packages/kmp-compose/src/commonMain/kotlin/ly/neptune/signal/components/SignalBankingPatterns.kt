@@ -805,15 +805,15 @@ private fun SignalPrismAccountActionCell(
                 if (prominent) {
                     Brush.linearGradient(
                         listOf(
-                            accent.copy(alpha = if (colors.dark) 0.30f else 0.18f),
-                            prism.palette.prismViolet.copy(alpha = if (colors.dark) 0.18f else 0.09f),
+                            accent.copy(alpha = if (colors.dark) 0.30f else 0.26f),
+                            prism.tones.payment.copy(alpha = if (colors.dark) 0.18f else 0.16f),
                         ),
                     )
                 } else {
                     Brush.linearGradient(
                         listOf(
-                            accent.copy(alpha = if (colors.dark) 0.105f else 0.075f),
-                            prism.surfaces.prismSurfaceRaised.copy(alpha = if (colors.dark) 0.24f else 0.42f),
+                            accent.copy(alpha = if (colors.dark) 0.105f else 0.13f),
+                            prism.tones.secondaryContainer.copy(alpha = if (colors.dark) 0.22f else 0.68f),
                         ),
                     )
                 },
@@ -829,7 +829,7 @@ private fun SignalPrismAccountActionCell(
             modifier = Modifier
                 .size(if (prominent) 38.dp else 32.dp)
                 .clip(RoundedCornerShape(if (prominent) 15.dp else 13.dp))
-                .background(accent.copy(alpha = if (prominent) 0.22f else 0.14f)),
+                .background(accent.copy(alpha = if (prominent) 0.28f else 0.18f)),
             contentAlignment = Alignment.Center,
         ) {
             CompositionLocalProvider(LocalContentColor provides accent) {
@@ -841,14 +841,14 @@ private fun SignalPrismAccountActionCell(
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(1.dp)) {
             Text(
                 text = action.label,
-                color = if (prominent) Color.White else prism.palette.prismTextPrimary,
+                color = prism.palette.prismTextPrimary,
                 style = if (prominent) SignalTheme.typography.rowTitle else SignalTheme.typography.labelMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
                 text = action.supportingText,
-                color = if (prominent) Color.White.copy(alpha = 0.76f) else prism.palette.prismTextSecondary.copy(alpha = 0.84f),
+                color = prism.palette.prismTextSecondary.copy(alpha = if (prominent) 0.88f else 0.84f),
                 style = SignalTheme.typography.statusPill,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -862,9 +862,9 @@ private fun prismActionAccent(id: String, prominent: Boolean): Color {
     val prism = SignalTheme.prism
     val key = id.lowercase()
     return when {
-        prominent || "transfer" in key || "تحويل" in key -> prism.palette.prismCyan
+        prominent || "transfer" in key || "تحويل" in key -> prism.tones.payment
         "qr" in key || "receive" in key || "استلام" in key -> prism.palette.prismViolet
-        "bill" in key || "pay" in key || "دفع" in key -> prism.palette.prismCoral
+        "bill" in key || "pay" in key || "دفع" in key -> prism.tones.accent
         "statement" in key || "chart" in key || "كشف" in key -> prism.palette.prismEmerald
         else -> prism.palette.prismGold
     }
@@ -895,8 +895,9 @@ fun SignalPrismQuickTransferRow(
             .background(
                 Brush.linearGradient(
                     listOf(
-                        prism.palette.prismOcean.copy(alpha = if (colors.dark) 0.36f else 0.10f),
-                        prism.palette.prismViolet.copy(alpha = if (colors.dark) 0.16f else 0.06f),
+                        prism.tones.secondary.copy(alpha = if (colors.dark) 0.36f else 0.10f),
+                        prism.tones.payment.copy(alpha = if (colors.dark) 0.18f else 0.14f),
+                        prism.tones.accent.copy(alpha = if (colors.dark) 0.12f else 0.09f),
                     ),
                 ),
                 shape,
@@ -911,10 +912,10 @@ fun SignalPrismQuickTransferRow(
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(18.dp))
-                .background(prism.palette.prismCyan.copy(alpha = if (colors.dark) 0.18f else 0.12f)),
+                .background(prism.tones.paymentContainer),
             contentAlignment = Alignment.Center,
         ) {
-            SignalIcon(SignalIconName.Transfer, tint = prism.palette.prismCyan, size = 24.dp)
+            SignalIcon(SignalIconName.Transfer, tint = prism.tones.payment, size = 24.dp)
         }
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(

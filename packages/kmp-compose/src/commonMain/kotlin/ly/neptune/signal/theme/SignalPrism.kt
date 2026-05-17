@@ -278,7 +278,7 @@ object SignalPrismDefaults {
             prismDeepNavy = brand.primary,
             prismOcean = brand.secondary,
             prismCyan = brand.secondary,
-            prismViolet = lerp(brand.secondary, brand.accent, 0.42f),
+            prismViolet = lerp(brand.primary, brand.accent, 0.55f),
             prismCoral = brand.accent,
         )
         return when (appearance) {
@@ -349,8 +349,8 @@ object SignalPrismDefaults {
         SignalPrismAppearance.Light -> SignalPrismSurfaceTokens(
             prismBackground = palette.prismFrost,
             prismSurface = palette.prismMist,
-            prismSurfaceRaised = Color.White,
-            prismSurfaceFloating = Color.White,
+            prismSurfaceRaised = lerp(palette.prismFrost, palette.prismCyan, 0.035f),
+            prismSurfaceFloating = lerp(palette.prismFrost, palette.prismDeepNavy, 0.055f),
             prismSurfaceGlass = palette.prismGlass,
             prismSurfaceMuted = lerp(palette.prismMist, palette.prismDeepNavy, 0.04f),
             prismSurfaceStrong = lerp(palette.prismMist, palette.prismDeepNavy, 0.10f),
@@ -376,12 +376,12 @@ object SignalPrismDefaults {
             SignalPrismAppearance.Oled -> 0.30f
         }
         val secondaryContainerAlpha = when (appearance) {
-            SignalPrismAppearance.Light -> 0.14f
+            SignalPrismAppearance.Light -> 0.20f
             SignalPrismAppearance.Dark -> 0.20f
             SignalPrismAppearance.Oled -> 0.26f
         }
         val accentContainerAlpha = when (appearance) {
-            SignalPrismAppearance.Light -> 0.13f
+            SignalPrismAppearance.Light -> 0.18f
             SignalPrismAppearance.Dark -> 0.18f
             SignalPrismAppearance.Oled -> 0.23f
         }

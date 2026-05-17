@@ -35,13 +35,16 @@ data class SignalExpressiveProfile(
         val darkSurface = lerp(darkBase, anchor, darkTint * 0.34f)
         val darkLow = lerp(darkSurface, anchor, (cardTint + 0.02f).coerceAtMost(0.11f))
         val darkContainer = lerp(darkSurface, anchor, (navTint + 0.02f).coerceAtMost(0.13f))
+        val resolvedPrimary = primaryTone ?: brand.primary
+        val resolvedSecondary = secondaryTone ?: brand.secondary
+        val resolvedAccent = accentTone ?: accentBias
         return SignalThemeOverrides(
             primary = primaryTone,
             secondary = secondaryTone,
             accent = accentTone,
-            primaryContainer = lerp(lightSurface, brand.primary, 0.11f),
-            secondaryContainer = lerp(lightSurface, secondaryTone ?: brand.secondary, 0.16f),
-            tertiaryContainer = lerp(lightSurface, accentTone ?: accentBias, 0.14f),
+            primaryContainer = lerp(lightSurface, resolvedPrimary, 0.13f),
+            secondaryContainer = lerp(lightSurface, resolvedSecondary, 0.16f),
+            tertiaryContainer = lerp(lightSurface, resolvedAccent, 0.14f),
             lightSurface = lightSurface,
             darkSurface = darkSurface,
             blackSurface = if (appearance == SignalAppearanceMode.Black) Color(0xFF000000) else darkSurface,

@@ -6,9 +6,10 @@
   <title>Neptune. Signal</title>
   <style>
     :root {
-      --navy: #1A335E;
-      --coral: #EA4E4E;
-      --teal: #00A8AE;
+      --navy: #082B5A;
+      --coral: #FF6A6A;
+      --teal: #29D4FF;
+      --violet: color-mix(in srgb, var(--navy) 45%, var(--coral));
       --paper: #F7FAF9;
       --ink: #071C2E;
       --muted: #60747C;
@@ -71,8 +72,10 @@
       padding: 76px clamp(24px, 6vw, 96px);
       color: white;
       background:
-        linear-gradient(90deg, rgba(26,51,94,.98), rgba(26,51,94,.9)),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 56px);
+        radial-gradient(circle at 78% 18%, rgba(41,212,255,.18), transparent 0 24rem),
+        radial-gradient(circle at 88% 70%, rgba(255,106,106,.16), transparent 0 20rem),
+        linear-gradient(120deg, color-mix(in srgb, var(--navy) 96%, #000), color-mix(in srgb, var(--teal) 28%, var(--navy)) 68%, color-mix(in srgb, var(--coral) 18%, var(--navy))),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.07) 0 1px, transparent 1px 56px);
       overflow: hidden;
     }
     .hero-logo {
@@ -188,8 +191,8 @@
       place-items: center;
       background:
         radial-gradient(circle at 34% 28%, rgba(255,255,255,.44), transparent 0 11%, transparent 34%),
-        radial-gradient(circle at 72% 78%, rgba(0,168,174,.52), transparent 0 20%, transparent 52%),
-        linear-gradient(145deg, var(--coral), #B93939);
+        radial-gradient(circle at 72% 78%, rgba(41,212,255,.52), transparent 0 20%, transparent 52%),
+        linear-gradient(145deg, var(--coral), var(--violet));
       border: 1px solid rgba(255,255,255,.2);
       border-radius: 50%;
       box-shadow: 0 30px 74px rgba(0,0,0,.25);
@@ -455,12 +458,12 @@
       <header class="hero">
         <div>
           <img class="hero-logo" src="./assets/logo/neptune-logo-color.png" alt="Neptune.">
-          <span class="eyebrow">Neptune. Signal Standard 0.2.0</span>
-          <h1>Material-compatible fintech design language for Neptune. products.</h1>
-          <p class="lead">Material 3 gives the platform grammar. Neptune. Signal adds banking information rules, white-label control, Arabic-first layouts, native motion, and SDK-ready components.</p>
+          <span class="eyebrow">Neptune Signal Prism 0.2.0</span>
+          <h1>Dark-first premium fintech design-system SDK for Neptune products.</h1>
+          <p class="lead">Prism is the reusable KMP UI layer for Nova, corporate, merchant, wallet, and white-label bank apps. Material remains a guardrail; Prism owns identity, gradients, wallet surfaces, navigation, motion, and personalization.</p>
           <div class="actions">
             <a class="btn primary" href="./demos/mobile/prototype.html">Open mobile demo</a>
-            <a class="btn" href="./standard/m3-extension.html">M3 extension model</a>
+            <a class="btn" href="./sdk/index.html">SDK model</a>
             <a class="btn" href="./standard/philosophy.html">Read philosophy</a>
             <a class="btn" href="./standard/information-presentation.html">Information rules</a>
             <a class="btn" href="./components/gallery.html">View components</a>
@@ -509,11 +512,11 @@
       </section>
 
       <section>
-        <h2>Material, Reimagined For Banking</h2>
-        <p class="section-lead">Signal uses Material role systems for color, type, surfaces, state layers, motion, and accessibility. Then it adds the parts a bank needs and Material does not define: critical values, receipts, consents, async transfer status, white-label themes, and financial performance constraints.</p>
+        <h2>Prism, Built For White-Label Banking</h2>
+        <p class="section-lead">Signal uses accessibility, touch targets, navigation logic, and semantic color discipline as guardrails. Prism then resolves bank identity, product personality, user preference, card-scheme rules, and appearance mode into stable UI tokens.</p>
         <div class="grid">
-          <article class="card"><h3>Color Roles</h3><p>Primary, secondary, tertiary, containers, surfaces, outlines, inverse roles, and protected status colors.</p><a href="./foundations/color-roles.html">Open</a></article>
-          <article class="card"><h3>Surfaces</h3><p>Surface ladder, elevation levels, state layers, and when not to build card piles.</p><a href="./foundations/surfaces.html">Open</a></article>
+          <article class="card"><h3>Semantic Palette</h3><p>Primary, secondary, accent, payment, containers, surfaces, and protected readable content colors.</p><a href="./sdk/white-label-configuration-system.md">Open</a></article>
+          <article class="card"><h3>Dark / Light / OLED</h3><p>Dark-first flagship, clean light mode, OLED-safe surfaces, and no content bleed behind controls.</p><a href="./component-contracts/prism-theme-contract.md">Open</a></article>
           <article class="card"><h3>Component Anatomy</h3><p>Purpose, variants, states, tokens, motion, accessibility, RTL, SDK mapping, and Figma properties.</p><a href="./components/anatomy.html">Open</a></article>
           <article class="card"><h3>App Structure</h3><p>Root navigation, nested pages, account opening motion, performance rules, and result grammar.</p><a href="./patterns/app-structure.html">Open</a></article>
         </div>
@@ -535,20 +538,20 @@
         <h2>Component Families</h2>
         <p class="section-lead">Components start from the mobile demo, but are documented as reusable primitives and patterns so each SDK can implement them cleanly.</p>
         <div class="grid">
-          <article class="card"><h3>Foundations</h3><p>Tokens, typography, spacing, radius, iconography, elevation, Material roles, and language direction.</p><a href="./foundations/tokens.html">Open</a></article>
-          <article class="card"><h3>Navigation</h3><p>App shell, top app bar, bottom navigation, nested routes, and active root behavior.</p><a href="./components/navigation.html">Open</a></article>
-          <article class="card"><h3>Banking Rows</h3><p>Transactions, settings, consents, support, service operations, and account operations.</p><a href="./components/banking-row.html">Open</a></article>
-          <article class="card"><h3>Accounts</h3><p>Account row, account details, copy/share IBAN, masking, requests, and tracking.</p><a href="./components/account.html">Open</a></article>
+          <article class="card"><h3>Foundations</h3><p>Prism tones, typography, spacing, radius, gradients, density, motion, and language direction.</p><a href="./foundations/tokens.html">Open</a></article>
+          <article class="card"><h3>Navigation</h3><p>Floating dock, payment action, top bars, nested routes, and active root behavior.</p><a href="./components/navigation.html">Open</a></article>
+          <article class="card"><h3>Service Hub</h3><p>Notifications, campaigns, OpenWave consents, aliases, recurring payments, approvals, and support.</p><a href="./component-contracts/prism-service-hub.md">Open</a></article>
+          <article class="card"><h3>Accounts</h3><p>Account cards, workspace stage, identifier rail, copy policy, activity, requests, and documents.</p><a href="./component-contracts/prism-account-workspace-v3.md">Open</a></article>
           <article class="card"><h3>Forms</h3><p>IBAN, alias, amount, OTP, select, validation, async processing, and error behavior.</p><a href="./components/forms.html">Open</a></article>
           <article class="card"><h3>Status Results</h3><p>Success, failed, waiting, voucher receipt, LyPay, Western Union, and OpenWave approvals.</p><a href="./components/status-result.html">Open</a></article>
           <article class="card"><h3>Gallery</h3><p>Live previews with KMP snippets, anatomy notes, state rules, and copy-ready examples.</p><a href="./components/gallery.html">Open</a></article>
-          <article class="card"><h3>White Label</h3><p>Bank color assignment, protected semantics, contrast rules, and preset families for demos.</p><a href="./white-label/index.html">Open</a></article>
+          <article class="card"><h3>White Label</h3><p>Bank color assignment, semantic tone resolution, contrast rules, and safe customer personalization.</p><a href="./sdk/white-label-configuration-system.md">Open</a></article>
         </div>
       </section>
 
       <section>
         <h2>Interactive Demo</h2>
-        <p class="section-lead">The current mobile banking prototype is included as the first demo implementation of Neptune. Signal. Demos version separately from the standard.</p>
+        <p class="section-lead">The mobile prototype now demonstrates Prism semantic palettes: Neptune deep navy, cyan, coral, derived violet/payment tones, dark/OLED surfaces, floating nav, and wallet actions.</p>
         <div class="actions">
           <a class="btn primary" href="./demos/mobile/prototype.html">Launch mobile banking demo</a>
           <a class="btn" href="./demos/mobile/index.html">Read demo notes</a>

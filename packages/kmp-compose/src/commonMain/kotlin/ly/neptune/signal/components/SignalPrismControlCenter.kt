@@ -212,7 +212,7 @@ fun SignalPrismOptionTile(
 ) {
     val prism = SignalTheme.prism
     val borderColor = when {
-        selected -> prism.palette.prismCyan.copy(alpha = 0.50f)
+        selected -> prism.tones.payment.copy(alpha = 0.50f)
         locked -> prism.overlays.prismBorderSoft.copy(alpha = 0.08f)
         else -> prism.overlays.prismBorderSoft.copy(alpha = 0.14f)
     }
@@ -236,10 +236,10 @@ fun SignalPrismOptionTile(
             modifier = Modifier
                 .size(40.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background((swatch ?: prism.palette.prismCyan).copy(alpha = if (locked) 0.10f else 0.18f)),
+                .background((swatch ?: prism.tones.payment).copy(alpha = if (locked) 0.10f else 0.18f)),
             contentAlignment = Alignment.Center,
         ) {
-            if (icon != null) SignalIcon(icon, tint = swatch ?: prism.palette.prismCyan, size = 21.dp)
+            if (icon != null) SignalIcon(icon, tint = swatch ?: prism.tones.payment, size = 21.dp)
             if (icon == null && swatch != null) Box(Modifier.size(18.dp).clip(RoundedCornerShape(999.dp)).background(swatch))
         }
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -382,10 +382,10 @@ fun SignalPrismSegmentedSelector(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(999.dp))
-                    .background(if (selectedIndex == index) prism.palette.prismCyan.copy(alpha = 0.16f) else Color.Transparent)
+                    .background(if (selectedIndex == index) prism.tones.paymentContainer else Color.Transparent)
                     .clickable { onSelectedIndexChange(index) }
                     .padding(horizontal = 8.dp, vertical = 9.dp),
-                color = if (selectedIndex == index) prism.palette.prismTextPrimary else prism.palette.prismTextSecondary,
+                color = if (selectedIndex == index) prism.tones.onPaymentContainer else prism.palette.prismTextSecondary,
                 style = SignalTheme.typography.prismStatus,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

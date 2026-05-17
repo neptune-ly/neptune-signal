@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -66,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ly.neptune.signal.motion.SignalMotion
 import ly.neptune.signal.theme.SignalComponentMetrics
+import ly.neptune.signal.theme.SignalPrismAppearance
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -483,6 +485,11 @@ fun SignalPrismAccountCard(
             artworkStyle = account.artworkStyle,
             bankPalette = account.bankPalette,
             modifier = Modifier.matchParentSize(),
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(signalPrismAccountTextProtectionBrush()),
         )
         Column(
             modifier = Modifier
@@ -1352,9 +1359,9 @@ private fun prismWorkspaceActionAccent(id: String, prominent: Boolean): Color {
     val prism = SignalTheme.prism
     val key = id.lowercase()
     return when {
-        prominent || "transfer" in key -> prism.palette.prismCyan
+        prominent || "transfer" in key -> prism.tones.payment
         "receive" in key || "qr" in key -> prism.palette.prismViolet
-        "pay" in key || "bill" in key -> prism.palette.prismCoral
+        "pay" in key || "bill" in key -> prism.tones.accent
         "statement" in key || "chart" in key -> prism.palette.prismEmerald
         else -> prism.palette.prismGold
     }
@@ -1386,14 +1393,14 @@ fun SignalPrismWorkspaceSegmentedControl(
             val active = selected == section
             Text(
                 text = accountWorkspaceSectionLabel(section),
-                color = if (active) prism.palette.prismTextPrimary else prism.palette.prismTextSecondary,
+                color = if (active) prism.tones.onPaymentContainer else prism.palette.prismTextSecondary,
                 style = SignalTheme.typography.prismStatus,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(999.dp))
-                    .background(if (active) prism.palette.prismCyan.copy(alpha = 0.16f) else Color.Transparent)
+                    .background(if (active) prism.tones.paymentContainer else Color.Transparent)
                     .clickable { onSelected(section) }
                     .padding(horizontal = 6.dp, vertical = 10.dp),
             )
@@ -1413,7 +1420,7 @@ fun SignalPrismAccountOverviewPanel(
         title = "نظرة عامة",
         subtitle = "الرصيد، الباقة، والخدمات المهمة فقط",
         icon = SignalIconName.Accounts,
-        iconTint = SignalTheme.prism.palette.prismCyan,
+        iconTint = SignalTheme.prism.tones.payment,
     ) {
         SignalPrismBalanceBreakdownCompact(items = balances.take(3))
         SignalPrismAccountPackageSummary(limits = limits.take(2))
@@ -1696,6 +1703,11 @@ fun SignalPrismMiniCardArtwork(
             .border(1.dp, contentColor.copy(alpha = 0.12f), RoundedCornerShape(14.dp)),
     ) {
         SignalPrismCardArtwork(profile = profile, modifier = Modifier.matchParentSize())
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(signalPrismCardTextProtectionBrush(profile)),
+        )
         Text(
             text = card.network.schemeLabel(),
             color = contentColor,
@@ -1735,6 +1747,11 @@ fun SignalPrismPaymentCard(
             .border(1.dp, contentColor.copy(alpha = 0.12f), shape),
     ) {
         SignalPrismCardArtwork(profile = profile, modifier = Modifier.matchParentSize())
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(signalPrismCardTextProtectionBrush(profile)),
+        )
         Column(
             modifier = Modifier.fillMaxSize().padding(if (large) 22.dp else 18.dp),
             verticalArrangement = Arrangement.SpaceBetween,
@@ -1864,11 +1881,11 @@ fun SignalPrismCardDetailHeader(
     onOpenArtwork: (() -> Unit)? = null,
 ) {
     when (mode) {
-        SignalCardDetailPresentationMode.ExpandedArtwork -> SignalPrismPaymentCard(
+        SignalCardDetailPresentationMode.ExpandedArtwork -> SignalPrismCardDetailStage(
             card = card,
             revealState = SignalPrismCardRevealState(revealed = false),
-            large = true,
-            modifier = modifier.padding(horizontal = SignalSpacing.x1),
+            onBack = null,
+            modifier = modifier,
         )
         SignalCardDetailPresentationMode.SecureDataFirst -> Unit
         SignalCardDetailPresentationMode.CompactIdentity,
@@ -1877,6 +1894,128 @@ fun SignalPrismCardDetailHeader(
             receiptLike = mode == SignalCardDetailPresentationMode.ControlCenter,
             onOpenArtwork = onOpenArtwork,
             modifier = modifier,
+        )
+    }
+}
+
+@Composable
+fun SignalPrismCardDetailStage(
+    card: SignalPrismCardModel,
+    revealState: SignalPrismCardRevealState,
+    modifier: Modifier = Modifier,
+    onBack: (() -> Unit)? = null,
+) {
+    val prism = SignalTheme.prism
+    val shape = RoundedCornerShape(bottomStart = 38.dp, bottomEnd = 38.dp)
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(
+                Brush.linearGradient(
+                    listOf(
+                        prism.palette.prismDeepNavy,
+                        prism.tones.payment.copy(alpha = if (prism.appearance == SignalPrismAppearance.Light) 0.42f else 0.62f),
+                        prism.tones.accent.copy(alpha = if (prism.appearance == SignalPrismAppearance.Light) 0.22f else 0.34f),
+                    ),
+                ),
+            )
+            .border(1.dp, Color.White.copy(alpha = 0.10f), shape),
+    ) {
+        SignalPrismStageSheen(modifier = Modifier.matchParentSize())
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x3),
+            verticalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (onBack != null) {
+                    SignalIconButton(onClick = onBack) {
+                        SignalIcon(SignalIconName.ArrowStart, tint = Color.White, size = 24.dp)
+                    }
+                } else {
+                    Spacer(modifier = Modifier.size(44.dp))
+                }
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(3.dp),
+                ) {
+                    Text(card.label, color = Color.White, style = SignalTheme.typography.prismTitleHero, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text("${card.network.schemeLabel()} · ${card.maskedPan}", color = Color.White.copy(alpha = 0.76f), style = SignalTheme.typography.prismCardMeta, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+                Spacer(modifier = Modifier.size(44.dp))
+            }
+            SignalPrismPaymentCard(
+                card = card,
+                revealState = revealState,
+                large = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                SignalPrismStagePill(cardStatusLabel(card.status), cardStatusTone(card.status))
+                SignalPrismStagePill(if (card.virtual) "افتراضية" else "فعلية", prism.tones.payment)
+                card.balanceOrLimit?.let {
+                    Text(
+                        it,
+                        color = Color.White,
+                        style = SignalTheme.typography.prismAmountCompact,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.End,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SignalPrismStagePill(label: String, tone: Color) {
+    Text(
+        label,
+        color = Color.White,
+        style = SignalTheme.typography.prismStatus,
+        maxLines = 1,
+        modifier = Modifier
+            .clip(RoundedCornerShape(999.dp))
+            .background(tone.copy(alpha = 0.28f))
+            .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(999.dp))
+            .padding(horizontal = 10.dp, vertical = 6.dp),
+    )
+}
+
+@Composable
+private fun SignalPrismStageSheen(modifier: Modifier = Modifier) {
+    val prism = SignalTheme.prism
+    Canvas(modifier = modifier) {
+        drawCircle(
+            color = prism.palette.prismCyan.copy(alpha = 0.18f),
+            radius = size.minDimension * 0.44f,
+            center = Offset(size.width * 0.16f, size.height * 0.08f),
+        )
+        drawCircle(
+            color = prism.palette.prismCoral.copy(alpha = 0.11f),
+            radius = size.minDimension * 0.36f,
+            center = Offset(size.width * 0.94f, size.height * 0.30f),
+        )
+        drawLine(
+            color = Color.White.copy(alpha = 0.14f),
+            start = Offset(size.width * 0.12f, size.height * 0.22f),
+            end = Offset(size.width * 0.42f, size.height * 0.22f),
+            strokeWidth = 2.dp.toPx(),
+            cap = StrokeCap.Round,
         )
     }
 }
@@ -1981,8 +2120,8 @@ fun SignalPrismCardRevealSheet(
     ) {
         Column(modifier = Modifier.padding(SignalSpacing.x3), verticalArrangement = Arrangement.spacedBy(SignalSpacing.x3)) {
             Row(horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(40.dp).clip(RoundedCornerShape(16.dp)).background(prism.palette.prismCyan.copy(alpha = 0.14f)), contentAlignment = Alignment.Center) {
-                    SignalIcon(SignalIconName.Lock, tint = prism.palette.prismCyan, size = 21.dp)
+                Box(modifier = Modifier.size(40.dp).clip(RoundedCornerShape(16.dp)).background(prism.tones.paymentContainer), contentAlignment = Alignment.Center) {
+                    SignalIcon(SignalIconName.Lock, tint = prism.tones.payment, size = 21.dp)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(if (revealState.revealed) "بيانات البطاقة ظاهرة" else "بيانات البطاقة مخفية", style = SignalTheme.typography.rowTitle, maxLines = 1)
@@ -1995,8 +2134,8 @@ fun SignalPrismCardRevealSheet(
             }
             Text(
                 text = if (revealState.revealed) "إخفاء البيانات" else "إظهار بيانات البطاقة",
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(999.dp)).background(prism.palette.prismCyan.copy(alpha = 0.16f)).clickable(onClick = onToggleReveal).padding(vertical = 12.dp),
-                color = prism.palette.prismTextPrimary,
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(999.dp)).background(prism.tones.paymentContainer).clickable(onClick = onToggleReveal).padding(vertical = 12.dp),
+                color = prism.tones.onPaymentContainer,
                 style = SignalTheme.typography.button,
                 maxLines = 1,
             )
@@ -2023,8 +2162,8 @@ fun SignalPrismCardSecureDataPanel(
     ) {
         Column(modifier = Modifier.padding(SignalSpacing.x3), verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2)) {
             Row(horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(40.dp).clip(RoundedCornerShape(16.dp)).background(prism.palette.prismCyan.copy(alpha = 0.14f)), contentAlignment = Alignment.Center) {
-                    SignalIcon(if (revealState.revealed) SignalIconName.Eye else SignalIconName.Lock, tint = prism.palette.prismCyan, size = 21.dp)
+                Box(modifier = Modifier.size(40.dp).clip(RoundedCornerShape(16.dp)).background(prism.tones.paymentContainer), contentAlignment = Alignment.Center) {
+                    SignalIcon(if (revealState.revealed) SignalIconName.Eye else SignalIconName.Lock, tint = prism.tones.payment, size = 21.dp)
                 }
                 Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text("بيانات البطاقة", style = SignalTheme.typography.prismTitleCard, maxLines = 1)
@@ -2099,8 +2238,8 @@ fun SignalPrismCardSecureDataPanel(
             }
             Text(
                 text = if (revealState.revealed) "إخفاء البيانات" else "إظهار بيانات البطاقة",
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(999.dp)).background(prism.palette.prismCyan.copy(alpha = 0.16f)).clickable(onClick = onToggleReveal).padding(vertical = 12.dp),
-                color = prism.palette.prismTextPrimary,
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(999.dp)).background(prism.tones.paymentContainer).clickable(onClick = onToggleReveal).padding(vertical = 12.dp),
+                color = prism.tones.onPaymentContainer,
                 style = SignalTheme.typography.button,
                 maxLines = 1,
             )
@@ -2472,14 +2611,29 @@ fun SignalPrismCardNetworkMark(network: SignalPrismCardNetwork, modifier: Modifi
 @Composable
 private fun signalPrismCardGradient(style: SignalPrismCardStyle): Brush {
     val prism = SignalTheme.prism
+    val protectedOcean = if (prism.appearance == SignalPrismAppearance.Light) {
+        lerpForPrism(prism.palette.prismDeepNavy, prism.palette.prismOcean, 0.46f)
+    } else {
+        prism.palette.prismOcean
+    }
+    val protectedCyan = if (prism.appearance == SignalPrismAppearance.Light) {
+        lerpForPrism(prism.palette.prismDeepNavy, prism.palette.prismCyan, 0.34f)
+    } else {
+        prism.palette.prismCyan
+    }
+    val protectedCoral = if (prism.appearance == SignalPrismAppearance.Light) {
+        lerpForPrism(prism.palette.prismDeepNavy, prism.palette.prismCoral, 0.34f)
+    } else {
+        prism.palette.prismCoral
+    }
     return Brush.linearGradient(
         when (style) {
             SignalPrismCardStyle.ClassicBank -> listOf(prism.palette.prismDeepNavy, prism.palette.prismNight)
-            SignalPrismCardStyle.PremiumWallet -> listOf(prism.palette.prismDeepNavy, prism.palette.prismOcean, prism.palette.prismViolet.copy(alpha = 0.88f))
-            SignalPrismCardStyle.YouthFintech -> listOf(prism.palette.prismOcean, prism.palette.prismViolet, prism.palette.prismCoral.copy(alpha = 0.86f))
+            SignalPrismCardStyle.PremiumWallet -> listOf(prism.palette.prismDeepNavy, protectedOcean, prism.palette.prismViolet.copy(alpha = 0.90f))
+            SignalPrismCardStyle.YouthFintech -> listOf(protectedOcean, prism.palette.prismViolet, protectedCoral.copy(alpha = 0.90f))
             SignalPrismCardStyle.CorporateDense -> listOf(prism.palette.prismInk, prism.palette.prismDeepNavy)
             SignalPrismCardStyle.IslamicCalm -> listOf(prism.palette.prismDeepNavy, prism.palette.prismEmerald.copy(alpha = 0.74f))
-            SignalPrismCardStyle.MerchantEnergy -> listOf(prism.palette.prismOcean, prism.palette.prismCyan.copy(alpha = 0.72f))
+            SignalPrismCardStyle.MerchantEnergy -> listOf(protectedOcean, protectedCyan.copy(alpha = 0.82f), prism.palette.prismDeepNavy)
         },
     )
 }
@@ -2489,18 +2643,18 @@ private fun signalPrismCardBrush(profile: SignalPrismCardArtworkProfile): Brush 
     val prism = SignalTheme.prism
     val palette = profile.bankPalette
     return when (profile.backgroundStyle) {
-        SignalCardBackgroundStyle.BackendAsset -> Brush.linearGradient(listOf(palette.primary, palette.secondary.copy(alpha = 0.82f)))
+        SignalCardBackgroundStyle.BackendAsset -> Brush.linearGradient(listOf(palette.primary, protectedCardTone(palette.primary, palette.secondary, 0.72f)))
         SignalCardBackgroundStyle.Flat -> Brush.linearGradient(listOf(palette.primary, palette.primary))
-        SignalCardBackgroundStyle.BankBrand -> Brush.linearGradient(listOf(palette.primary, palette.secondary.copy(alpha = 0.88f)))
-        SignalCardBackgroundStyle.FrostedLight -> Brush.linearGradient(listOf(Color(0xFFEFF5FA), Color(0xFFDCE8F2)))
+        SignalCardBackgroundStyle.BankBrand -> Brush.linearGradient(listOf(palette.primary, protectedCardTone(palette.primary, palette.secondary, 0.66f), protectedCardTone(palette.primary, palette.accent, 0.28f)))
+        SignalCardBackgroundStyle.FrostedLight -> Brush.linearGradient(listOf(Color(0xFFDBEAF4), Color(0xFFB9D3E4), Color(0xFF8FB6CC)))
         SignalCardBackgroundStyle.MinimalCorporate -> Brush.linearGradient(listOf(Color(0xFF202733), Color(0xFF121820)))
         SignalCardBackgroundStyle.PremiumDark -> Brush.linearGradient(listOf(prism.palette.prismInk, prism.palette.prismDeepNavy))
         SignalCardBackgroundStyle.SoftGradient -> when (profile.scheme) {
             SignalCardScheme.Visa -> Brush.linearGradient(listOf(Color(0xFF0B4F9E), Color(0xFF123E77)))
             SignalCardScheme.Mastercard -> Brush.linearGradient(listOf(Color(0xFF171B22), Color(0xFF30343C)))
-            SignalCardScheme.Numo -> Brush.linearGradient(listOf(palette.primary, palette.secondary.copy(alpha = 0.78f)))
+            SignalCardScheme.Numo -> Brush.linearGradient(listOf(palette.primary, protectedCardTone(palette.primary, palette.secondary, 0.58f)))
             SignalCardScheme.Amex -> Brush.linearGradient(listOf(Color(0xFF1B5F8C), Color(0xFF0A3555)))
-            SignalCardScheme.PrivateLabel -> Brush.linearGradient(listOf(palette.primary, palette.accent.copy(alpha = 0.74f)))
+            SignalCardScheme.PrivateLabel -> Brush.linearGradient(listOf(palette.primary, protectedCardTone(palette.primary, palette.accent, 0.54f)))
             SignalCardScheme.Unknown -> signalPrismCardGradient(SignalPrismCardStyle.ClassicBank)
         }
     }
@@ -2514,8 +2668,8 @@ private fun signalPrismAccountBrush(account: SignalPrismAccountCardModel): Brush
         SignalAccountArtworkStyle.BankBrandGradient -> Brush.linearGradient(
             listOf(
                 account.bankPalette.primary,
-                account.bankPalette.secondary.copy(alpha = 0.50f),
-                account.bankPalette.accent.copy(alpha = 0.22f),
+                protectedCardTone(account.bankPalette.primary, account.bankPalette.secondary, if (prism.appearance == SignalPrismAppearance.Light) 0.44f else 0.50f),
+                protectedCardTone(account.bankPalette.primary, account.bankPalette.accent, if (prism.appearance == SignalPrismAppearance.Light) 0.24f else 0.32f),
             ),
         )
         SignalAccountArtworkStyle.MinimalCorporate -> Brush.linearGradient(listOf(prism.palette.prismInk, prism.palette.prismDeepNavy))
@@ -2524,6 +2678,52 @@ private fun signalPrismAccountBrush(account: SignalPrismAccountCardModel): Brush
         SignalAccountArtworkStyle.NeptunePrism -> signalPrismCardGradient(account.style)
     }
 }
+
+@Composable
+private fun signalPrismAccountTextProtectionBrush(): Brush {
+    val alpha = when (SignalTheme.prism.appearance) {
+        SignalPrismAppearance.Light -> 0.34f
+        SignalPrismAppearance.Dark -> 0.18f
+        SignalPrismAppearance.Oled -> 0.24f
+    }
+    return Brush.linearGradient(
+        listOf(
+            Color.Black.copy(alpha = alpha),
+            Color.Black.copy(alpha = alpha * 0.42f),
+            Color.Black.copy(alpha = alpha * 0.74f),
+        ),
+    )
+}
+
+@Composable
+private fun signalPrismCardTextProtectionBrush(profile: SignalPrismCardArtworkProfile): Brush {
+    val baseAlpha = when (SignalTheme.prism.appearance) {
+        SignalPrismAppearance.Light -> if (profile.backgroundStyle == SignalCardBackgroundStyle.FrostedLight) 0.38f else 0.24f
+        SignalPrismAppearance.Dark -> 0.12f
+        SignalPrismAppearance.Oled -> 0.18f
+    }
+    return Brush.verticalGradient(
+        listOf(
+            Color.Black.copy(alpha = baseAlpha),
+            Color.Transparent,
+            Color.Black.copy(alpha = baseAlpha * 0.78f),
+        ),
+    )
+}
+
+private fun protectedCardTone(base: Color, tone: Color, toneWeight: Float): Color =
+    lerpForPrism(base, tone, toneWeight).let { mixed ->
+        val luma = (0.299f * mixed.red) + (0.587f * mixed.green) + (0.114f * mixed.blue)
+        if (luma > 0.58f) lerpForPrism(Color(0xFF082033), mixed, 0.62f) else mixed
+    }
+
+private fun lerpForPrism(start: Color, stop: Color, fraction: Float): Color =
+    Color(
+        red = start.red + ((stop.red - start.red) * fraction),
+        green = start.green + ((stop.green - start.green) * fraction),
+        blue = start.blue + ((stop.blue - start.blue) * fraction),
+        alpha = start.alpha + ((stop.alpha - start.alpha) * fraction),
+    )
 
 @Composable
 private fun SignalPrismCardNetwork.toArtworkProfile(style: SignalPrismCardStyle): SignalPrismCardArtworkProfile {

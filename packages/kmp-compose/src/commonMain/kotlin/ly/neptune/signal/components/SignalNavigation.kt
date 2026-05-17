@@ -389,22 +389,22 @@ fun SignalPrismFloatingNav(
     val dockShape = RoundedCornerShape(prism.radii.prismRadiusFloatingNav)
     val dockHeight = 72.dp
     val dockContainer = when (prism.appearance) {
-        SignalPrismAppearance.Light -> Color(0xFFF3FAFF)
+        SignalPrismAppearance.Light -> prism.surfaces.prismSurfaceFloating
         SignalPrismAppearance.Dark -> prism.palette.prismDeepNavy
         SignalPrismAppearance.Oled -> Color(0xFF03070D)
     }
     val dockBorder = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.overlays.prismBorderSoft.copy(alpha = 0.08f)
+        SignalPrismAppearance.Light -> prism.tones.secondary.copy(alpha = 0.18f)
         SignalPrismAppearance.Dark -> prism.overlays.prismBorderLuminous.copy(alpha = 0.05f)
         SignalPrismAppearance.Oled -> prism.overlays.prismBorderSoft.copy(alpha = 0.08f)
     }
     val activeContainer = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.palette.prismCyan.copy(alpha = 0.18f)
-        else -> prism.palette.prismCyan.copy(alpha = 0.20f)
+        SignalPrismAppearance.Light -> prism.tones.paymentContainer
+        else -> prism.tones.paymentContainer
     }
     val activeContent = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.palette.prismOcean
-        else -> Color.White
+        SignalPrismAppearance.Light -> prism.tones.onPaymentContainer
+        else -> prism.palette.prismTextPrimary
     }
     val inactiveContent = when (prism.appearance) {
         SignalPrismAppearance.Light -> colors.onSurfaceVariant
@@ -435,7 +435,7 @@ fun SignalPrismFloatingNav(
                     Brush.verticalGradient(
                         colors = listOf(
                             prism.palette.prismCyan.copy(alpha = if (colors.dark) 0.105f else 0.16f),
-                            prism.palette.prismViolet.copy(alpha = if (colors.dark) 0.035f else 0.055f),
+                            prism.tones.accent.copy(alpha = if (colors.dark) 0.035f else 0.085f),
                             Color.White.copy(alpha = 0.0f),
                         ),
                     ),
@@ -532,9 +532,9 @@ fun SignalPrismPaymentAction(
     val gradient = Brush.linearGradient(
         colors = listOf(
             prism.palette.prismDeepNavy,
-            prism.palette.prismCyan.copy(alpha = 0.96f),
+            prism.tones.payment.copy(alpha = 0.96f),
             prism.palette.prismViolet.copy(alpha = 0.86f),
-            prism.palette.prismCoral.copy(alpha = 0.68f),
+            prism.tones.accent.copy(alpha = 0.68f),
         ),
     )
 

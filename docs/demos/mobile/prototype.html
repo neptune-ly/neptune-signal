@@ -6,9 +6,9 @@
   <title>Neptune. Signal Mobile Banking Demo 0.2.0</title>
   <style>
     :root {
-      --npt-coral: #EB4E4D;
-      --npt-teal: #00A8AE;
-      --npt-navy: #07315F;
+      --npt-coral: #FF6A6A;
+      --npt-teal: #29D4FF;
+      --npt-navy: #082B5A;
       --npt-beige: #F0CE9D;
       --npt-sky: #3BC1EE;
       --ink: #071821;
@@ -22,7 +22,27 @@
       --bank-primary: var(--npt-navy);
       --bank-secondary: var(--npt-teal);
       --bank-ink: var(--ink);
-      --bank-accent: var(--npt-teal);
+      --bank-accent: var(--npt-coral);
+      --prism-primary: var(--npt-navy);
+      --prism-secondary: var(--npt-teal);
+      --prism-accent: var(--npt-coral);
+      --prism-violet: color-mix(in srgb, var(--npt-navy) 45%, var(--npt-coral));
+      --prism-payment: linear-gradient(135deg, var(--prism-primary), var(--prism-secondary) 58%, var(--prism-violet));
+      --prism-on-payment: #ffffff;
+      --prism-payment-container: color-mix(in srgb, var(--prism-secondary) 14%, white);
+      --prism-on-payment-container: var(--npt-navy);
+      --prism-accent-container: color-mix(in srgb, var(--prism-accent) 12%, white);
+      --prism-on-accent-container: #5B1114;
+      --prism-surface-raised: color-mix(in srgb, var(--bank-primary) 3%, #ffffff);
+      --prism-surface-floating: color-mix(in srgb, var(--bank-primary) 5%, #ffffff);
+      --prism-border-soft: color-mix(in srgb, var(--bank-primary) 18%, white);
+      --prism-account-gradient: linear-gradient(145deg,
+        color-mix(in srgb, var(--prism-primary) 96%, #000000),
+        color-mix(in srgb, var(--prism-secondary) 42%, var(--prism-primary)) 56%,
+        color-mix(in srgb, var(--prism-accent) 24%, var(--prism-primary))
+      );
+      --prism-nav-surface: rgba(255,255,255,.965);
+      --prism-nav-active: color-mix(in srgb, var(--prism-secondary) 10%, white);
       --md-primary: var(--bank-primary);
       --md-on-primary: #ffffff;
       --md-primary-container: #e8f1ff;
@@ -974,6 +994,15 @@
       --md-surface-container-high: #18313B;
       --md-outline: #38555F;
       --md-outline-variant: #263F48;
+      --prism-payment-container: color-mix(in srgb, var(--prism-secondary) 20%, #061117);
+      --prism-on-payment-container: #EEF7F8;
+      --prism-accent-container: color-mix(in srgb, var(--prism-accent) 18%, #061117);
+      --prism-on-accent-container: #FFF3F1;
+      --prism-surface-raised: color-mix(in srgb, var(--bank-primary) 12%, #0B1921);
+      --prism-surface-floating: color-mix(in srgb, var(--bank-primary) 15%, #0A151C);
+      --prism-border-soft: color-mix(in srgb, var(--bank-secondary) 20%, #294650);
+      --prism-nav-surface: color-mix(in srgb, var(--bank-primary) 22%, #071217);
+      --prism-nav-active: color-mix(in srgb, var(--prism-secondary) 17%, #10232C);
       --shadow: 0 30px 96px rgba(0,0,0,.48);
     }
     :root[data-mode="black"] {
@@ -999,6 +1028,15 @@
       --md-surface-container-high: #0B1419;
       --md-outline: #2C454E;
       --md-outline-variant: #1B2C33;
+      --prism-payment-container: color-mix(in srgb, var(--prism-secondary) 16%, #000000);
+      --prism-on-payment-container: #F4FBFC;
+      --prism-accent-container: color-mix(in srgb, var(--prism-accent) 15%, #000000);
+      --prism-on-accent-container: #FFF3F1;
+      --prism-surface-raised: #05080A;
+      --prism-surface-floating: #030608;
+      --prism-border-soft: color-mix(in srgb, var(--bank-secondary) 18%, #1B2C33);
+      --prism-nav-surface: #030608;
+      --prism-nav-active: color-mix(in srgb, var(--prism-secondary) 13%, #030608);
       --shadow: 0 30px 96px rgba(0,0,0,.70);
     }
 
@@ -1036,7 +1074,7 @@
     .brand { color: white; }
     .brand-mark {
       color: white;
-      background: var(--bank-accent);
+      background: var(--prism-payment);
       border-radius: 12px;
     }
     .rail p { color: rgba(255,255,255,.62); }
@@ -1784,8 +1822,8 @@
       margin-top: 8px;
       padding: 16px;
       color: white;
-      background: var(--bank-primary);
-      border: 1px solid rgba(255,255,255,.10);
+      background: var(--prism-account-gradient);
+      border: 1px solid rgba(255,255,255,.14);
       border-radius: 22px;
       box-shadow: none;
       text-align: start;
@@ -1801,21 +1839,19 @@
     .account-panel::before {
       content: "";
       position: absolute;
-      inset-block: 0;
-      inset-inline-start: 0;
-      width: 5px;
-      background: var(--signal);
+      inset-inline: 16px;
+      inset-block-start: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent);
     }
     .account-panel::after {
       content: "";
       position: absolute;
-      width: 160px;
-      height: 160px;
-      inset-block-start: -74px;
-      inset-inline-end: -62px;
-      border: 1px solid color-mix(in srgb, var(--bank-accent) 34%, transparent);
-      border-radius: 50%;
-      transform: scaleX(1.35) rotate(-18deg);
+      inset-inline: 18px;
+      inset-block-end: 14px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--prism-accent) 38%, rgba(255,255,255,.34)), transparent);
+      opacity: .7;
     }
     .account-panel > * { position: relative; z-index: 1; }
     .account-panel .meta { font-size: 11px; }
@@ -1836,7 +1872,7 @@
       min-height: 58px;
       grid-template-columns: 42px 1fr 34px;
       margin-top: 10px;
-      background: var(--bank-primary);
+      background: var(--prism-payment);
       border-radius: 18px;
       box-shadow: none;
     }
@@ -1845,7 +1881,7 @@
       width: 38px;
       height: 38px;
       color: white;
-      background: var(--signal);
+      background: color-mix(in srgb, var(--prism-accent) 82%, var(--prism-primary));
       border-radius: 12px;
     }
     .command-dock {
@@ -1853,25 +1889,34 @@
       gap: 8px;
       margin-top: 12px;
       padding: 8px;
-      background: color-mix(in srgb, var(--bank-primary) 5%, white);
-      border: 1px solid var(--primary-line);
+      background: var(--prism-surface-floating);
+      border: 1px solid var(--prism-border-soft);
       border-radius: 22px;
     }
     .quick-grid { gap: 8px; margin-top: 8px; }
     .quick {
       min-height: 68px;
-      color: var(--bank-primary);
-      background: rgba(255,255,255,.86);
-      border-color: var(--primary-line);
+      color: var(--ink);
+      background: var(--prism-surface-raised);
+      border-color: var(--prism-border-soft);
       border-radius: 16px;
       font-size: 11px;
     }
-    .quick svg { color: var(--signal); }
+    .quick svg { color: var(--prism-secondary); }
+    .quick-grid .quick:nth-child(1) {
+      color: var(--prism-on-payment-container);
+      background: var(--prism-payment-container);
+    }
+    .quick-grid .quick:nth-child(2) {
+      color: var(--prism-on-accent-container);
+      background: var(--prism-accent-container);
+    }
+    .quick-grid .quick:nth-child(2) svg { color: var(--prism-accent); }
     .quick.selected,
     .voucher-value.active {
-      color: white;
-      background: var(--bank-primary);
-      border-color: var(--bank-primary);
+      color: var(--prism-on-payment);
+      background: var(--prism-payment);
+      border-color: transparent;
     }
     .quick.selected svg { color: white; }
 
@@ -4092,9 +4137,10 @@
       z-index: 45;
       height: 78px;
       padding: 6px;
-      background: rgba(255,255,255,.965);
-      border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+      background: var(--prism-nav-surface);
+      border: 1px solid color-mix(in srgb, var(--prism-border-soft) 88%, transparent);
       border-radius: 32px;
+      box-shadow: 0 18px 42px color-mix(in srgb, var(--bank-primary) 16%, transparent);
     }
     .nav-btn {
       border-radius: 24px;
@@ -4102,9 +4148,9 @@
       position: relative;
     }
     .nav-btn.active {
-      color: var(--bank-primary);
-      background: color-mix(in srgb, var(--bank-primary) 7%, white);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bank-primary) 7%, transparent);
+      color: var(--prism-on-payment-container);
+      background: var(--prism-nav-active);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--prism-secondary) 14%, transparent);
     }
     .nav-btn.active::before {
       content: "";
@@ -4112,12 +4158,12 @@
       top: 5px;
       width: 18px;
       height: 3px;
-      background: var(--signal);
+      background: var(--prism-accent);
       border-radius: 999px;
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .bottom-nav {
-      background: color-mix(in srgb, var(--paper-strong) 92%, rgba(255,255,255,.04));
-      border-color: var(--primary-line);
+      background: var(--prism-nav-surface);
+      border-color: color-mix(in srgb, var(--prism-border-soft) 74%, transparent);
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .list,
     :root:is([data-mode="dark"], [data-mode="black"]) .command-dock {
@@ -4211,8 +4257,8 @@
       box-shadow: none;
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .nav-btn.active {
-      color: var(--ink);
-      background: color-mix(in srgb, var(--bank-primary) 28%, var(--paper-strong));
+      color: var(--prism-on-payment-container);
+      background: var(--prism-nav-active);
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .scope-pill {
       background: color-mix(in srgb, var(--bank-primary) 22%, var(--paper-strong));
@@ -4310,7 +4356,7 @@
       background: #000000;
     }
     :root[data-mode="black"] .bottom-nav {
-      background: #030608;
+      background: var(--prism-nav-surface);
     }
 
     .personal-hero {
@@ -4602,7 +4648,7 @@
 <body>
   <main class="workspace">
     <div class="demo-palette" aria-label="Demo theme controls">
-      <button class="palette-dot tap" data-theme="neptune" aria-label="Neptune Core"><i style="--p:#07315F;--s:#00A8AE;--a:#EB4E4D"></i></button>
+      <button class="palette-dot tap" data-theme="neptune" aria-label="Neptune Core"><i style="--p:#082B5A;--s:#29D4FF;--a:#FF6A6A"></i></button>
       <button class="palette-dot tap" data-theme="atib" aria-label="ATIB Red"><i style="--p:#981B1E;--s:#FFFFFF;--a:#D7282F"></i></button>
       <button class="palette-dot tap" data-theme="yaqeen" aria-label="Yaqeen Brown Gold"><i style="--p:#4C3324;--s:#C7A15D;--a:#8E6A2F"></i></button>
       <button class="palette-dot tap" data-theme="andalus" aria-label="Andalus Navy Teal"><i style="--p:#07315F;--s:#00A8AE;--a:#3BC1EE"></i></button>
@@ -4621,13 +4667,13 @@
         <span class="brand-mark" data-icon="neptune"></span>
         <span>Neptune. Signal</span>
       </div>
-      <p id="railSummary">A modern Neptune-owned banking language: signal motion, ledger density, stable app sizing, and white-label tokens.</p>
+      <p id="railSummary">Prism preview: semantic bank tones, dark/OLED surfaces, wallet actions, and white-label-safe contrast.</p>
       <section class="rail-section">
         <div class="rail-title">Themes</div>
-        <button class="theme-button tap" data-theme="neptune"><span><b>Neptune Core</b><span>Navy primary, teal action, coral signal</span></span><span class="swatches"><i class="swatch" style="background:#07315F"></i><i class="swatch" style="background:#00A8AE"></i><i class="swatch" style="background:#EB4E4D"></i></span></button>
+        <button class="theme-button tap" data-theme="neptune"><span><b>Neptune Prism</b><span>Deep navy, cyan action, coral signal</span></span><span class="swatches"><i class="swatch" style="background:#082B5A"></i><i class="swatch" style="background:#29D4FF"></i><i class="swatch" style="background:#FF6A6A"></i></span></button>
         <button class="theme-button tap" data-theme="atib"><span><b>ATIB Red</b><span>Red and white, premium conservative</span></span><span class="swatches"><i class="swatch" style="background:#981B1E"></i><i class="swatch" style="background:#FFFFFF"></i><i class="swatch" style="background:#D7282F"></i></span></button>
         <button class="theme-button tap" data-theme="yaqeen"><span><b>Yaqeen Brown Gold</b><span>Brown base with gold trust accent</span></span><span class="swatches"><i class="swatch" style="background:#4C3324"></i><i class="swatch" style="background:#C7A15D"></i><i class="swatch" style="background:#8E6A2F"></i></span></button>
-        <button class="theme-button tap" data-theme="andalus"><span><b>Andalus Bank</b><span>Current demo bank, Neptune-compatible</span></span><span class="swatches"><i class="swatch" style="background:#07315F"></i><i class="swatch" style="background:#00A8AE"></i><i class="swatch" style="background:#3BC1EE"></i></span></button>
+        <button class="theme-button tap" data-theme="andalus"><span><b>Andalus Bank</b><span>Bank-branded navy and cyan fallback</span></span><span class="swatches"><i class="swatch" style="background:#07315F"></i><i class="swatch" style="background:#00A8AE"></i><i class="swatch" style="background:#3BC1EE"></i></span></button>
         <button class="theme-button tap" data-theme="ncb"><span><b>NCB Green</b><span>National green with warm institutional accent</span></span><span class="swatches"><i class="swatch" style="background:#0B5A3A"></i><i class="swatch" style="background:#35B56F"></i><i class="swatch" style="background:#D6B15B"></i></span></button>
         <button class="theme-button tap" data-theme="nub"><span><b>Nuran NUB</b><span>Dark slate and gold/yellow digital bank</span></span><span class="swatches"><i class="swatch" style="background:#1E2430"></i><i class="swatch" style="background:#D5A332"></i><i class="swatch" style="background:#F0C75E"></i></span></button>
         <button class="theme-button tap" data-theme="aman"><span><b>Aman Blue Green</b><span>Retail blue with fintech green action</span></span><span class="swatches"><i class="swatch" style="background:#004B7A"></i><i class="swatch" style="background:#00A17A"></i><i class="swatch" style="background:#42B7E8"></i></span></button>
@@ -5378,7 +5424,7 @@
     };
 
     const themes = {
-      neptune: { primary: '#07315F', secondary: '#00A8AE', accent: '#EB4E4D', ink: '#071821' },
+      neptune: { primary: '#082B5A', secondary: '#29D4FF', accent: '#FF6A6A', ink: '#071821' },
       atib: { primary: '#981B1E', secondary: '#FFFFFF', accent: '#D7282F', ink: '#1B1111' },
       yaqeen: { primary: '#4C3324', secondary: '#C7A15D', accent: '#8E6A2F', ink: '#1B1410' },
       andalus: { primary: '#07315F', secondary: '#00A8AE', accent: '#3BC1EE', ink: '#071821' },
@@ -7413,10 +7459,27 @@
       const containerStrength = isDarkLike ? 34 : 12;
       const secondaryStrength = isDarkLike ? 30 : 14;
       const accent = state.accentStyle !== 'default' && accentStyles[state.accentStyle] ? accentStyles[state.accentStyle] : theme.accent;
+      const violet = `color-mix(in srgb, ${theme.primary} 45%, ${accent})`;
+      const payment = `linear-gradient(135deg, ${theme.primary}, ${theme.secondary} 58%, ${violet})`;
+      const darkBase = mode === 'black' ? '#000000' : '#071217';
+      const surfaceBase = isDarkLike ? darkBase : 'white';
       document.documentElement.style.setProperty('--bank-primary', theme.primary);
       document.documentElement.style.setProperty('--bank-secondary', theme.secondary);
       document.documentElement.style.setProperty('--bank-accent', accent);
       document.documentElement.style.setProperty('--bank-ink', theme.ink);
+      document.documentElement.style.setProperty('--prism-primary', theme.primary);
+      document.documentElement.style.setProperty('--prism-secondary', theme.secondary);
+      document.documentElement.style.setProperty('--prism-accent', accent);
+      document.documentElement.style.setProperty('--prism-violet', violet);
+      document.documentElement.style.setProperty('--prism-payment', payment);
+      document.documentElement.style.setProperty('--prism-payment-container', `color-mix(in srgb, ${theme.secondary} ${isDarkLike ? 20 : 14}%, ${surfaceBase})`);
+      document.documentElement.style.setProperty('--prism-accent-container', `color-mix(in srgb, ${accent} ${isDarkLike ? 18 : 12}%, ${surfaceBase})`);
+      document.documentElement.style.setProperty('--prism-surface-raised', `color-mix(in srgb, ${theme.primary} ${isDarkLike ? 12 : 3}%, ${surfaceBase})`);
+      document.documentElement.style.setProperty('--prism-surface-floating', `color-mix(in srgb, ${theme.primary} ${isDarkLike ? 15 : 5}%, ${surfaceBase})`);
+      document.documentElement.style.setProperty('--prism-border-soft', `color-mix(in srgb, ${theme.secondary} ${isDarkLike ? 20 : 18}%, ${isDarkLike ? '#294650' : 'white'})`);
+      document.documentElement.style.setProperty('--prism-account-gradient', `linear-gradient(145deg, color-mix(in srgb, ${theme.primary} 96%, #000000), color-mix(in srgb, ${theme.secondary} 42%, ${theme.primary}) 56%, color-mix(in srgb, ${accent} 24%, ${theme.primary}))`);
+      document.documentElement.style.setProperty('--prism-nav-surface', mode === 'black' ? '#030608' : isDarkLike ? `color-mix(in srgb, ${theme.primary} 22%, #071217)` : 'rgba(255,255,255,.965)');
+      document.documentElement.style.setProperty('--prism-nav-active', `color-mix(in srgb, ${theme.secondary} ${isDarkLike ? 17 : 10}%, ${isDarkLike ? '#10232C' : 'white'})`);
       document.documentElement.style.setProperty('--md-primary', theme.primary);
       document.documentElement.style.setProperty('--md-secondary', theme.secondary);
       document.documentElement.style.setProperty('--md-tertiary', accent);
