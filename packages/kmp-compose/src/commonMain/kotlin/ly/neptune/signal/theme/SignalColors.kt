@@ -97,7 +97,7 @@ object SignalColorDefaults {
         surfaceSoft = Color(0xFF142832),
         textPrimary = Color(0xFFEEF7F8),
         textSecondary = Color(0xFF9DB1B8),
-        textInverse = Color(0xFF041B32),
+        textInverse = Color(0xFFFFFFFF),
         borderDefault = Color(0xFF263F48),
     )
     val NeptuneBlack = SignalColors(
@@ -144,7 +144,7 @@ object SignalColorDefaults {
         surfaceSoft = Color(0xFF080F13),
         textPrimary = Color(0xFFF4FBFC),
         textSecondary = Color(0xFFAABBC1),
-        textInverse = Color(0xFF041B32),
+        textInverse = Color(0xFFFFFFFF),
         borderDefault = Color(0xFF1B2C33),
     )
 

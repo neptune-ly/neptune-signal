@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
@@ -26,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ly.neptune.signal.theme.SignalSpacing
@@ -38,12 +40,12 @@ fun SignalListGroup(
 ) {
     val colors = SignalTheme.colors
     val shapes = SignalTheme.shapes
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(22.dp)
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.surfaceCard.copy(alpha = if (colors.dark) 0.90f else 0.96f), shape)
-            .border(BorderStroke(1.dp, colors.outlineVariant.copy(alpha = if (colors.dark) 0.70f else 0.62f)), shape)
+            .background(colors.surfaceCard.copy(alpha = if (colors.dark) 0.82f else 0.90f), shape)
+            .border(BorderStroke(1.dp, colors.outlineVariant.copy(alpha = if (colors.dark) 0.42f else 0.40f)), shape)
             .padding(SignalSpacing.x1),
         content = content,
     )
@@ -53,7 +55,7 @@ fun SignalListGroup(
 fun SignalListDivider(modifier: Modifier = Modifier) {
     HorizontalDivider(
         modifier = modifier.padding(horizontal = SignalSpacing.x3),
-        color = SignalTheme.colors.outlineVariant.copy(alpha = 0.68f),
+        color = SignalTheme.colors.outlineVariant.copy(alpha = 0.52f),
     )
 }
 
@@ -78,7 +80,7 @@ fun SignalListItem(
             .fillMaxWidth()
             .heightIn(min = SignalTheme.dimensions.rowMinHeight)
             .clip(RoundedCornerShape(shapes.md))
-            .background(if (onClick != null) colors.surfaceContainerLowest.copy(alpha = 0.72f) else Color.Transparent)
+            .background(if (onClick != null) colors.surfaceContainerLowest.copy(alpha = if (colors.dark) 0.34f else 0.54f) else Color.Transparent)
             .padding(SignalSpacing.x3),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
         verticalAlignment = Alignment.CenterVertically,
@@ -86,14 +88,14 @@ fun SignalListItem(
         if (leading != null) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(36.dp)
                     .clip(RoundedCornerShape(shapes.sm))
-                    .background(colors.primaryContainer, RoundedCornerShape(shapes.sm)),
+                    .background(colors.surfaceContainer, RoundedCornerShape(shapes.sm)),
                 contentAlignment = Alignment.Center,
             ) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CompositionLocalProvider(LocalContentColor provides colors.bankPrimary) {
-                        Box(modifier = Modifier.size(22.dp), contentAlignment = Alignment.Center) {
+                    CompositionLocalProvider(LocalContentColor provides colors.onSurfaceVariant) {
+                        Box(modifier = Modifier.size(20.dp), contentAlignment = Alignment.Center) {
                             leading()
                         }
                     }
@@ -146,9 +148,12 @@ fun SignalTransactionRow(
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                 Text(
                     text = amount,
+                    modifier = Modifier.widthIn(min = 88.dp),
                     color = if (incoming) colors.success else colors.error,
-                    style = SignalTheme.typography.titleMedium.copy(fontFeatureSettings = "tnum"),
+                style = SignalTheme.typography.screenTitle.copy(fontFeatureSettings = "tnum"),
+                    textAlign = TextAlign.End,
                     maxLines = 1,
+                    overflow = TextOverflow.Clip,
                 )
             }
         },
@@ -157,8 +162,9 @@ fun SignalTransactionRow(
 
 @Composable
 private fun SignalDefaultTransactionGlyph(incoming: Boolean) {
+    val colors = SignalTheme.colors
     androidx.compose.foundation.Canvas(modifier = Modifier.size(18.dp)) {
-        val color = if (incoming) Color(0xFF0B8F67) else Color(0xFF60747C)
+        val color = if (incoming) colors.success else colors.onSurfaceVariant
         val stroke = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.4.dp.toPx(), cap = androidx.compose.ui.graphics.StrokeCap.Round)
         drawLine(
             color = color,

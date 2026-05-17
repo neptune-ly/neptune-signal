@@ -20,12 +20,14 @@ KMP provides both `SignalAccountRow` for the common IBAN-backed case and `Signal
 
 The Home account surface is a quick balance and routing surface, not a full account detail component.
 
-- Show the selected account name, type/status, balance, and one IBAN value.
+- Show the selected account name, account type, status, balance label, balance, and one IBAN value.
 - Do not show the alias on Home; alias belongs in Account Details and NPT Alias management.
 - Do not show a visible copy icon on Home.
 - Tapping the IBAN value copies the full IBAN.
 - Label the Home value as `IBAN` inline on the same row as the value, not as a separate field block.
 - If space is tight, keep the IBAN on one horizontal value line before wrapping. Never use vague ellipsis for the value.
+- Balance is the primary financial read. Status, carousel count, and IBAN are secondary.
+- Decorative geometry must not sit behind financial values.
 
 ## Account Detail Header
 

@@ -2,6 +2,7 @@ package ly.neptune.signal.theme
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.Immutable
 
 enum class SignalSizeClass {
     Compact,
@@ -29,26 +30,31 @@ object SignalScreenMetrics {
 
 object SignalComponentMetrics {
     val touchTarget: Dp = 48.dp
-    val standardIcon: Dp = 31.dp
-    val rowIconGlyph: Dp = 29.dp
-    val bottomNavIcon: Dp = 26.5.dp
-    val smallActionIcon: Dp = 25.dp
+    val standardIcon: Dp = 24.dp
+    val rowIconGlyph: Dp = 22.dp
+    val bottomNavIcon: Dp = 22.dp
+    val smallActionIcon: Dp = 18.dp
     val iconButtonBox: Dp = 44.dp
-    val textFieldHeight: Dp = 62.dp
-    val buttonHeight: Dp = 58.dp
-    val bottomNavHeight: Dp = 86.dp
+    val topBarOverlayReserve: Dp = 76.dp
+    val textFieldHeight: Dp = 58.dp
+    val buttonHeight: Dp = 52.dp
+    val bottomNavHeight: Dp = 74.dp
+    val bottomNavCenterAction: Dp = 68.dp
+    val bottomNavCenterActionPlate: Dp = 40.dp
+    val bottomNavCenterSlot: Dp = 76.dp
     val rowMinHeight: Dp = 58.dp
     val transactionRowMinHeight: Dp = 72.dp
     val accountRowMinHeight: Dp = 76.dp
-    val accountCarouselHeight: Dp = 176.dp
-    val cardFaceListHeight: Dp = 136.dp
+    val accountCarouselHeight: Dp = 232.dp
+    val cardFaceListHeight: Dp = 160.dp
     val cardFaceDetailHeight: Dp = 190.dp
 }
 
 object SignalAuthMetrics {
     const val contentHeightRatio: Float = 0.70f
     val contentGap: Dp = 10.dp
-    val headerHeight: Dp = 136.dp
+    val compactContentGap: Dp = 8.dp
+    val headerHeight: Dp = 126.dp
     val headerIconBox: Dp = 40.dp
     val headerIconRadius: Dp = 13.dp
     val headerGlyph: Dp = SignalComponentMetrics.rowIconGlyph
@@ -62,13 +68,18 @@ object SignalAuthMetrics {
     val stateOrbitSize: Dp = 108.dp
     val stateOrbitRadius: Dp = 52.dp
     val stateOrbitStroke: Dp = 16.dp
-    val panelPadding: Dp = 12.dp
-    val panelGap: Dp = 10.dp
+    val panelPadding: Dp = 16.dp
+    val panelGap: Dp = 12.dp
     val panelRadius: Dp = 20.dp
-    val actionHeight: Dp = SignalComponentMetrics.buttonHeight
+    val actionHeight: Dp = 52.dp
     val noteIconBox: Dp = 36.dp
     val noteIconRadius: Dp = 12.dp
     val noteGlyph: Dp = SignalComponentMetrics.smallActionIcon
+    val onboardingMinHeight: Dp = 640.dp
+    val onboardingCompactMinHeight: Dp = 600.dp
+    val onboardingHeroHeight: Dp = 342.dp
+    val onboardingCompactHeroHeight: Dp = 286.dp
+    val onboardingShortDeviceBreakpoint: Dp = 780.dp
 }
 
 object SignalMotionMetrics {
@@ -78,3 +89,10 @@ object SignalMotionMetrics {
     const val pressFastMillis: Int = 80
     const val pressMillis: Int = 120
 }
+
+@Immutable
+data class SignalAuthAdaptiveState(
+    val compactHeight: Boolean,
+    val keyboardVisible: Boolean,
+    val fillContent: Boolean,
+)

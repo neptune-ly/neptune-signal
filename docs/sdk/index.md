@@ -2,6 +2,21 @@
 
 Neptune. Signal is a design standard first. SDKs are implementation packages that follow the standard.
 
+## Signal Prism SDK Hardening
+
+Prism is now documented as a reusable KMP UI SDK layer, not only as the Nova design implementation.
+
+- [Signal Prism SDK audit](signal-prism-sdk-audit.md)
+- [Package architecture](signal-prism-package-architecture.md)
+- [Public API contract](public-api-contract.md)
+- [Component event contracts](component-event-contracts.md)
+- [KMP platform readiness](kmp-platform-readiness.md)
+- [Platform adapters](platform-adapter-contracts.md)
+- [White-label configuration](white-label-configuration-system.md)
+- [Experience resolver](experience-resolver-contract.md)
+- [Module boundaries](module-boundaries.md)
+- [Release process](release-process.md)
+
 ## Install KMP SDK
 
 The first production target is Kotlin Multiplatform Compose.

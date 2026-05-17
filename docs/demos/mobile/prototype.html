@@ -45,7 +45,7 @@
       --signal-touch-target: 48px;
       --signal-icon: 31px;
       --signal-row-icon: 29px;
-      --signal-nav-icon: 26.5px;
+      --signal-nav-icon: 24px;
       --signal-small-icon: 25px;
       --signal-icon-button: 44px;
       --signal-field-h: 62px;
@@ -56,7 +56,7 @@
       --signal-row-h: 58px;
       --signal-transaction-row-h: 72px;
       --signal-account-row-h: 76px;
-      --signal-account-carousel-h: 176px;
+      --signal-account-carousel-h: 228px;
       --signal-card-face-h: 136px;
       --signal-card-detail-face-h: 190px;
       --signal-auth-header-h: 58px;
@@ -418,8 +418,8 @@
     .home-head {
       min-height: 68px;
       display: grid;
-      grid-template-columns: 42px 1fr 42px;
-      gap: 12px;
+      grid-template-columns: 42px minmax(0, 1fr) 42px;
+      gap: 10px;
       align-items: center;
       padding-top: 14px;
     }
@@ -433,8 +433,9 @@
       border-radius: 10px;
     }
     .bank-chip svg { width: 24px; height: 24px; stroke-width: 2.35; }
-    .bank-name b { display: block; color: var(--bank-primary); font-size: 15px; }
-    .bank-name span { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .bank-name { min-width: 0; text-align: start; }
+    .bank-name b { display: block; color: var(--bank-primary); font-size: 18px; line-height: 1.12; }
+    .bank-name span { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
 
     .account-panel {
       margin-top: 10px;
@@ -497,13 +498,16 @@
       margin-top: 14px;
       padding: 8px 12px;
       color: white;
-      background: var(--bank-accent);
+      background: var(--bank-primary);
       border: 0;
       border-radius: var(--radius);
       text-align: start;
       font-weight: 950;
-      box-shadow: 0 14px 28px rgba(0,168,174,.22);
+      box-shadow: 0 16px 30px color-mix(in srgb, var(--bank-primary) 22%, transparent);
     }
+    .primary-action span { justify-self: start; font-size: 16px; }
+    [dir="rtl"] .primary-action { grid-template-columns: auto 1fr 40px; }
+    [dir="rtl"] .primary-action span { justify-self: end; text-align: right; }
     .primary-action svg { width: 21px; height: 21px; stroke-width: 2.35; }
     .quick-grid {
       display: grid;
@@ -897,18 +901,18 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 4px;
       padding: 6px;
-      background: color-mix(in srgb, var(--bank-primary) 96%, black 4%);
-      border: 1px solid color-mix(in srgb, var(--signal) 34%, transparent);
+      background: rgba(255,255,255,.965);
+      border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
       border-radius: 32px;
       backdrop-filter: blur(18px);
-      box-shadow: 0 18px 40px rgba(7,49,95,.22);
+      box-shadow: 0 18px 42px rgba(7,49,95,.12);
     }
     .nav-btn {
       display: grid;
       place-items: center;
       align-content: center;
       gap: 4px;
-      color: rgba(255,255,255,.74);
+      color: var(--muted);
       background: transparent;
       border: 0;
       border-radius: var(--radius);
@@ -918,7 +922,8 @@
     .nav-btn svg { width: var(--signal-nav-icon); height: var(--signal-nav-icon); stroke-width: 2.25; }
     .nav-btn.active {
       color: var(--bank-primary);
-      background: rgba(255,255,255,.96);
+      background: color-mix(in srgb, var(--bank-primary) 7%, white);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bank-primary) 7%, transparent);
     }
 
     /* Neptune. Signal: app-first shell and modern banking language */
@@ -1547,6 +1552,110 @@
       line-height: 1.45;
     }
     .auth-note .row-icon { width: var(--signal-auth-note-icon); height: var(--signal-auth-note-icon); border-radius: 12px; }
+    .auth-shell.dribbble {
+      min-height: calc(100dvh - 84px);
+      align-content: stretch;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 12px;
+    }
+    .intro-hero {
+      min-height: 342px;
+      position: relative;
+      display: grid;
+      align-content: end;
+      padding: 18px;
+      color: var(--bank-primary);
+      overflow: hidden;
+    }
+    .intro-hero::before,
+    .intro-hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 34px;
+      background: var(--bank-primary);
+      box-shadow: 0 22px 48px color-mix(in srgb, var(--bank-primary) 18%, transparent);
+      transform: rotate(-7deg);
+    }
+    .intro-hero::before {
+      width: 82%;
+      height: 188px;
+      inset: 78px auto auto 20px;
+      opacity: .72;
+    }
+    .intro-hero::after {
+      width: 88%;
+      height: 208px;
+      inset: 122px 8px auto auto;
+    }
+    [dir="rtl"] .intro-hero::before,
+    [dir="rtl"] .intro-hero::after {
+      transform: rotate(7deg);
+    }
+    .intro-orbit {
+      position: absolute;
+      width: 280px;
+      height: 210px;
+      inset: 82px auto auto 18px;
+      border: 4px solid color-mix(in srgb, var(--signal) 58%, transparent);
+      border-block-color: transparent;
+      border-radius: 50%;
+      transform: rotate(-18deg);
+      z-index: 2;
+    }
+    .intro-planet {
+      position: absolute;
+      width: 96px;
+      height: 96px;
+      inset: 224px auto auto 48px;
+      background: var(--signal);
+      border-radius: 999px;
+      z-index: 3;
+      box-shadow: 0 20px 36px color-mix(in srgb, var(--signal) 24%, transparent);
+    }
+    .intro-signal-lines {
+      position: absolute;
+      z-index: 4;
+      inset: 150px 54px auto auto;
+      display: grid;
+      gap: 14px;
+      width: 138px;
+    }
+    .intro-signal-lines i {
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.84);
+    }
+    .intro-signal-lines i:nth-child(2) { opacity: .72; transform: translateX(-18px); }
+    .intro-signal-lines i:nth-child(3) { opacity: .58; transform: translateX(-34px); }
+    .intro-brand {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      gap: 5px;
+      margin-top: 280px;
+    }
+    .intro-brand b {
+      color: var(--bank-primary);
+      font-size: 38px;
+      line-height: .98;
+      font-weight: 950;
+    }
+    .intro-brand span {
+      max-width: 320px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 820;
+    }
+    .intro-action-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(255,255,255,.96);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: 0 18px 42px rgba(7,49,95,.10);
+    }
     .phone.auth-mode .bottom-nav { display: none; }
     .phone.auth-mode .screen {
       bottom: 0;
@@ -2224,14 +2333,10 @@
       inset: auto 12px 10px;
       min-height: 28px;
       pointer-events: none;
+      justify-content: center;
     }
     .account-carousel.compact .account-switch .icon-btn {
-      width: 28px;
-      height: 28px;
-      color: white;
-      background: rgba(255,255,255,.12);
-      border-color: rgba(255,255,255,.16);
-      pointer-events: auto;
+      display: none;
     }
     .account-carousel.compact .account-switch .icon-btn svg {
       width: 16px;
@@ -2245,7 +2350,9 @@
     }
     .account-carousel.compact .account-panel {
       margin-top: 0;
-      padding: 14px 16px 38px;
+      min-height: 228px;
+      padding: 16px 16px 44px;
+      border-radius: 30px;
     }
     .account-carousel.compact .account-label {
       gap: 2px;
@@ -2263,12 +2370,33 @@
       font-size: 10.5px;
     }
     .account-carousel.compact .balance {
-      margin: 6px 0 7px;
-      font-size: clamp(28px, 7vw, 34px);
+      margin: 10px 0 10px;
+      font-size: clamp(32px, 8vw, 38px);
     }
     .account-carousel.compact .account-id {
-      gap: 0;
-      font-size: 10px;
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 12px;
+      color: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.11);
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 18px;
+      font-size: 11px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .account-carousel.compact .account-id b {
+      flex: 0 0 auto;
+      color: rgba(255,255,255,.58);
+      font-size: 10.5px;
+    }
+    .account-carousel.compact .account-id .id-value {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: clip;
+      font-size: 11px;
     }
     .account-switch {
       display: flex;
@@ -2387,10 +2515,10 @@
     .account-id-line .mini-copy svg { width: 15px; height: 15px; }
     .account-iban-copy {
       width: 100%;
-      min-height: 32px;
+      min-height: 38px;
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
-      gap: 6px;
+      gap: 8px;
       align-items: center;
       justify-items: start;
       padding: 0;
@@ -2406,7 +2534,7 @@
     }
     .account-iban-copy b {
       color: rgba(255,255,255,.52);
-      font-size: 10px;
+      font-size: 10.8px;
       font-weight: 950;
       letter-spacing: 0;
       line-height: 1;
@@ -2414,15 +2542,40 @@
     .account-iban-copy .iban-value {
       width: 100%;
       color: inherit;
-      font-size: 10.2px;
+      font-size: 10.65px;
       font-weight: 880;
-      letter-spacing: .1px;
+      letter-spacing: 0;
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
       scrollbar-width: none;
     }
     .account-iban-copy .iban-value::-webkit-scrollbar { display: none; }
+    .copy-toast {
+      position: absolute;
+      z-index: 70;
+      inset-inline: 28px;
+      bottom: calc(94px + env(safe-area-inset-bottom));
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      padding: 8px 14px;
+      color: white;
+      background: color-mix(in srgb, var(--bank-primary) 94%, black);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      box-shadow: 0 18px 38px rgba(7,49,95,.24);
+      font-size: 13px;
+      font-weight: 950;
+      animation: toastIn .22s cubic-bezier(.2,.8,.2,1), toastOut .18s ease 1.65s forwards;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(14px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toastOut {
+      to { opacity: 0; transform: translateY(8px) scale(.99); }
+    }
     .account-mini-actions {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -2445,6 +2598,7 @@
       position: relative;
       display: grid;
       gap: 0;
+      min-height: 326px;
       margin: 0 0 12px;
       color: white;
       background:
@@ -2452,7 +2606,7 @@
         radial-gradient(circle at 82% 8%, color-mix(in srgb, var(--bank-accent) 36%, transparent), transparent 24%),
         var(--bank-primary);
       border: 0;
-      border-radius: 0 0 30px 30px;
+      border-radius: 0 0 38px 38px;
       box-shadow: 0 20px 40px color-mix(in srgb, var(--bank-primary) 20%, transparent);
       overflow: hidden;
       transform-origin: center top;
@@ -2517,8 +2671,8 @@
     }
     .account-detail-hero {
       display: grid;
-      gap: 12px;
-      padding: 8px 18px 18px;
+      gap: 16px;
+      padding: 12px 18px 22px;
     }
     .screen.motion-account .account-detail-hero {
       animation: detailHeroLand .46s cubic-bezier(.16,1,.3,1) both;
@@ -2960,15 +3114,15 @@
       position: relative;
       display: grid;
       gap: 0;
-      min-height: 402px;
+      min-height: 448px;
       margin: 0 0 12px;
       color: white;
       background:
         radial-gradient(circle at 20% 12%, color-mix(in srgb, var(--card-signal) 30%, transparent) 0 1px, transparent 2px),
         radial-gradient(circle at 82% 5%, color-mix(in srgb, var(--card-signal) 32%, transparent), transparent 26%),
-        var(--card-bg, #202936);
+        color-mix(in srgb, var(--card-bg, #202936) 86%, black 14%);
       border-radius: 0 0 38px 38px;
-      box-shadow: 0 20px 40px color-mix(in srgb, var(--card-bg, #202936) 22%, transparent);
+      box-shadow: 0 22px 46px color-mix(in srgb, var(--card-bg, #202936) 24%, transparent);
       overflow: hidden;
       transform-origin: center top;
       perspective: 1100px;
@@ -2989,7 +3143,7 @@
       content: "";
       position: absolute;
       inset-inline-start: 0;
-      inset-block: 82px 34px;
+      inset-block: 98px 42px;
       width: 5px;
       background: var(--card-signal, var(--signal));
       border-radius: 0 999px 999px 0;
@@ -3033,18 +3187,18 @@
     }
     .card-open-hero {
       display: grid;
-      gap: 14px;
-      padding: 10px 18px 18px;
+      gap: 16px;
+      padding: 12px 18px 20px;
       transform-style: preserve-3d;
     }
     .card-detail-visual {
-      min-height: 214px;
+      min-height: 236px;
       display: grid;
       align-content: space-between;
       padding: 18px;
       color: white;
-      background: rgba(255,255,255,.105);
-      border: 1px solid rgba(255,255,255,.18);
+      background: color-mix(in srgb, var(--card-bg, #202936) 84%, white 16%);
+      border: 1px solid color-mix(in srgb, var(--card-signal) 42%, white 38%);
       border-radius: 30px;
       box-shadow: none;
       position: relative;
@@ -3060,6 +3214,7 @@
       background:
         linear-gradient(90deg, var(--card-signal, var(--signal)) 0 6px, transparent 6px),
         radial-gradient(circle at 86% 18%, rgba(255,255,255,.18), transparent 24%);
+      opacity: .9;
       pointer-events: none;
     }
     .card-detail-visual > * {
@@ -3937,18 +4092,19 @@
       z-index: 45;
       height: 78px;
       padding: 6px;
-      background: color-mix(in srgb, var(--bank-primary) 96%, black 4%);
-      border: 1px solid color-mix(in srgb, var(--signal) 34%, transparent);
+      background: rgba(255,255,255,.965);
+      border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
       border-radius: 32px;
     }
     .nav-btn {
       border-radius: 24px;
-      font-size: 10px;
+      font-size: 11px;
       position: relative;
     }
     .nav-btn.active {
       color: var(--bank-primary);
-      background: rgba(255,255,255,.96);
+      background: color-mix(in srgb, var(--bank-primary) 7%, white);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bank-primary) 7%, transparent);
     }
     .nav-btn.active::before {
       content: "";
@@ -3960,8 +4116,8 @@
       border-radius: 999px;
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .bottom-nav {
-      background: color-mix(in srgb, var(--paper-strong) 82%, var(--bank-primary) 18%);
-      border-top-color: var(--primary-line);
+      background: color-mix(in srgb, var(--paper-strong) 92%, rgba(255,255,255,.04));
+      border-color: var(--primary-line);
     }
     :root:is([data-mode="dark"], [data-mode="black"]) .list,
     :root:is([data-mode="dark"], [data-mode="black"]) .command-dock {
@@ -5502,7 +5658,7 @@
       }
     ];
 
-    const state = { route: 'login', activeRoot: 'home', lang: 'ar', theme: 'neptune', mode: 'system', accentStyle: 'default', lypayMode: 'iban', selectedLyPayId: 'PAY-7781', selectedCardId: 'master', selectedNotificationId: 'travel-card', selectedService: 'wallet', selectedTransactionKind: 'standard', ticketContext: null, accountIndex: 0, masked: false, voucherCategory: 'telecom', voucherProduct: 'libyana', voucherAmount: '10 د.ل', motion: 'standard', processResult: 'success', isBooted: false, showSplash: true, languageSheet: false, loginCustomerId: '27010310408770', loginPassword: '', otpCode: '', resetOtpCode: '', resetCustomerId: '27010310408770', currentPassword: '', newPassword: '', resetNewPassword: '', confirmPasswordValue: '', resetConfirmPassword: '' };
+    const state = { route: 'login', activeRoot: 'home', lang: 'ar', theme: 'neptune', mode: 'light', accentStyle: 'default', lypayMode: 'iban', selectedLyPayId: 'PAY-7781', selectedCardId: 'master', selectedNotificationId: 'travel-card', selectedService: 'wallet', selectedTransactionKind: 'standard', ticketContext: null, accountIndex: 0, masked: false, voucherCategory: 'telecom', voucherProduct: 'libyana', voucherAmount: '10 د.ل', motion: 'standard', processResult: 'success', isBooted: false, showSplash: true, languageSheet: false, loginCustomerId: '27010310408770', loginPassword: '', otpCode: '', resetOtpCode: '', resetCustomerId: '27010310408770', currentPassword: '', newPassword: '', resetNewPassword: '', confirmPasswordValue: '', resetConfirmPassword: '' };
     const themeStorageKey = 'neptune.signal.theme.v1';
     try {
       const savedTheme = JSON.parse(localStorage.getItem(themeStorageKey) || '{}');
@@ -5756,6 +5912,10 @@
       if (masked) return 'LY•••• •••• •••• ••••';
       return compact ? compactIdentifier('IBAN', value) : groupIdentifier(value);
     }
+    function displayHomeIban(value, masked = state.masked) {
+      if (masked) return 'LY••••••••••••••••••••';
+      return String(value).replace(/\s+/g, '');
+    }
     function displayTarget(target, compact = false) {
       if (target.startsWith('IBAN • ')) return `IBAN • ${displayIban(target.replace('IBAN • ', ''), false, compact)}`;
       if (target.startsWith('Alias • ')) return `${t('alias')} • ${target.replace('Alias • ', '')}`;
@@ -5763,6 +5923,14 @@
     }
     function displayMethod(method) {
       return method === 'Alias' ? t('alias') : method;
+    }
+    function showCopyToast() {
+      phone.querySelector('.copy-toast')?.remove();
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = i18n({ ar: 'تم نسخ البيانات', en: 'Copied', fr: 'Copie' });
+      phone.appendChild(toast);
+      setTimeout(() => toast.remove(), 1900);
     }
     function moveAccount(delta) {
       state.accountIndex = (state.accountIndex + delta + accounts.length) % accounts.length;
@@ -5853,7 +6021,7 @@
           <div class="account-id ${hidden ? 'masked' : ''}">
             <button class="account-iban-copy tap" data-copy-value="${account.iban}" aria-label="${t('copy')} ${c.common.account}">
               <b>IBAN</b>
-              <span class="id-value critical-value iban-value" dir="ltr">${displayIban(account.iban, hidden, false)}</span>
+              <span class="id-value critical-value iban-value" dir="ltr">${displayHomeIban(account.iban, hidden)}</span>
             </button>
           </div>
           ${actions ? `<div class="account-mini-actions">
@@ -5895,27 +6063,28 @@
 
     function renderLogin() {
       const c = lang();
-      return `<div class="auth-shell">
+      return `<div class="auth-shell dribbble">
         <div class="auth-head">
           <div class="bank-chip">${icon('neptune')}</div>
           <div class="bank-name"><b>${c.bank}</b><span>${c.powered}</span></div>
           <button class="icon-btn subtle tap" data-open-language="true" aria-label="${c.titles.language}">${icon('language')}</button>
         </div>
-        <div class="auth-state-card">
-          <div class="auth-state-title">
-            <span class="row-icon">${icon('lock')}</span>
-            <div class="auth-copy"><h1>${t('loginTitle')}</h1><p>${t('loginSubtitle')}</p></div>
+        <div class="intro-hero">
+          <span class="intro-orbit"></span>
+          <span class="intro-planet"></span>
+          <span class="intro-signal-lines"><i></i><i></i><i></i></span>
+          <div class="intro-brand">
+            <b>${c.bank}</b>
+            <span>${i18n({ ar: 'تجربة مصرفية أسرع، أوضح، ومصممة لهويتك.', en: 'A faster, clearer banking experience designed for your bank identity.', fr: 'Une experience bancaire plus rapide, claire et adaptee a votre banque.' })}</span>
           </div>
         </div>
-        <div class="auth-panel">
+        <div class="intro-action-card">
           ${field(t('customerId'), state.loginCustomerId).replace('<input', '<input data-auth-field="customerId" autocomplete="username"')}
           ${field(t('password'), state.loginPassword).replace('<input', '<input data-auth-field="password" type="password" autocomplete="current-password"')}
           <button class="auth-link tap" data-go="resetPassword">${t('forgotPassword')}</button>
           <button class="primary-btn tap" data-login-submit="true">${t('loginButton')}</button>
           <button class="secondary-btn passkey-login tap" data-passkey-login="true">${icon('key')}<span>${t('passkeyLogin')}</span></button>
-          <div class="auth-secondary-stack">
-            <button class="secondary-btn tap" data-go="onboarding">${t('nonCustomerButton')}</button>
-          </div>
+          <button class="secondary-btn tap" data-go="onboarding">${t('nonCustomerButton')}</button>
           <div class="auth-note"><span class="row-icon dark">${icon('shield')}</span><span>${t('deviceProtection')}</span></div>
         </div>
       </div>`;
@@ -6046,7 +6215,7 @@
       return `
         <div class="home-head">
           <div class="bank-chip">${icon('neptune')}</div>
-          <div class="bank-name"><b>${c.bank}</b><span>${c.powered}</span></div>
+          <div class="bank-name"><b>${i18n({ ar: 'مرحباً محمد', en: 'Welcome Mohamed', fr: 'Bonjour Mohamed' })}</b><span>${c.bank}</span></div>
           ${iconButton('bell', 'notifications', c.titles.notifications)}
         </div>
         ${renderAccountCarousel({ compact: true })}
@@ -7397,6 +7566,7 @@
       const copyAction = event.target.closest('[data-copy-value]');
       if (copyAction) {
         navigator.clipboard?.writeText(copyAction.dataset.copyValue || '').catch(() => {});
+        showCopyToast();
         return;
       }
 

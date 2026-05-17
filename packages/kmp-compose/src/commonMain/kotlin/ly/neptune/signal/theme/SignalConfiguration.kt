@@ -107,6 +107,8 @@ data class SignalThemeConfig(
     val brand: SignalBrand = SignalBrandDefaults.Neptune,
     val mode: SignalColorMode = SignalColorMode.Light,
     val colors: SignalColors? = null,
+    val prismProfile: SignalPrismProfile = SignalPrismDefaults.PremiumWallet,
+    val prismTokens: SignalPrismTokens? = null,
     val typography: SignalTypography = SignalTypography(),
     val shapes: SignalShapes = SignalShapes(),
     val dimensions: SignalDimensions = SignalDimensions(),

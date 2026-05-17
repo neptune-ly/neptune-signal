@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,14 +33,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ly.neptune.signal.theme.SignalComponentMetrics
+import ly.neptune.signal.theme.SignalMotionMetrics
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -102,81 +105,79 @@ fun SignalPaymentCard(
     )
     val progress = entryProgress.coerceIn(0f, 1f)
     val cardShape = RoundedCornerShape(28.dp)
+    val cardForeground = cardContentOnBackground(item.background)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(156.dp)
+            .height(SignalComponentMetrics.cardFaceListHeight)
             .graphicsLayer {
                 val inverse = 1f - progress
-                scaleX = 0.975f + (0.025f * progress)
-                scaleY = 0.975f + (0.025f * progress)
-                translationY = inverse * (10f + index.coerceAtMost(4) * 3f) * density
-                alpha = 0.72f + (0.28f * progress)
-                rotationX = inverse * 4f
-                cameraDistance = 18f * density
+                scaleX = 0.986f + (0.014f * progress)
+                scaleY = 0.986f + (0.014f * progress)
+                translationY = inverse * (8f + index.coerceAtMost(4) * 2f) * density
+                alpha = 0.78f + (0.22f * progress)
+                rotationX = inverse * 2f
+                cameraDistance = 20f * density
             }
             .clip(cardShape)
             .background(item.background)
-            .border(1.dp, Color.White.copy(alpha = 0.18f), cardShape),
+            .border(1.dp, Color.White.copy(alpha = 0.14f), cardShape),
     ) {
-        SignalCardSignalRail(
-            signal = item.signal,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .height(156.dp),
-        )
-        SignalCardEdgeLines(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .height(156.dp),
-        )
+        SignalCardModernTexture(signal = item.signal, modifier = Modifier.matchParentSize())
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(18.dp),
+                .padding(horizontal = 18.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                SignalSchemeMark(item.mark)
                 Text(
                     text = item.label,
                     modifier = Modifier.weight(1f),
-                    color = colors.textInverse,
-                    style = SignalTheme.typography.screenTitle,
+                    color = cardForeground,
+                    style = SignalTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
+                SignalSchemeMark(item.mark, tint = cardForeground)
             }
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalAlignment = Alignment.Start,
             ) {
                 Text(
                     text = item.maskedNumber,
-                    color = colors.textInverse,
-                    style = SignalTheme.typography.balance.copy(fontFeatureSettings = "tnum"),
+                    color = cardForeground,
+                    style = SignalTheme.typography.pageTitle.copy(fontFeatureSettings = "tnum"),
                     maxLines = 1,
                     overflow = TextOverflow.Clip,
                 )
                 Text(
                     text = item.subtitle,
-                    color = colors.textInverse.copy(alpha = 0.72f),
+                    color = cardForeground.copy(alpha = 0.82f),
                     style = SignalTheme.typography.statusPill,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-            Box(modifier = Modifier.fillMaxWidth()) {
-                SignalCardStatusPill(
-                    text = item.status,
-                    modifier = Modifier.align(Alignment.CenterStart),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = item.scheme,
+                    color = cardForeground.copy(alpha = 0.70f),
+                    style = SignalTheme.typography.statusPill,
+                    maxLines = 1,
                 )
+                SignalCardStatusPill(text = item.status, textColor = cardForeground)
             }
         }
     }
@@ -203,52 +204,42 @@ fun SignalCardDetailStage(
     LaunchedEffect(item.maskedNumber) { entered = true }
     val stageProgress by animateFloatAsState(
         targetValue = if (entered) 1f else 0f,
-        animationSpec = tween(durationMillis = 340, easing = SignalCardMotionEasing),
+        animationSpec = tween(durationMillis = SignalMotionMetrics.sharedElementMillis, easing = SignalCardMotionEasing),
         label = "signal-card-detail-entry",
     )
     val progress = stageProgress.coerceIn(0f, 1f)
-    val stageShape = RoundedCornerShape(bottomStart = 38.dp, bottomEnd = 38.dp)
+    val stageShape = RoundedCornerShape(bottomStart = 42.dp, bottomEnd = 42.dp)
+    val stageBackground = if (colors.black) colors.surface else if (colors.dark) colors.surfaceCard else colors.surfaceContainerLow
+    val cardForeground = cardContentOnBackground(item.background)
+    val stageForeground = colors.onSurface
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 402.dp)
+            .heightIn(min = 420.dp)
             .graphicsLayer {
                 val inverse = 1f - progress
-                scaleX = 0.945f + (0.055f * progress)
-                scaleY = 0.945f + (0.055f * progress)
-                translationY = inverse * -14f * density
-                alpha = 0.78f + (0.22f * progress)
-                rotationX = inverse * 10f
-                cameraDistance = 18f * density
+                scaleX = 0.972f + (0.028f * progress)
+                scaleY = 0.972f + (0.028f * progress)
+                translationY = inverse * -10f * density
+                alpha = 0.84f + (0.16f * progress)
+                rotationX = inverse * 4f
+                cameraDistance = 20f * density
             }
             .clip(stageShape)
-            .background(item.background),
+            .background(stageBackground),
     ) {
-        SignalDetailHalo(
+        SignalCleanStageShape(
+            cardColor = item.background,
             signal = item.signal,
             isRtl = isRtl,
-            modifier = Modifier.align(Alignment.TopEnd),
-        )
-        SignalDetailCardAccentRail(
-            signal = item.signal,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(horizontal = 10.dp, vertical = 118.dp),
-        )
-        SignalCardEdgeLines(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 76.dp)
-                .height(132.dp),
-            alpha = 0.7f,
+            modifier = Modifier.matchParentSize(),
         )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(horizontal = 18.dp, vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
+                .padding(horizontal = 18.dp, vertical = 14.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Row(
                 modifier = Modifier
@@ -264,7 +255,7 @@ fun SignalCardDetailStage(
                 ) {
                     Text(
                         item.label,
-                        color = colors.textInverse,
+                        color = stageForeground,
                         style = SignalTheme.typography.rowTitle,
                         textAlign = TextAlign.Center,
                         maxLines = 1,
@@ -272,7 +263,7 @@ fun SignalCardDetailStage(
                     )
                     Text(
                         item.maskedNumber,
-                        color = colors.textInverse.copy(alpha = 0.66f),
+                        color = colors.onSurfaceVariant,
                         style = SignalTheme.typography.statusPill,
                         textAlign = TextAlign.Center,
                         maxLines = 1,
@@ -283,6 +274,7 @@ fun SignalCardDetailStage(
             }
             SignalDetailCardVisual(
                 item = item,
+                textColor = cardForeground,
                 availableBalance = availableBalance,
                 progress = progress,
                 isRtl = isRtl,
@@ -303,6 +295,7 @@ fun SignalCardDetailStage(
 @Composable
 private fun SignalDetailCardVisual(
     item: SignalPaymentCardStackItem,
+    textColor: Color,
     availableBalance: String,
     progress: Float,
     isRtl: Boolean,
@@ -310,54 +303,51 @@ private fun SignalDetailCardVisual(
 ) {
     val colors = SignalTheme.colors
     val shape = RoundedCornerShape(30.dp)
+    val visualBackground = item.background
+    val visualStroke = Color.White
     Box(
         modifier = modifier
-            .height(214.dp)
+            .height(232.dp)
             .graphicsLayer {
                 val inverse = 1f - progress
-                scaleX = 0.82f + (0.18f * progress)
-                scaleY = 0.82f + (0.18f * progress)
-                translationY = inverse * 38f * density
-                alpha = 0.18f + (0.82f * progress)
-                rotationX = inverse * 52f
-                rotationY = inverse * (if (isRtl) 30f else -30f)
-                cameraDistance = 18f * density
+                scaleX = 0.88f + (0.12f * progress)
+                scaleY = 0.88f + (0.12f * progress)
+                translationY = inverse * 26f * density
+                alpha = 0.24f + (0.76f * progress)
+                rotationX = inverse * 18f
+                rotationY = inverse * (if (isRtl) 10f else -10f)
+                cameraDistance = 22f * density
             }
             .clip(shape)
-            .background(Color.White.copy(alpha = 0.105f), shape)
-            .border(1.dp, Color.White.copy(alpha = 0.18f), shape),
+            .background(visualBackground, shape)
+            .border(1.dp, visualStroke.copy(alpha = 0.18f), shape),
     ) {
-        SignalCardEdgeLines(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .height(214.dp),
-            alpha = 0.82f,
-        )
+        SignalCardModernTexture(signal = item.signal, modifier = Modifier.matchParentSize(), quiet = true)
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(18.dp),
+                .padding(20.dp),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-            ) {
-                SignalSchemeMark(item.mark)
-                SignalCardStatusPill(item.status)
-            }
+        ) {
+            SignalSchemeMark(item.mark)
+            SignalCardStatusPill(item.status, textColor = textColor)
+        }
             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text(
                     item.maskedNumber,
-                    color = colors.textInverse,
+                    color = textColor,
                     style = SignalTheme.typography.pageTitle.copy(fontFeatureSettings = "tnum"),
                     maxLines = 1,
                     overflow = TextOverflow.Clip,
                 )
                 Text(
                     item.subtitle,
-                    color = colors.textInverse.copy(alpha = 0.72f),
+                    color = textColor.copy(alpha = 0.82f),
                     style = SignalTheme.typography.statusPill,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -366,16 +356,62 @@ private fun SignalDetailCardVisual(
             Text(
                 availableBalance,
                 modifier = Modifier
-                    .background(Color.White.copy(alpha = 0.14f), RoundedCornerShape(999.dp))
-                    .border(1.dp, Color.White.copy(alpha = 0.16f), RoundedCornerShape(999.dp))
-                    .padding(horizontal = 12.dp, vertical = 6.dp),
-                color = colors.textInverse.copy(alpha = 0.90f),
+                .background(
+                    if (textColor.luminance() > 0.48f) Color(0x0F0F172A) else Color.White.copy(alpha = 0.16f),
+                    RoundedCornerShape(999.dp),
+                )
+                .border(
+                    1.dp,
+                    if (textColor.luminance() > 0.48f) Color(0x1F0F172A) else Color.White.copy(alpha = 0.18f),
+                    RoundedCornerShape(999.dp),
+                )
+                .padding(horizontal = 14.dp, vertical = 7.dp),
+                color = textColor.copy(alpha = 0.90f),
                 style = SignalTheme.typography.rowMeta.copy(fontFeatureSettings = "tnum"),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
         }
     }
+}
+
+@Composable
+private fun SignalCardModernTexture(
+    signal: Color,
+    modifier: Modifier = Modifier,
+    quiet: Boolean = false,
+) {
+    Canvas(modifier = modifier) {
+        val alpha = if (quiet) 0.055f else 0.07f
+        drawCircle(
+            color = Color.White.copy(alpha = alpha),
+            radius = size.minDimension * 0.34f,
+            center = Offset(size.width * 0.04f, size.height * 0.08f),
+        )
+        drawCircle(
+            color = signal.copy(alpha = if (quiet) 0.12f else 0.16f),
+            radius = size.minDimension * 0.13f,
+            center = Offset(size.width * 0.90f, size.height * 0.82f),
+        )
+        drawLine(
+            color = Color.White.copy(alpha = if (quiet) 0.06f else 0.075f),
+            start = Offset(size.width * 0.11f, size.height * 0.20f),
+            end = Offset(size.width * 0.42f, size.height * 0.20f),
+            strokeWidth = 2.dp.toPx(),
+            cap = StrokeCap.Round,
+        )
+        drawLine(
+            color = signal.copy(alpha = if (quiet) 0.16f else 0.22f),
+            start = Offset(size.width * 0.12f, size.height * 0.80f),
+            end = Offset(size.width * 0.44f, size.height * 0.80f),
+            strokeWidth = 2.dp.toPx(),
+            cap = StrokeCap.Round,
+        )
+    }
+}
+
+private fun cardContentOnBackground(background: Color): Color {
+    return if (background.luminance() > 0.48f) Color(0xFF0F172A) else Color.White
 }
 
 private enum class SignalStageActionIcon {
@@ -385,21 +421,23 @@ private enum class SignalStageActionIcon {
 
 @Composable
 private fun SignalDetailStageAction(icon: SignalStageActionIcon, onClick: () -> Unit) {
-    val layoutDirection = LocalLayoutDirection.current
-    val iconColor = SignalTheme.colors.textInverse
-    Box(
-        modifier = Modifier
-            .size(44.dp)
-            .clickable(onClick = onClick)
-            .padding(10.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        when (icon) {
-            SignalStageActionIcon.Back -> SignalBackIcon(
-                pointsRight = layoutDirection == LayoutDirection.Rtl,
-                color = iconColor,
-            )
-            SignalStageActionIcon.Refresh -> SignalRefreshIcon(iconColor)
+    when (icon) {
+        SignalStageActionIcon.Back -> SignalDetailBackAction(onClick = onClick, contentDescription = "رجوع")
+        SignalStageActionIcon.Refresh -> {
+            val iconColor = SignalTheme.colors.onSurface
+            val actionShape = RoundedCornerShape(16.dp)
+            Box(
+                modifier = Modifier
+                    .size(SignalComponentMetrics.touchTarget)
+                    .clip(actionShape)
+                    .background(SignalTheme.colors.surfaceContainerHigh.copy(alpha = if (SignalTheme.colors.dark) 0.72f else 0.86f))
+                    .border(1.dp, SignalTheme.colors.outlineVariant.copy(alpha = 0.18f), actionShape)
+                    .clickable(onClick = onClick)
+                    .padding(10.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                SignalRefreshIcon(iconColor)
+            }
         }
     }
 }
@@ -409,22 +447,31 @@ private fun SignalStageMetric(label: String, value: String, modifier: Modifier =
     Column(
         modifier = modifier
             .height(62.dp)
-            .background(Color.White.copy(alpha = 0.115f), RoundedCornerShape(18.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.14f), RoundedCornerShape(18.dp))
+            .background(
+                if (SignalTheme.colors.black) Color.White.copy(alpha = 0.075f)
+                else if (SignalTheme.colors.dark) Color.White.copy(alpha = 0.09f)
+                else SignalTheme.colors.surfaceContainerHigh.copy(alpha = 0.80f),
+                RoundedCornerShape(18.dp),
+            )
+            .border(
+                1.dp,
+                if (SignalTheme.colors.dark) Color.White.copy(alpha = 0.10f) else SignalTheme.colors.outlineVariant,
+                RoundedCornerShape(18.dp),
+            )
             .padding(horizontal = 8.dp, vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
             label,
-            color = SignalTheme.colors.textInverse.copy(alpha = 0.62f),
+            color = SignalTheme.colors.onSurfaceVariant,
             style = SignalTheme.typography.statusPill,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
         Text(
             value,
-            color = SignalTheme.colors.textInverse,
+            color = SignalTheme.colors.onSurface,
             style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
             maxLines = 1,
             overflow = TextOverflow.Clip,
@@ -433,39 +480,43 @@ private fun SignalStageMetric(label: String, value: String, modifier: Modifier =
 }
 
 @Composable
-private fun SignalSchemeMark(mark: SignalCardMark, modifier: Modifier = Modifier) {
+private fun SignalSchemeMark(
+    mark: SignalCardMark,
+    modifier: Modifier = Modifier,
+    tint: Color = SignalTheme.colors.textInverse,
+) {
     Box(
         modifier = modifier
-            .height(30.dp)
-            .widthIn(min = 54.dp)
-            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(12.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.10f), RoundedCornerShape(12.dp))
-            .padding(horizontal = 8.dp),
+            .height(28.dp)
+            .widthIn(min = 52.dp)
+            .background(Color.White.copy(alpha = 0.075f), RoundedCornerShape(11.dp))
+            .border(1.dp, Color.White.copy(alpha = 0.095f), RoundedCornerShape(11.dp))
+            .padding(horizontal = 7.dp),
         contentAlignment = Alignment.Center,
     ) {
         when (mark) {
             SignalCardMark.Mastercard -> Row(horizontalArrangement = Arrangement.spacedBy((-7).dp)) {
                 Box(
                     modifier = Modifier
-                        .size(22.dp)
+                        .size(21.dp)
                         .background(Color(0xFFF15A24).copy(alpha = 0.95f), RoundedCornerShape(999.dp)),
                 )
                 Box(
                     modifier = Modifier
-                        .size(22.dp)
+                        .size(21.dp)
                         .background(Color(0xFFFFC04D).copy(alpha = 0.92f), RoundedCornerShape(999.dp)),
                 )
             }
             SignalCardMark.Visa -> Text(
                 text = "VISA",
-                color = SignalTheme.colors.textInverse,
+                color = tint,
                 style = SignalTheme.typography.rowTitle,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
             )
             SignalCardMark.Numo -> Text(
                 text = "NUMO",
-                color = SignalTheme.colors.textInverse,
+                color = tint,
                 style = SignalTheme.typography.rowTitle,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -481,6 +532,36 @@ private fun SignalCardSignalRail(signal: Color, modifier: Modifier = Modifier) {
             .width(6.dp)
             .background(signal, RoundedCornerShape(topEnd = 999.dp, bottomEnd = 999.dp)),
     )
+}
+
+@Composable
+private fun SignalCleanStageShape(
+    cardColor: Color,
+    signal: Color,
+    isRtl: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    Canvas(modifier = modifier) {
+        val startX = if (isRtl) size.width * 0.18f else size.width * -0.08f
+        drawRoundRect(
+            color = cardColor.copy(alpha = 0.10f),
+            topLeft = Offset(startX, size.height * 0.15f),
+            size = androidx.compose.ui.geometry.Size(size.width * 0.92f, size.height * 0.64f),
+            cornerRadius = androidx.compose.ui.geometry.CornerRadius(34.dp.toPx(), 34.dp.toPx()),
+        )
+        drawCircle(
+            color = signal.copy(alpha = 0.105f),
+            radius = size.minDimension * 0.27f,
+            center = Offset(if (isRtl) size.width * 0.14f else size.width * 0.86f, size.height * 0.2f),
+        )
+        drawLine(
+            color = signal.copy(alpha = 0.30f),
+            start = Offset(if (isRtl) size.width * 0.08f else size.width * 0.92f, size.height * 0.38f),
+            end = Offset(if (isRtl) size.width * 0.42f else size.width * 0.58f, size.height * 0.38f),
+            strokeWidth = 5.dp.toPx(),
+            cap = androidx.compose.ui.graphics.StrokeCap.Round,
+        )
+    }
 }
 
 @Composable
@@ -597,16 +678,22 @@ private fun SignalRefreshIcon(color: Color) {
 }
 
 @Composable
-private fun SignalCardStatusPill(text: String, modifier: Modifier = Modifier) {
+private fun SignalCardStatusPill(
+    text: String,
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.White,
+) {
+    val onChipBackground = if (textColor.luminance() > 0.48f) Color(0x150F172A) else Color.White.copy(alpha = 0.10f)
+    val onChipBorder = if (textColor.luminance() > 0.48f) Color(0x260F172A) else Color.White.copy(alpha = 0.12f)
     Text(
         text = text,
-        color = SignalTheme.colors.textInverse,
+        color = textColor,
         style = SignalTheme.typography.statusPill,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         modifier = modifier
-            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(999.dp))
-            .border(1.dp, Color.White.copy(alpha = 0.10f), RoundedCornerShape(999.dp))
+            .background(onChipBackground, RoundedCornerShape(999.dp))
+            .border(1.dp, onChipBorder, RoundedCornerShape(999.dp))
             .padding(horizontal = SignalSpacing.x2, vertical = 5.dp),
     )
 }

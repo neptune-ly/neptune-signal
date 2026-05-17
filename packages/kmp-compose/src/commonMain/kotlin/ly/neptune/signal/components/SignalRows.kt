@@ -62,8 +62,7 @@ fun SignalBankingRow(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalTheme.shapes.xs)
-    val borderColor = colors.outlineVariant.copy(alpha = if (colors.dark) 0.72f else 0.92f)
+    val shape = RoundedCornerShape(SignalTheme.shapes.sm)
     val clickableModifier = if (onClick != null) {
         Modifier.clickable(enabled = enabled, onClick = onClick)
     } else {
@@ -75,9 +74,8 @@ fun SignalBankingRow(
             .fillMaxWidth()
             .heightIn(min = SignalTheme.dimensions.rowMinHeight)
             .clip(shape)
-            .background(colors.surfaceContainerLowest, shape)
+            .background(colors.surfaceContainerLowest.copy(alpha = if (colors.dark) 0.18f else 0.46f), shape)
             .then(clickableModifier)
-            .border(BorderStroke(1.dp, borderColor), shape)
             .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
@@ -162,8 +160,7 @@ fun SignalAccountSummaryRow(
 ) {
     val colors = SignalTheme.colors
     val typography = SignalTheme.typography
-    val shape = RoundedCornerShape(SignalTheme.shapes.xs)
-    val borderColor = colors.outlineVariant.copy(alpha = if (colors.dark) 0.72f else 0.92f)
+    val shape = RoundedCornerShape(SignalTheme.shapes.sm)
     val clickableModifier = if (onClick != null) {
         Modifier.clickable(enabled = enabled, onClick = onClick)
     } else {
@@ -175,17 +172,16 @@ fun SignalAccountSummaryRow(
             .fillMaxWidth()
             .heightIn(min = 82.dp)
             .clip(shape)
-            .background(colors.surfaceContainerLowest, shape)
+            .background(colors.surfaceContainerLowest.copy(alpha = if (colors.dark) 0.18f else 0.46f), shape)
             .then(clickableModifier)
-            .border(BorderStroke(1.dp, borderColor), shape)
             .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
     ) {
         Box(
             modifier = Modifier
-                .size(width = 4.dp, height = 52.dp)
-                .background(colors.bankSecondary, RoundedCornerShape(SignalTheme.shapes.full)),
+                .size(width = 3.dp, height = 46.dp)
+                .background(colors.bankSecondary.copy(alpha = 0.72f), RoundedCornerShape(SignalTheme.shapes.full)),
         )
         SignalIconSurface(tone = SignalRowTone.Primary) {
             SignalAccountGlyph()
@@ -228,7 +224,7 @@ fun SignalAccountSummaryRow(
                     style = typography.pageTitle.copy(fontFeatureSettings = "tnum"),
                     textAlign = TextAlign.End,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                    overflow = TextOverflow.Clip,
                 )
             }
         }
@@ -388,15 +384,15 @@ private fun SignalIconSurface(
     val contentColor = toneContentColor(tone)
     Box(
         modifier = Modifier
-            .size(40.dp)
-            .clip(RoundedCornerShape(SignalTheme.shapes.sm))
-            .background(background, RoundedCornerShape(SignalTheme.shapes.sm)),
+            .size(38.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(background, RoundedCornerShape(14.dp)),
         contentAlignment = Alignment.Center,
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CompositionLocalProvider(LocalContentColor provides contentColor) {
                 Box(
-                    modifier = Modifier.size(SignalComponentMetrics.rowIconGlyph),
+                    modifier = Modifier.size(SignalComponentMetrics.smallActionIcon),
                     contentAlignment = Alignment.Center,
                 ) {
                     content?.invoke()
@@ -423,12 +419,12 @@ private fun toneColor(tone: SignalRowTone): Color {
 private fun toneContainerColor(tone: SignalRowTone): Color {
     val colors = SignalTheme.colors
     return when (tone) {
-        SignalRowTone.Neutral -> if (colors.dark) colors.surfaceContainerHigh else colors.primaryContainer.copy(alpha = 0.62f)
-        SignalRowTone.Primary -> if (colors.dark) colors.primary else colors.bankPrimary
-        SignalRowTone.Accent -> if (colors.dark) colors.tertiary else colors.bankAccent
-        SignalRowTone.Success -> colors.success
-        SignalRowTone.Warning -> colors.warning
-        SignalRowTone.Danger -> colors.danger
+        SignalRowTone.Neutral -> if (colors.dark) colors.surfaceContainerHigh else colors.primaryContainer.copy(alpha = 0.48f)
+        SignalRowTone.Primary -> if (colors.dark) colors.primaryContainer.copy(alpha = 0.72f) else colors.primaryContainer
+        SignalRowTone.Accent -> if (colors.dark) colors.tertiaryContainer.copy(alpha = 0.72f) else colors.tertiaryContainer
+        SignalRowTone.Success -> colors.success.copy(alpha = if (colors.dark) 0.34f else 0.14f)
+        SignalRowTone.Warning -> colors.warning.copy(alpha = if (colors.dark) 0.34f else 0.16f)
+        SignalRowTone.Danger -> colors.danger.copy(alpha = if (colors.dark) 0.34f else 0.14f)
     }
 }
 
@@ -437,8 +433,10 @@ private fun toneContentColor(tone: SignalRowTone): Color {
     val colors = SignalTheme.colors
     return when (tone) {
         SignalRowTone.Neutral -> if (colors.dark) colors.onSurface else colors.bankPrimary
-        SignalRowTone.Primary -> colors.onPrimary
-        SignalRowTone.Accent -> colors.onTertiary
-        SignalRowTone.Success, SignalRowTone.Warning, SignalRowTone.Danger -> colors.surface
+        SignalRowTone.Primary -> if (colors.dark) colors.onPrimaryContainer else colors.bankPrimary
+        SignalRowTone.Accent -> if (colors.dark) colors.onTertiaryContainer else colors.bankAccent
+        SignalRowTone.Success -> colors.success
+        SignalRowTone.Warning -> colors.warning
+        SignalRowTone.Danger -> colors.danger
     }
 }

@@ -4,6 +4,10 @@ Neptune. Signal components are platform-neutral specifications. KMP is the first
 
 Components follow Material 3 implementation expectations for state, shape, touch target, typography, and accessibility. Signal adds banking data rules, white-label behavior, Arabic-first layout, and performance constraints.
 
+## Prism Component Catalog
+
+The Prism SDK catalog index is maintained in [README.md](README.md). New Prism components should be documented there first, then promoted into individual component pages once their API stabilizes.
+
 ## Shared Measurement Contract
 
 The web demo is the visual golden source, but the SDK owns the numbers. Components must read sizing from:
