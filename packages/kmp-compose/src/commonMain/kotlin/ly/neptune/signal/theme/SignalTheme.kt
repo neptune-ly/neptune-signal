@@ -33,49 +33,49 @@ data class SignalTypography(
     val displayLarge: TextStyle = signalTextStyle(fontFamily, 42.sp, 44.sp, FontWeight.Black),
     val displayMedium: TextStyle = signalTextStyle(fontFamily, 36.sp, 38.sp, FontWeight.Black),
     val displaySmall: TextStyle = signalTextStyle(fontFamily, 32.sp, 34.sp, FontWeight.ExtraBold),
-    val headlineLarge: TextStyle = signalTextStyle(fontFamily, 32.sp, 36.sp, FontWeight.Black),
-    val headlineMedium: TextStyle = signalTextStyle(fontFamily, 28.sp, 32.sp, FontWeight.Black),
-    val headlineSmall: TextStyle = signalTextStyle(fontFamily, 24.sp, 28.sp, FontWeight.ExtraBold),
-    val titleLarge: TextStyle = signalTextStyle(fontFamily, 18.sp, 23.sp, FontWeight.ExtraBold),
-    val titleMedium: TextStyle = signalTextStyle(fontFamily, 16.sp, 21.sp, FontWeight.ExtraBold),
-    val titleSmall: TextStyle = signalTextStyle(fontFamily, 15.sp, 20.sp, FontWeight.Bold),
-    val bodyLarge: TextStyle = signalTextStyle(fontFamily, 17.sp, 24.sp, FontWeight.SemiBold),
-    val bodyMedium: TextStyle = signalTextStyle(fontFamily, 15.sp, 21.sp, FontWeight.SemiBold),
-    val bodySmall: TextStyle = signalTextStyle(fontFamily, 13.sp, 18.sp, FontWeight.SemiBold),
-    val labelLarge: TextStyle = signalTextStyle(fontFamily, 16.sp, 19.sp, FontWeight.ExtraBold),
-    val labelMedium: TextStyle = signalTextStyle(fontFamily, 13.5.sp, 17.sp, FontWeight.Bold),
-    val labelSmall: TextStyle = signalTextStyle(fontFamily, 12.5.sp, 16.sp, FontWeight.Bold),
-    val balance: TextStyle = signalTextStyle(fontFamily, 34.sp, 37.sp, FontWeight.Black),
+    val headlineLarge: TextStyle = signalTextStyle(fontFamily, 32.sp, 38.sp, FontWeight.ExtraBold),
+    val headlineMedium: TextStyle = signalTextStyle(fontFamily, 28.sp, 34.sp, FontWeight.ExtraBold),
+    val headlineSmall: TextStyle = signalTextStyle(fontFamily, 24.sp, 30.sp, FontWeight.Bold),
+    val titleLarge: TextStyle = signalTextStyle(fontFamily, 19.sp, 26.sp, FontWeight.Bold),
+    val titleMedium: TextStyle = signalTextStyle(fontFamily, 16.sp, 23.sp, FontWeight.Bold),
+    val titleSmall: TextStyle = signalTextStyle(fontFamily, 14.5.sp, 21.sp, FontWeight.SemiBold),
+    val bodyLarge: TextStyle = signalTextStyle(fontFamily, 16.sp, 25.sp, FontWeight.Medium),
+    val bodyMedium: TextStyle = signalTextStyle(fontFamily, 14.5.sp, 22.sp, FontWeight.Medium),
+    val bodySmall: TextStyle = signalTextStyle(fontFamily, 12.5.sp, 18.sp, FontWeight.Medium),
+    val labelLarge: TextStyle = signalTextStyle(fontFamily, 15.5.sp, 21.sp, FontWeight.Bold),
+    val labelMedium: TextStyle = signalTextStyle(fontFamily, 13.5.sp, 18.sp, FontWeight.SemiBold),
+    val labelSmall: TextStyle = signalTextStyle(fontFamily, 12.sp, 16.sp, FontWeight.SemiBold),
+    val balance: TextStyle = signalTextStyle(fontFamily, 34.sp, 39.sp, FontWeight.ExtraBold).copy(fontFeatureSettings = "tnum"),
     val displayBalance: TextStyle = balance,
-    val pageTitle: TextStyle = signalTextStyle(fontFamily, 20.sp, 25.sp, FontWeight.Black),
-    val screenTitle: TextStyle = signalTextStyle(fontFamily, 17.sp, 23.sp, FontWeight.Black),
-    val sectionTitle: TextStyle = signalTextStyle(fontFamily, 15.sp, 20.sp, FontWeight.Black),
-    val rowTitle: TextStyle = titleSmall,
-    val rowMeta: TextStyle = signalTextStyle(fontFamily, 12.sp, 16.sp, FontWeight.Medium),
-    val fieldLabel: TextStyle = signalTextStyle(fontFamily, 13.sp, 16.sp, FontWeight.ExtraBold),
-    val fieldValue: TextStyle = signalTextStyle(fontFamily, 17.sp, 22.sp, FontWeight.Black),
-    val button: TextStyle = signalTextStyle(fontFamily, 16.sp, 20.sp, FontWeight.Black),
-    val statusPill: TextStyle = signalTextStyle(fontFamily, 11.5.sp, 14.sp, FontWeight.ExtraBold),
-    val prismDisplayFinancial: TextStyle = signalTextStyle(fontFamily, 32.sp, 36.sp, FontWeight.ExtraBold).copy(fontFeatureSettings = "tnum"),
-    val prismTitleHero: TextStyle = signalTextStyle(fontFamily, 22.sp, 28.sp, FontWeight.ExtraBold),
-    val prismTitleSection: TextStyle = signalTextStyle(fontFamily, 16.sp, 22.sp, FontWeight.ExtraBold),
-    val prismTitleCard: TextStyle = signalTextStyle(fontFamily, 18.sp, 23.sp, FontWeight.Bold),
-    val prismBodyPrimary: TextStyle = signalTextStyle(fontFamily, 15.sp, 22.sp, FontWeight.SemiBold),
-    val prismBodySecondary: TextStyle = signalTextStyle(fontFamily, 13.sp, 19.sp, FontWeight.Medium),
-    val prismMeta: TextStyle = signalTextStyle(fontFamily, 11.5.sp, 16.sp, FontWeight.Medium),
-    val prismNavLabel: TextStyle = signalTextStyle(fontFamily, 11.5.sp, 15.sp, FontWeight.SemiBold),
-    val prismAmountLarge: TextStyle = signalTextStyle(fontFamily, 28.sp, 34.sp, FontWeight.ExtraBold).copy(fontFeatureSettings = "tnum"),
-    val prismAmountCompact: TextStyle = signalTextStyle(fontFamily, 15.sp, 20.sp, FontWeight.Bold).copy(fontFeatureSettings = "tnum"),
-    val prismIdentifier: TextStyle = signalTextStyle(fontFamily, 13.sp, 18.sp, FontWeight.SemiBold).copy(
+    val pageTitle: TextStyle = signalTextStyle(fontFamily, 21.sp, 29.sp, FontWeight.ExtraBold),
+    val screenTitle: TextStyle = signalTextStyle(fontFamily, 18.sp, 25.sp, FontWeight.Bold),
+    val sectionTitle: TextStyle = signalTextStyle(fontFamily, 15.5.sp, 22.sp, FontWeight.Bold),
+    val rowTitle: TextStyle = signalTextStyle(fontFamily, 14.5.sp, 21.sp, FontWeight.SemiBold),
+    val rowMeta: TextStyle = signalTextStyle(fontFamily, 12.5.sp, 18.sp, FontWeight.Medium),
+    val fieldLabel: TextStyle = signalTextStyle(fontFamily, 12.5.sp, 17.sp, FontWeight.SemiBold),
+    val fieldValue: TextStyle = signalTextStyle(fontFamily, 16.sp, 23.sp, FontWeight.Bold),
+    val button: TextStyle = signalTextStyle(fontFamily, 15.5.sp, 21.sp, FontWeight.Bold),
+    val statusPill: TextStyle = signalTextStyle(fontFamily, 11.5.sp, 16.sp, FontWeight.SemiBold),
+    val prismDisplayFinancial: TextStyle = signalTextStyle(fontFamily, 33.sp, 39.sp, FontWeight.ExtraBold).copy(fontFeatureSettings = "tnum"),
+    val prismTitleHero: TextStyle = signalTextStyle(fontFamily, 23.sp, 31.sp, FontWeight.Bold),
+    val prismTitleSection: TextStyle = signalTextStyle(fontFamily, 16.5.sp, 23.sp, FontWeight.Bold),
+    val prismTitleCard: TextStyle = signalTextStyle(fontFamily, 18.sp, 25.sp, FontWeight.SemiBold),
+    val prismBodyPrimary: TextStyle = signalTextStyle(fontFamily, 15.sp, 23.sp, FontWeight.Medium),
+    val prismBodySecondary: TextStyle = signalTextStyle(fontFamily, 13.sp, 20.sp, FontWeight.Medium),
+    val prismMeta: TextStyle = signalTextStyle(fontFamily, 11.5.sp, 17.sp, FontWeight.Medium),
+    val prismNavLabel: TextStyle = signalTextStyle(fontFamily, 11.5.sp, 16.sp, FontWeight.Medium),
+    val prismAmountLarge: TextStyle = signalTextStyle(fontFamily, 30.sp, 36.sp, FontWeight.ExtraBold).copy(fontFeatureSettings = "tnum"),
+    val prismAmountCompact: TextStyle = signalTextStyle(fontFamily, 15.sp, 21.sp, FontWeight.SemiBold).copy(fontFeatureSettings = "tnum"),
+    val prismIdentifier: TextStyle = signalTextStyle(fontFamily, 13.sp, 19.sp, FontWeight.Medium).copy(
         fontFeatureSettings = "tnum",
         textDirection = TextDirection.Ltr,
     ),
-    val prismCardPan: TextStyle = signalTextStyle(fontFamily, 22.sp, 28.sp, FontWeight.ExtraBold).copy(
+    val prismCardPan: TextStyle = signalTextStyle(fontFamily, 21.sp, 28.sp, FontWeight.Bold).copy(
         fontFeatureSettings = "tnum",
         textDirection = TextDirection.Ltr,
     ),
-    val prismCardMeta: TextStyle = signalTextStyle(fontFamily, 12.sp, 16.sp, FontWeight.SemiBold),
-    val prismStatus: TextStyle = signalTextStyle(fontFamily, 11.sp, 14.sp, FontWeight.Bold),
+    val prismCardMeta: TextStyle = signalTextStyle(fontFamily, 12.sp, 17.sp, FontWeight.Medium),
+    val prismStatus: TextStyle = signalTextStyle(fontFamily, 11.sp, 15.sp, FontWeight.SemiBold),
 )
 
 object SignalTheme {
@@ -216,7 +216,12 @@ private fun SignalThemeContent(
     dimensions: SignalDimensions,
     content: @Composable () -> Unit,
 ) {
-    val resolvedColors = colors
+    val prismProfile = config.prismProfile
+    val resolvedColors = if (!colors.dark) {
+        prismProfile.lightPalette.applyTo(colors, config.brand)
+    } else {
+        colors
+    }
     val materialColors = if (resolvedColors.dark) {
         darkColorScheme(
             primary = resolvedColors.primary,
@@ -291,7 +296,7 @@ private fun SignalThemeContent(
         LocalSignalPrism provides (config.prismTokens ?: SignalPrismDefaults.tokens(
             brand = config.brand,
             appearance = SignalPrismDefaults.appearanceFor(mode),
-            profile = config.prismProfile,
+            profile = prismProfile,
         )),
     ) {
         MaterialTheme(

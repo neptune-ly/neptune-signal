@@ -48,6 +48,7 @@ enum class SignalIconName {
     Lock,
     User,
     Languages,
+    Appearance,
     Support,
     Chat,
     Settings,
@@ -244,6 +245,17 @@ private fun DrawScope.drawSignalIcon(name: SignalIconName, color: Color, stroke:
             path("M7 2h1")
             path("m22 22-5-10-5 10")
             path("M14 18h6")
+        }
+        SignalIconName.Appearance -> {
+            circle(12f, 12f, 4f)
+            path("M12 2v2")
+            path("M12 20v2")
+            path("m4.93 4.93 1.41 1.41")
+            path("m17.66 17.66 1.41 1.41")
+            path("M2 12h2")
+            path("M20 12h2")
+            path("m4.93 19.07 1.41-1.41")
+            path("m17.66 6.34 1.41-1.41")
         }
         SignalIconName.Support -> path("M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3")
         SignalIconName.Chat -> {

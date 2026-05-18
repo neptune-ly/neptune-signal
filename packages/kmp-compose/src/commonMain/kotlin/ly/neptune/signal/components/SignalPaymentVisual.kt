@@ -31,7 +31,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ly.neptune.signal.motion.SignalMotion
 import ly.neptune.signal.motion.SignalPaymentRitual
@@ -78,6 +80,167 @@ fun SignalPaymentRitualVisual(
             style = SignalTheme.typography.rowMeta,
             textAlign = TextAlign.Center,
         )
+    }
+}
+
+@Composable
+fun SignalPrismPaymentVisual(
+    state: SignalPaymentVisual,
+    modifier: Modifier = Modifier,
+    showLifecycle: Boolean = false,
+) {
+    val prism = SignalTheme.prism
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x4),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        SignalPrismPaymentOrb(phase = state.phase)
+        if (showLifecycle) {
+            SignalPaymentLifecycleRail(phase = state.phase)
+        }
+        Text(
+            text = state.copy.title(state.phase),
+            color = prism.palette.prismTextPrimary,
+            style = SignalTheme.typography.prismTitleHero,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = state.copy.message(state.phase),
+            color = prism.palette.prismTextSecondary,
+            style = SignalTheme.typography.prismBodySecondary,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun SignalPrismPaymentOrb(phase: SignalPaymentRitualPhase) {
+    val colors = SignalTheme.colors
+    val prism = SignalTheme.prism
+    val direction = LocalLayoutDirection.current
+    val infinite = rememberInfiniteTransition(label = "signal-prism-payment-orb")
+    val sweep by infinite.animateFloat(
+        initialValue = 56f,
+        targetValue = 304f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = prism.motion.prismMotionPayment + 1180, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse,
+        ),
+        label = "signal-prism-payment-orb-sweep",
+    )
+    val pulse by infinite.animateFloat(
+        initialValue = 0.976f,
+        targetValue = 1.012f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = SignalMotion.PaymentRitualBreatheMs),
+            repeatMode = RepeatMode.Reverse,
+        ),
+        label = "signal-prism-payment-orb-pulse",
+    )
+    val terminalScale by animateFloatAsState(
+        targetValue = if (phase == SignalPaymentRitualPhase.Completed) 1.035f else 1f,
+        animationSpec = tween(SignalMotion.PaymentRitualTerminalScaleMs),
+        label = "signal-prism-payment-orb-terminal",
+    )
+    val semanticColor = signalPaymentStateColor(phase)
+    val radialPrimary = when (phase) {
+        SignalPaymentRitualPhase.Completed,
+        SignalPaymentRitualPhase.Failed,
+        SignalPaymentRitualPhase.Pending,
+        SignalPaymentRitualPhase.Timeout
+        -> semanticColor
+        else -> prism.gradients.prismRadialPrimary
+    }
+    val radialSecondary = when (phase) {
+        SignalPaymentRitualPhase.Completed,
+        SignalPaymentRitualPhase.Failed,
+        SignalPaymentRitualPhase.Pending,
+        SignalPaymentRitualPhase.Timeout
+        -> semanticColor
+        else -> prism.gradients.prismRadialSecondary
+    }
+    val stateIcon = when (phase) {
+        SignalPaymentRitualPhase.Preparing,
+        SignalPaymentRitualPhase.Routing -> SignalIconName.Transfer
+        SignalPaymentRitualPhase.Verifying,
+        SignalPaymentRitualPhase.BankConfirmation,
+        SignalPaymentRitualPhase.SettlementConfirmation -> SignalIconName.Shield
+        SignalPaymentRitualPhase.Completed -> SignalIconName.CheckCircle
+        SignalPaymentRitualPhase.Failed -> SignalIconName.ErrorCircle
+        SignalPaymentRitualPhase.Pending,
+        SignalPaymentRitualPhase.Timeout -> SignalIconName.Clock
+    }
+
+    Box(
+        modifier = Modifier
+            .size(128.dp)
+            .graphicsLayer {
+                val activePulse = if (phase == SignalPaymentRitualPhase.Completed || phase == SignalPaymentRitualPhase.Failed) 1f else pulse
+                scaleX = terminalScale * activePulse
+                scaleY = terminalScale * activePulse
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Canvas(modifier = Modifier.size(128.dp)) {
+            val stroke = 6.dp.toPx()
+            val inset = stroke / 2f + 8.dp.toPx()
+            val ringSize = size.width - inset * 2f
+            val activeSweep = when (phase) {
+                SignalPaymentRitualPhase.Completed -> 360f
+                SignalPaymentRitualPhase.Failed,
+                SignalPaymentRitualPhase.Pending,
+                SignalPaymentRitualPhase.Timeout -> 252f
+                else -> sweep
+            }
+            val startAngle = if (direction == LayoutDirection.Rtl) 268f else -88f
+            drawCircle(
+                color = prism.surfaces.prismSurfaceRaised.copy(alpha = if (colors.dark) 0.88f else 0.78f),
+                radius = size.minDimension / 2f - 7.dp.toPx(),
+                style = Fill,
+            )
+            drawCircle(
+                color = radialPrimary.copy(alpha = if (colors.dark) 0.12f else 0.07f),
+                radius = size.minDimension / 2f - 2.dp.toPx(),
+                style = Fill,
+            )
+            drawArc(
+                color = prism.overlays.prismBorderSoft.copy(alpha = if (colors.dark) 0.26f else 0.34f),
+                startAngle = 0f,
+                sweepAngle = 360f,
+                useCenter = false,
+                topLeft = Offset(inset, inset),
+                size = Size(ringSize, ringSize),
+                style = Stroke(width = stroke, cap = StrokeCap.Round),
+            )
+            drawArc(
+                color = radialPrimary.copy(alpha = if (phase == SignalPaymentRitualPhase.Completed) 0.98f else 0.84f),
+                startAngle = startAngle,
+                sweepAngle = if (direction == LayoutDirection.Rtl) -activeSweep else activeSweep,
+                useCenter = false,
+                topLeft = Offset(inset, inset),
+                size = Size(ringSize, ringSize),
+                style = Stroke(width = stroke, cap = StrokeCap.Round),
+            )
+            drawArc(
+                color = radialSecondary.copy(alpha = if (colors.dark) 0.62f else 0.52f),
+                startAngle = startAngle + if (direction == LayoutDirection.Rtl) -36f else 36f,
+                sweepAngle = if (direction == LayoutDirection.Rtl) -activeSweep * 0.34f else activeSweep * 0.34f,
+                useCenter = false,
+                topLeft = Offset(inset + 11.dp.toPx(), inset + 11.dp.toPx()),
+                size = Size(ringSize - 22.dp.toPx(), ringSize - 22.dp.toPx()),
+                style = Stroke(width = stroke * 0.62f, cap = StrokeCap.Round),
+            )
+        }
+        Box(
+            modifier = Modifier
+                .size(76.dp)
+                .clip(RoundedCornerShape(29.dp))
+                .background(radialPrimary.copy(alpha = if (colors.dark) 0.18f else 0.105f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            SignalIcon(stateIcon, tint = radialPrimary, size = 35.dp, strokeWidth = 2.55.dp)
+        }
     }
 }
 

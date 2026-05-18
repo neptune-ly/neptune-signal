@@ -22,7 +22,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -266,6 +265,7 @@ fun SignalPrismVisualChoiceTile(
     val prism = SignalTheme.prism
     val shape = RoundedCornerShape(28.dp)
     val tileColors = colors.ifEmpty { listOf(prism.palette.prismDeepNavy, prism.palette.prismCyan) }
+    val swatchColor = tileColors.lastOrNull() ?: prism.tones.payment
     val surfaceAlpha = when {
         selected -> if (SignalTheme.colors.dark) 0.86f else 0.96f
         else -> if (SignalTheme.colors.dark) 0.58f else 0.88f
@@ -292,7 +292,7 @@ fun SignalPrismVisualChoiceTile(
                 .fillMaxWidth()
                 .height(74.dp)
                 .clip(RoundedCornerShape(22.dp))
-                .background(Brush.linearGradient(tileColors)),
+                .background(swatchColor.copy(alpha = if (SignalTheme.colors.dark) 0.20f else 0.14f)),
         ) {
             Box(
                 modifier = Modifier
@@ -300,10 +300,10 @@ fun SignalPrismVisualChoiceTile(
                     .padding(10.dp)
                     .size(34.dp)
                     .clip(RoundedCornerShape(14.dp))
-                    .background(Color.White.copy(alpha = 0.16f)),
+                    .background(swatchColor.copy(alpha = 0.20f)),
                 contentAlignment = Alignment.Center,
             ) {
-                SignalIcon(icon, tint = Color.White, size = 19.dp)
+                SignalIcon(icon, tint = swatchColor, size = 19.dp)
             }
             if (selected) {
                 Box(
@@ -433,7 +433,7 @@ private fun SignalPrismMiniHomePreview(
                 .fillMaxWidth()
                 .height(92.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Brush.linearGradient(listOf(primaryColor, accentColor.copy(alpha = 0.76f)))),
+                .background(primaryColor),
         ) {
             Column(modifier = Modifier.align(Alignment.CenterEnd).padding(SignalSpacing.x2), horizontalAlignment = Alignment.End) {
                 Text("الرصيد المتاح", color = Color.White.copy(alpha = 0.74f), style = SignalTheme.typography.prismMeta)

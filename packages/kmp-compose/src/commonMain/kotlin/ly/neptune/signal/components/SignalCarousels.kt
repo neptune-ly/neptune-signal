@@ -114,11 +114,18 @@ fun SignalOnboardingCarousel(
             .semantics {
                 contentDescription = progressLabel(safeIndex + 1, slides.size)
             },
-        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
+        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
     ) {
+        val pageHeight = if (compact) {
+            SignalAuthMetrics.onboardingCompactHeroHeight + 154.dp
+        } else {
+            SignalAuthMetrics.onboardingHeroHeight + 176.dp
+        }
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(pageHeight),
             pageSpacing = SignalSpacing.x3,
             beyondViewportPageCount = 1,
         ) { pageIndex ->
@@ -146,8 +153,8 @@ private fun SignalOnboardingPage(
     compact: Boolean = false,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x4),
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(if (compact) SignalSpacing.x3 else SignalSpacing.x4),
     ) {
         SignalOnboardingHero(slide = slide, compact = compact)
         Column(
@@ -247,10 +254,10 @@ private fun SignalOnboardingHero(
             modifier = Modifier
                 .padding(horizontal = SignalSpacing.x1)
                 .fillMaxWidth(),
-            color = if (colors.dark) colors.surfaceContainer else colors.surfaceContainerLow,
+            color = if (colors.dark || colors.black) colors.surfaceContainer else colors.surfaceContainerLow,
             contentColor = colors.onSurface,
             shape = RoundedCornerShape(32.dp),
-            border = androidx.compose.foundation.BorderStroke(1.dp, colors.outlineVariant.copy(alpha = if (colors.dark) 0.44f else 0.50f)),
+            border = androidx.compose.foundation.BorderStroke(1.dp, colors.outlineVariant.copy(alpha = if (colors.dark || colors.black) 0.44f else 0.50f)),
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = SignalSpacing.x4, vertical = if (compact) SignalSpacing.x3 else SignalSpacing.x4),
@@ -262,7 +269,7 @@ private fun SignalOnboardingHero(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Surface(
-                        color = colors.surfaceCard,
+                        color = if (colors.dark || colors.black) colors.surfaceContainerHigh else colors.primaryContainer,
                         contentColor = colors.bankPrimary,
                         shape = RoundedCornerShape(SignalTheme.shapes.full),
                         border = androidx.compose.foundation.BorderStroke(1.dp, colors.outlineVariant.copy(alpha = 0.42f)),
@@ -279,7 +286,7 @@ private fun SignalOnboardingHero(
                         modifier = Modifier
                             .size(44.dp)
                             .clip(RoundedCornerShape(15.dp))
-                            .background(colors.bankPrimary.copy(alpha = if (colors.dark) 0.88f else 1f)),
+                            .background(colors.bankPrimary.copy(alpha = if (colors.dark || colors.black) 0.88f else 1f)),
                         contentAlignment = Alignment.Center,
                     ) {
                         SignalIcon(slide.icon, tint = colors.textInverse, size = SignalComponentMetrics.smallActionIcon)
@@ -296,7 +303,7 @@ private fun SignalOnboardingHero(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(colors.outlineVariant.copy(alpha = if (colors.dark) 0.30f else 0.42f)),
+                        .background(colors.outlineVariant.copy(alpha = if (colors.dark || colors.black) 0.30f else 0.42f)),
                 )
                 Text(
                     text = slide.supportText,
@@ -502,42 +509,48 @@ private fun SignalAccountBalanceText(
         )
         return
     }
-    val parts = value.split(" ", limit = 2)
-    val number = parts.firstOrNull().orEmpty()
-    val currency = parts.getOrNull(1).orEmpty()
+    val parts = value.split(" ").filter { it.isNotBlank() }
+    val currencyFirst = parts.firstOrNull()?.any { it.isLetter() } == true
+    val currency = if (currencyFirst) parts.firstOrNull().orEmpty() else parts.getOrNull(1).orEmpty()
+    val number = if (currencyFirst) parts.getOrNull(1).orEmpty() else parts.firstOrNull().orEmpty()
     val whole = number.substringBefore(".")
     val decimal = number.substringAfter(".", missingDelimiterValue = "")
-    Text(
-        text = buildAnnotatedString {
-            append(whole)
-            if (decimal.isNotEmpty()) {
-                withStyle(
-                    SpanStyle(
-                        color = colors.textInverse.copy(alpha = 0.70f),
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                    ),
-                ) {
-                    append(".$decimal")
-                }
-            }
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom,
+        ) {
             if (currency.isNotEmpty()) {
-                withStyle(
-                    SpanStyle(
-                        color = colors.textInverse.copy(alpha = 0.78f),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
-                ) {
-                    append(" $currency")
-                }
+                Text(
+                    text = currency,
+                    color = colors.textInverse.copy(alpha = 0.78f),
+                    style = baseStyle.copy(fontSize = 22.sp, fontWeight = FontWeight.Bold),
+                    maxLines = 1,
+                )
+                androidx.compose.foundation.layout.Spacer(Modifier.width(8.dp))
             }
-        },
-        color = colors.textInverse,
-        style = baseStyle,
-        maxLines = 1,
-        overflow = TextOverflow.Clip,
-    )
+            Text(
+                text = buildAnnotatedString {
+                    append(whole)
+                    if (decimal.isNotEmpty()) {
+                        withStyle(
+                            SpanStyle(
+                                color = colors.textInverse.copy(alpha = 0.70f),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                            ),
+                        ) {
+                            append(".$decimal")
+                        }
+                    }
+                },
+                color = colors.textInverse,
+                style = baseStyle,
+                maxLines = 1,
+                overflow = TextOverflow.Clip,
+            )
+        }
+    }
 }
 
 @Composable

@@ -10,10 +10,14 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ly.neptune.signal.theme.SignalComponentMetrics
+import ly.neptune.signal.theme.SignalPrismNavStyle
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -29,6 +33,7 @@ fun SignalAppShell(
     showBottomNav: Boolean = true,
     centerNavAction: SignalNavCenterAction? = null,
     bottomNavVisualLanguage: SignalBottomNavVisualLanguage = SignalBottomNavVisualLanguage.SignalClassic,
+    bottomNavPrismStyle: SignalPrismNavStyle = SignalPrismNavStyle.FloatingDock,
     navigation: (@Composable () -> Unit)? = null,
     topBarNavigation: SignalTopBarNavigation? = null,
     onNavigate: () -> Unit = {},
@@ -101,21 +106,24 @@ fun SignalAppShell(
             }
         }
         if (showBottomNav) {
-            when (bottomNavVisualLanguage) {
-                SignalBottomNavVisualLanguage.SignalClassic -> SignalBottomNav(
-                    items = navItems,
-                    activeKey = activeRoot,
-                    onSelected = onRootSelected,
-                    centerAction = centerNavAction,
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                )
-                SignalBottomNavVisualLanguage.Prism -> SignalPrismFloatingNav(
-                    items = navItems,
-                    activeKey = activeRoot,
-                    onSelected = onRootSelected,
-                    centerAction = centerNavAction,
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                )
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                when (bottomNavVisualLanguage) {
+                    SignalBottomNavVisualLanguage.SignalClassic -> SignalBottomNav(
+                        items = navItems,
+                        activeKey = activeRoot,
+                        onSelected = onRootSelected,
+                        centerAction = centerNavAction,
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                    )
+                    SignalBottomNavVisualLanguage.Prism -> SignalPrismFloatingNav(
+                        items = navItems,
+                        activeKey = activeRoot,
+                        onSelected = onRootSelected,
+                        centerAction = centerNavAction,
+                        style = bottomNavPrismStyle,
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                    )
+                }
             }
         }
     }

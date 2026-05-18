@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,13 +15,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -140,22 +141,24 @@ fun SignalPrismAttentionStrip(
     unreadCount: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    tone: SignalRowTone = SignalRowTone.Warning,
 ) {
     val prism = SignalTheme.prism
+    val accent = toneColor(tone)
     Surface(
         modifier = modifier.fillMaxWidth().clickable(onClick = onClick),
-        color = prism.palette.prismGold.copy(alpha = if (SignalTheme.colors.dark) 0.12f else 0.18f),
+        color = accent.copy(alpha = if (SignalTheme.colors.dark) 0.12f else 0.14f),
         contentColor = prism.palette.prismTextPrimary,
         shape = RoundedCornerShape(26.dp),
-        border = BorderStroke(1.dp, prism.palette.prismGold.copy(alpha = 0.22f)),
+        border = BorderStroke(1.dp, accent.copy(alpha = 0.22f)),
     ) {
         Row(modifier = Modifier.padding(SignalSpacing.x3), horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3), verticalAlignment = Alignment.CenterVertically) {
-            PrismIconCell(icon = SignalIconName.Bell, tone = SignalRowTone.Warning, compact = true)
+            PrismIconCell(icon = SignalIconName.Bell, tone = tone, compact = true)
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(title, color = prism.palette.prismTextPrimary, style = SignalTheme.typography.rowTitle, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(subtitle, color = prism.palette.prismTextSecondary, style = SignalTheme.typography.rowMeta, maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
-            Text(if (unreadCount > 0) unreadCount.toString() else actionLabel, color = prism.palette.prismGold, style = SignalTheme.typography.statusPill, maxLines = 1)
+            Text(if (unreadCount > 0) unreadCount.toString() else actionLabel, color = accent, style = SignalTheme.typography.statusPill, maxLines = 1)
         }
     }
 }
@@ -229,19 +232,28 @@ fun SignalPrismNotificationCategoryTabs(
     onCategoryClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    FlowRow(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2), verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2)) {
+    val prism = SignalTheme.prism
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(999.dp))
+            .background(prism.surfaces.prismSurfaceRaised.copy(alpha = 0.86f))
+            .border(BorderStroke(1.dp, prism.overlays.prismBorderSoft), RoundedCornerShape(999.dp))
+            .horizontalScroll(rememberScrollState())
+            .padding(SignalSpacing.x1),
+        horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
+    ) {
         categories.forEach { category ->
             val selected = category == selectedCategory
-            val prism = SignalTheme.prism
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(999.dp))
-                    .background(if (selected) prism.palette.prismCyan.copy(alpha = 0.18f) else prism.surfaces.prismSurfaceRaised.copy(alpha = 0.64f))
-                    .border(BorderStroke(1.dp, if (selected) prism.palette.prismCyan.copy(alpha = 0.32f) else prism.overlays.prismBorderSoft), RoundedCornerShape(999.dp))
+                    .background(if (selected) prism.tones.secondaryContainer.copy(alpha = 0.96f) else Color.Transparent)
+                    .border(BorderStroke(1.dp, if (selected) prism.tones.secondary.copy(alpha = 0.24f) else Color.Transparent), RoundedCornerShape(999.dp))
                     .clickable { onCategoryClick(category) }
                     .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
             ) {
-                Text(category, color = if (selected) prism.palette.prismCyan else prism.palette.prismTextSecondary, style = SignalTheme.typography.statusPill, maxLines = 1)
+                Text(category, color = if (selected) prism.tones.onSecondaryContainer else prism.palette.prismTextSecondary, style = SignalTheme.typography.statusPill, maxLines = 1)
             }
         }
     }
@@ -252,12 +264,12 @@ fun SignalPrismNotificationRow(item: SignalPrismNotificationItem, modifier: Modi
     val prism = SignalTheme.prism
     Surface(
         modifier = modifier.fillMaxWidth().clickable(onClick = item.onClick),
-        color = if (item.read) prism.surfaces.prismSurfaceRaised.copy(alpha = 0.64f) else prism.surfaces.prismSurfaceFloating.copy(alpha = 0.84f),
+        color = if (item.read) prism.surfaces.prismSurfaceRaised.copy(alpha = 0.78f) else prism.surfaces.prismSurfaceFloating.copy(alpha = 0.96f),
         contentColor = prism.palette.prismTextPrimary,
-        shape = RoundedCornerShape(24.dp),
-        border = BorderStroke(1.dp, if (item.read) prism.overlays.prismBorderSoft else toneColor(item.priority).copy(alpha = 0.24f)),
+        shape = RoundedCornerShape(28.dp),
+        border = BorderStroke(1.dp, if (item.read) prism.overlays.prismBorderSoft else toneColor(item.priority).copy(alpha = 0.30f)),
     ) {
-        Row(modifier = Modifier.padding(SignalSpacing.x3), horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.padding(SignalSpacing.x4), horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3), verticalAlignment = Alignment.CenterVertically) {
             PrismIconCell(icon = iconForCategory(item.category), tone = item.priority, compact = true)
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(item.title, color = prism.palette.prismTextPrimary, style = SignalTheme.typography.rowTitle, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -289,14 +301,15 @@ fun SignalPrismCampaignDetail(
                 .fillMaxWidth()
                 .heightIn(min = 230.dp)
                 .clip(RoundedCornerShape(34.dp))
-                .background(Brush.linearGradient(listOf(prism.palette.prismDeepNavy, prism.palette.prismViolet.copy(alpha = 0.78f), prism.palette.prismCoral.copy(alpha = 0.38f))))
+                .background(prism.surfaces.prismSurfaceRaised)
+                .border(1.dp, prism.overlays.prismBorderSoft.copy(alpha = if (SignalTheme.colors.dark) 0.14f else 0.20f), RoundedCornerShape(34.dp))
                 .padding(SignalSpacing.x5),
             contentAlignment = Alignment.BottomStart,
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2)) {
                 Text(eyebrow, color = prism.palette.prismGold, style = SignalTheme.typography.statusPill)
-                Text(title, color = Color.White, style = SignalTheme.typography.titleLarge, maxLines = 2)
-                Text(message, color = Color.White.copy(alpha = 0.78f), style = SignalTheme.typography.rowMeta, maxLines = 3)
+                Text(title, color = prism.palette.prismTextPrimary, style = SignalTheme.typography.titleLarge, maxLines = 2)
+                Text(message, color = prism.palette.prismTextSecondary, style = SignalTheme.typography.rowMeta, maxLines = 3)
             }
         }
         Text(metadata, color = prism.palette.prismTextSecondary, style = SignalTheme.typography.rowMeta)
@@ -427,8 +440,15 @@ private fun SignalPrismDataRow(
                 amount?.let { Text(it, color = toneColor(tone), style = SignalTheme.typography.rowTitle, maxLines = 1) }
                 badge?.let { Text(it, color = toneColor(tone), style = SignalTheme.typography.prismStatus, maxLines = 1) }
                 if (trailingAction != null) {
-                    Box(modifier = Modifier.clip(RoundedCornerShape(999.dp)).clickable(onClick = trailingAction).padding(8.dp)) {
-                        SignalIcon(SignalIconName.Copy, tint = prism.palette.prismCyan, size = 18.dp)
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(prism.palette.prismCyan.copy(alpha = 0.12f))
+                            .clickable(onClick = trailingAction),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        SignalIcon(SignalIconName.Copy, tint = prism.palette.prismCyan, size = 21.dp)
                     }
                 }
             }

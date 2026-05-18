@@ -486,9 +486,11 @@ private fun SignalStageIdLine(
 private fun SignalStageMiniAction(onClick: () -> Unit, content: @Composable () -> Unit) {
     Box(
         modifier = Modifier
-            .size(32.dp)
+            .size(44.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color.White.copy(alpha = 0.10f))
             .clickable(onClick = onClick)
-            .padding(7.dp),
+            .padding(10.dp),
         contentAlignment = Alignment.Center,
     ) {
         content()

@@ -4,11 +4,11 @@ enum class SignalCurrency(
     val code: String,
     val display: String,
     val minorDigits: Int,
-    val rtlDisplayAfterAmount: Boolean = true,
+    val displayBeforeAmount: Boolean = true,
 ) {
     LYD("LYD", "د.ل", 3),
-    USD("USD", "USD", 2, rtlDisplayAfterAmount = false),
-    EUR("EUR", "EUR", 2, rtlDisplayAfterAmount = false),
+    USD("USD", "USD", 2),
+    EUR("EUR", "EUR", 2),
 }
 
 data class SignalMoney(
@@ -38,10 +38,11 @@ object SignalFinancialFormatter {
         } else {
             "${groupThousands(whole)}.${fraction.toString().padStart(currency.minorDigits, '0')}"
         }
-        return if (currency.rtlDisplayAfterAmount) {
-            "$sign$number ${currency.display}"
+        val currencyLabel = if (currency == SignalCurrency.LYD) currency.display else currency.code
+        return if (currency.displayBeforeAmount) {
+            "$currencyLabel $sign$number"
         } else {
-            "$sign$number ${currency.code}"
+            "$sign$number $currencyLabel"
         }
     }
 

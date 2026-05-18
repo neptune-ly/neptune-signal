@@ -146,7 +146,7 @@ fun SignalCopyGlyph(
     color: Color? = null,
 ) {
     val resolvedColor = color ?: SignalTheme.colors.bankPrimary
-    Canvas(modifier = modifier.size(18.dp)) {
+    Canvas(modifier = modifier.size(20.dp)) {
         val stroke = Stroke(width = 2.dp.toPx())
         val radius = CornerRadius(3.dp.toPx(), 3.dp.toPx())
         drawRoundRect(

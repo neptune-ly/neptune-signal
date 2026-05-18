@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -88,6 +89,9 @@ fun SignalLoginPanel(
     languageLabel: String? = null,
     languageContentDescription: String = "Language",
     onLanguageClick: (() -> Unit)? = null,
+    appearanceLabel: String? = null,
+    appearanceContentDescription: String = "Appearance",
+    onAppearanceClick: (() -> Unit)? = null,
     credentialsStepLabel: String = "البيانات",
     verificationStepLabel: String = "التحقق",
     passwordStepLabel: String = "كلمة المرور",
@@ -115,15 +119,25 @@ fun SignalLoginPanel(
             languageLabel = languageLabel,
             languageContentDescription = languageContentDescription,
             onLanguageClick = onLanguageClick,
+            appearanceLabel = appearanceLabel,
+            appearanceContentDescription = appearanceContentDescription,
+            onAppearanceClick = onAppearanceClick,
         )
 
         SignalAuthTrustStrip(
             title = title,
             subtitle = subtitle,
             icon = SignalAuthStateIcon.Lock,
+            primaryChip = credentialsStepLabel,
+            secondaryChip = verificationStepLabel,
+            tertiaryChip = passwordStepLabel,
         )
 
         SignalAuthPanel {
+            if (errorText != null) {
+                SignalAuthErrorBanner(message = signalAuthDisplayError(errorText))
+            }
+
             SignalTextField(
                 value = customerId,
                 onValueChange = onCustomerIdChange,
@@ -139,7 +153,6 @@ fun SignalLoginPanel(
                 enabled = !loading,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = passwordKeyboardOptions,
-                errorText = errorText,
             )
 
             if (onForgotPassword != null) {
@@ -149,7 +162,7 @@ fun SignalLoginPanel(
                         .fillMaxWidth()
                         .clickable(enabled = !loading, onClick = onForgotPassword)
                         .padding(horizontal = SignalSpacing.x2, vertical = SignalSpacing.x1),
-                    color = colors.bankPrimary,
+                    color = if (colors.dark || colors.black) colors.bankSecondary else colors.bankPrimary,
                     style = SignalTheme.typography.labelLarge,
                     textAlign = TextAlign.End,
                 )
@@ -355,6 +368,7 @@ fun SignalPasswordResetRequestPanel(
     submitLabel: String = "إرسال رمز التحقق",
     backLabel: String = "رجوع",
     note: String? = null,
+    errorText: String? = null,
     loading: Boolean = false,
 ) {
     Column(
@@ -363,6 +377,9 @@ fun SignalPasswordResetRequestPanel(
     ) {
         SignalAuthStateCard(title = title, subtitle = subtitle, icon = SignalAuthStateIcon.Shield)
         SignalAuthPanel {
+            if (errorText != null) {
+                SignalAuthErrorBanner(message = signalAuthDisplayError(errorText))
+            }
             SignalTextField(
                 value = customerId,
                 onValueChange = onCustomerIdChange,
@@ -413,6 +430,7 @@ fun SignalPasswordResetVerifyPanel(
     resendLabel: String = "إعادة الإرسال",
     note: String? = null,
     mismatchError: String? = null,
+    errorText: String? = null,
     credentialsStepLabel: String = "البيانات",
     verificationStepLabel: String = "التحقق",
     passwordStepLabel: String = "كلمة المرور",
@@ -433,6 +451,9 @@ fun SignalPasswordResetVerifyPanel(
             icon = SignalAuthStateIcon.Key,
         )
         SignalAuthPanel {
+            if (errorText != null) {
+                SignalAuthErrorBanner(message = signalAuthDisplayError(errorText))
+            }
             SignalOtpCodeField(
                 value = code,
                 onValueChange = onCodeChange,
@@ -520,37 +541,39 @@ fun SignalOtpCodeField(
                     Box(modifier = Modifier.size(1.dp)) {
                         innerTextField()
                     }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        repeat(length) { index ->
-                            val char = normalized.getOrNull(index)?.toString().orEmpty()
-                            Surface(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .height(SignalTheme.dimensions.fieldHeight),
-                                color = colors.surface,
-                                shape = RoundedCornerShape(SignalTheme.shapes.md),
-                                border = BorderStroke(
-                                    1.dp,
-                                    if (char.isNotEmpty()) colors.bankAccent else colors.outlineVariant,
-                                ),
-                            ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Text(
-                                        text = char,
-                                        color = colors.onSurface,
-                                        style = SignalTheme.typography.fieldValue,
-                                        maxLines = 1,
-                                    )
+                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            repeat(length) { index ->
+                                val char = normalized.getOrNull(index)?.toString().orEmpty()
+                                Surface(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(SignalTheme.dimensions.fieldHeight),
+                                    color = colors.surface,
+                                    shape = RoundedCornerShape(SignalTheme.shapes.md),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        if (char.isNotEmpty()) colors.bankAccent else colors.outlineVariant,
+                                    ),
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Text(
+                                            text = char,
+                                            color = colors.onSurface,
+                                            style = SignalTheme.typography.fieldValue,
+                                            maxLines = 1,
+                                        )
+                                    }
                                 }
-                            }
-                        }
-                    }
-                }
-            },
+	                            }
+	                        }
+	                    }
+	                }
+	            },
         )
     }
 }
@@ -582,11 +605,16 @@ private fun SignalAuthBrandHeader(
             verticalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(
-                modifier = Modifier
+            val logoModifier = if (brandVisual != null) {
+                Modifier.size(SignalAuthMetrics.headerLogoBox)
+            } else {
+                Modifier
                     .size(SignalAuthMetrics.headerLogoBox)
                     .clip(RoundedCornerShape(SignalAuthMetrics.headerLogoRadius))
-                    .background(colors.bankAccent),
+                    .background(colors.bankAccent)
+            }
+            Box(
+                modifier = logoModifier,
                 contentAlignment = Alignment.Center,
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
@@ -637,6 +665,71 @@ private fun SignalAuthBrandHeader(
 }
 
 @Composable
+private fun SignalAuthErrorBanner(message: String) {
+    val colors = SignalTheme.colors
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = message },
+        color = colors.errorContainer,
+        contentColor = colors.onErrorContainer,
+        shape = RoundedCornerShape(SignalTheme.shapes.md),
+        border = BorderStroke(1.dp, colors.error.copy(alpha = 0.38f)),
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
+            horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            SignalIcon(
+                name = SignalIconName.Shield,
+                tint = colors.error,
+                size = 20.dp,
+            )
+            Text(
+                text = message,
+                modifier = Modifier.weight(1f),
+                color = colors.onErrorContainer,
+                style = SignalTheme.typography.rowMeta,
+                textAlign = TextAlign.Start,
+            )
+        }
+    }
+}
+
+private fun signalAuthDisplayError(raw: String): String {
+    val trimmed = raw.trim()
+    if (!trimmed.startsWith("{")) return trimmed
+    val message = Regex(""""message"\s*:\s*"((?:\\.|[^"\\])*)"""")
+        .find(trimmed)
+        ?.groupValues
+        ?.getOrNull(1)
+        ?.let(::signalAuthUnescapeJson)
+        ?.trim()
+    return message?.takeIf { it.isNotBlank() } ?: "تعذر إكمال الطلب. حاول مرة أخرى."
+}
+
+private fun signalAuthUnescapeJson(value: String): String = buildString {
+    var index = 0
+    while (index < value.length) {
+        val ch = value[index]
+        if (ch == '\\' && index + 1 < value.length) {
+            when (val next = value[index + 1]) {
+                '"', '\\', '/' -> append(next)
+                'n' -> append('\n')
+                'r' -> append('\r')
+                't' -> append('\t')
+                else -> append(next)
+            }
+            index += 2
+        } else {
+            append(ch)
+            index += 1
+        }
+    }
+}
+
+@Composable
 private fun SignalAuthMasthead(
     bankName: String,
     poweredBy: String,
@@ -646,9 +739,13 @@ private fun SignalAuthMasthead(
     languageLabel: String? = null,
     languageContentDescription: String = "Language",
     onLanguageClick: (() -> Unit)? = null,
+    appearanceLabel: String? = null,
+    appearanceContentDescription: String = "Appearance",
+    onAppearanceClick: (() -> Unit)? = null,
 ) {
     val colors = SignalTheme.colors
     val resolvedLanguageDescription = languageLabel?.let { "$languageContentDescription: $it" } ?: languageContentDescription
+    val resolvedAppearanceDescription = appearanceLabel?.let { "$appearanceContentDescription: $it" } ?: appearanceContentDescription
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -658,20 +755,19 @@ private fun SignalAuthMasthead(
     ) {
         Box(
             modifier = Modifier
-                .size(58.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .background(colors.bankAccent),
+                .width(92.dp)
+                .height(58.dp),
             contentAlignment = Alignment.Center,
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                 if (brandVisual != null) {
                     brandVisual()
                 } else if (mark == "N.") {
-                    SignalAuthNeptuneGlyph(color = Color.White)
+                    SignalAuthNeptuneGlyph(color = if (colors.dark || colors.black) Color.White else colors.bankPrimary)
                 } else {
                     Text(
                         text = mark,
-                        color = Color.White,
+                        color = if (colors.dark || colors.black) Color.White else colors.bankPrimary,
                         style = SignalTheme.typography.pageTitle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -698,32 +794,64 @@ private fun SignalAuthMasthead(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        if (onLanguageClick != null) {
-            Surface(
-                modifier = Modifier
-                    .semantics { contentDescription = resolvedLanguageDescription }
-                    .clickable(onClick = onLanguageClick),
-                color = colors.surfaceCard,
-                contentColor = if (colors.dark) colors.onSurface else colors.bankPrimary,
-                shape = RoundedCornerShape(SignalTheme.shapes.full),
-                border = BorderStroke(1.dp, colors.outlineVariant),
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
-                    horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    SignalAuthLanguageGlyph(color = LocalLayoutDirection.current.let { if (colors.dark) colors.onSurface else colors.bankPrimary })
-                    if (languageLabel != null) {
-                        Text(
-                            text = languageLabel,
-                            color = if (colors.dark) colors.onSurface else colors.bankPrimary,
-                            style = SignalTheme.typography.statusPill,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
+            horizontalAlignment = Alignment.End,
+        ) {
+            if (onLanguageClick != null) {
+                SignalAuthQuickAction(
+                    label = languageLabel,
+                    contentDescription = resolvedLanguageDescription,
+                    onClick = onLanguageClick,
+                    icon = { SignalAuthLanguageGlyph(color = it) },
+                )
+            }
+            if (onAppearanceClick != null) {
+                SignalAuthQuickAction(
+                    label = appearanceLabel,
+                    contentDescription = resolvedAppearanceDescription,
+                    onClick = onAppearanceClick,
+                    icon = { SignalIcon(name = SignalIconName.Appearance, tint = it, size = SignalAuthMetrics.headerGlyph) },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SignalAuthQuickAction(
+    label: String?,
+    contentDescription: String,
+    onClick: () -> Unit,
+    icon: @Composable (Color) -> Unit,
+) {
+    val colors = SignalTheme.colors
+    val contentColor = if (colors.dark || colors.black) colors.onSurface else colors.bankPrimary
+    Surface(
+        modifier = Modifier
+            .heightIn(min = 42.dp)
+            .semantics { this.contentDescription = contentDescription }
+            .clickable(onClick = onClick),
+        color = if (colors.dark || colors.black) colors.surfaceContainer else colors.surfaceContainerLow,
+        contentColor = contentColor,
+        shape = RoundedCornerShape(SignalTheme.shapes.full),
+        border = BorderStroke(1.dp, colors.outlineVariant.copy(alpha = 0.72f)),
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = SignalSpacing.x3, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x1),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            icon(contentColor)
+            if (label != null) {
+                Text(
+                    text = label,
+                    color = contentColor,
+                    style = SignalTheme.typography.statusPill,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
         }
     }
@@ -751,18 +879,6 @@ private fun SignalAuthStateCard(
         border = BorderStroke(1.dp, colors.bankPrimary.copy(alpha = 0.36f)),
     ) {
         Box {
-            Canvas(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .size(SignalAuthMetrics.stateOrbitSize),
-            ) {
-                drawCircle(
-                    color = colors.bankAccent.copy(alpha = 0.38f),
-                    radius = SignalAuthMetrics.stateOrbitRadius.toPx(),
-                    center = Offset(size.width * 0.82f, size.height * 0.14f),
-                    style = Stroke(width = SignalAuthMetrics.stateOrbitStroke.toPx()),
-                )
-            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -838,43 +954,39 @@ private fun SignalAuthTrustStrip(
     subtitle: String,
     modifier: Modifier = Modifier,
     icon: SignalAuthStateIcon = SignalAuthStateIcon.Lock,
+    primaryChip: String = "البيانات",
+    secondaryChip: String = "التحقق",
+    tertiaryChip: String = "كلمة المرور",
 ) {
     val colors = SignalTheme.colors
+    val panelColor = if (colors.dark || colors.black) colors.surfaceContainer else colors.surfaceCard
+    val accentColor = if (colors.dark || colors.black) colors.bankSecondary else colors.bankPrimary
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = colors.bankPrimary,
-        contentColor = Color.White,
-        shape = RoundedCornerShape(SignalAuthMetrics.stateRadius),
-        border = BorderStroke(1.dp, colors.bankPrimary.copy(alpha = 0.26f)),
+        color = panelColor,
+        contentColor = colors.onSurface,
+        shape = RoundedCornerShape(28.dp),
+        border = BorderStroke(1.dp, colors.outlineVariant.copy(alpha = if (colors.dark || colors.black) 0.42f else 0.52f)),
     ) {
-        Box {
-            Canvas(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .size(104.dp),
-            ) {
-                drawCircle(
-                    color = colors.bankSecondary.copy(alpha = 0.28f),
-                    radius = size.minDimension * 0.58f,
-                    center = Offset(size.width * 0.08f, size.height * 0.10f),
-                    style = Stroke(width = 20.dp.toPx()),
-                )
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x3),
+            verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+        ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = SignalSpacing.x4, vertical = SignalSpacing.x3),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White.copy(alpha = 0.92f)),
+                        .size(46.dp)
+                        .clip(RoundedCornerShape(15.dp))
+                        .background(accentColor.copy(alpha = if (colors.dark || colors.black) 0.18f else 0.12f)),
                     contentAlignment = Alignment.Center,
                 ) {
-                    SignalAuthStateGlyph(icon = icon, color = colors.bankPrimary)
+                    SignalAuthStateGlyph(icon = icon, color = accentColor)
                 }
                 Column(
                     modifier = Modifier.weight(1f),
@@ -882,21 +994,49 @@ private fun SignalAuthTrustStrip(
                 ) {
                     Text(
                         text = title,
-                        color = Color.White,
-                        style = SignalTheme.typography.headlineSmall,
+                        color = colors.onSurface,
+                        style = SignalTheme.typography.titleLarge,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
                         text = subtitle,
-                        color = Color.White.copy(alpha = 0.76f),
+                        color = colors.onSurfaceVariant,
                         style = SignalTheme.typography.bodySmall,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                SignalAuthMiniChip(primaryChip, accentColor)
+                SignalAuthMiniChip(secondaryChip, colors.bankSecondary)
+                SignalAuthMiniChip(tertiaryChip, if (colors.dark || colors.black) colors.bankSecondary else colors.bankPrimary)
+            }
         }
+    }
+}
+
+@Composable
+private fun SignalAuthMiniChip(label: String, color: Color) {
+    Surface(
+        color = color.copy(alpha = if (SignalTheme.colors.dark || SignalTheme.colors.black) 0.14f else 0.10f),
+        contentColor = color,
+        shape = RoundedCornerShape(SignalTheme.shapes.full),
+        border = BorderStroke(1.dp, color.copy(alpha = 0.22f)),
+    ) {
+        Text(
+            text = label,
+            modifier = Modifier.padding(horizontal = SignalSpacing.x2, vertical = 5.dp),
+            color = color,
+            style = SignalTheme.typography.statusPill,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -1297,7 +1437,6 @@ fun SignalTermsPanel(
             ) {
                 SignalTermsHeader(title, subtitle, versionLabel)
                 SignalTermsSections(sections)
-                SignalTermsAcceptText(acceptText)
             }
             Surface(
                 modifier = Modifier.fillMaxWidth(),

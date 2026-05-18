@@ -11,10 +11,12 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -134,6 +137,7 @@ data class SignalPrismCampaign(
     val imageUrl: String? = null,
     val imageDescription: String? = null,
     val gradientStops: List<Color>? = null,
+    val media: (@Composable () -> Unit)? = null,
 )
 
 data class SignalPrismTimelineEvent(
@@ -168,11 +172,16 @@ fun SignalBankHeader(
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            modifier = Modifier
+        val markModifier = if (brandVisual != null) {
+            Modifier.size(44.dp)
+        } else {
+            Modifier
                 .size(44.dp)
                 .clip(RoundedCornerShape(SignalTheme.shapes.sm))
-                .background(colors.bankSecondary),
+                .background(colors.bankSecondary)
+        }
+        Box(
+            modifier = markModifier,
             contentAlignment = Alignment.Center,
         ) {
             CompositionLocalProvider(LocalContentColor provides Color.White) {
@@ -738,22 +747,18 @@ fun SignalPrismAccountActionCluster(
     val prism = SignalTheme.prism
     val colors = SignalTheme.colors
     val clusterShape = RoundedCornerShape(28.dp)
+    val containerColor = if (colors.dark) {
+        prism.surfaces.prismSurfaceFloating.copy(alpha = 0.94f)
+    } else {
+        prism.surfaces.prismSurfaceRaised.copy(alpha = 0.98f)
+    }
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(clusterShape)
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        prism.surfaces.prismSurfaceFloating.copy(alpha = if (colors.dark) 0.92f else 0.96f),
-                        prism.palette.prismOcean.copy(alpha = if (colors.dark) 0.18f else 0.10f),
-                        prism.palette.prismViolet.copy(alpha = if (colors.dark) 0.10f else 0.055f),
-                    ),
-                ),
-                clusterShape,
-            )
+            .background(containerColor, clusterShape)
             .border(
-                BorderStroke(1.dp, prism.overlays.prismBorderLuminous.copy(alpha = if (colors.dark) 0.18f else 0.14f)),
+                BorderStroke(1.dp, if (colors.dark) prism.tones.secondary.copy(alpha = 0.18f) else prism.tones.secondary.copy(alpha = 0.16f)),
                 clusterShape,
             )
             .padding(8.dp),
@@ -793,6 +798,15 @@ private fun SignalPrismAccountActionCell(
     )
     val accent = prismActionAccent(action.id, prominent)
     val shape = RoundedCornerShape(if (prominent) 22.dp else 18.dp)
+    val cellContainer = if (prominent) {
+        if (colors.dark) prism.tones.paymentContainer else lerp(prism.surfaces.prismSurface, accent, 0.16f)
+    } else {
+        lerp(
+            if (colors.dark) prism.surfaces.prismSurfaceRaised else prism.surfaces.prismSurface,
+            accent,
+            if (colors.dark) 0.10f else 0.085f,
+        )
+    }
     Row(
         modifier = modifier
             .graphicsLayer {
@@ -801,25 +815,8 @@ private fun SignalPrismAccountActionCell(
             }
             .heightIn(min = if (prominent) 66.dp else 58.dp)
             .clip(shape)
-            .background(
-                if (prominent) {
-                    Brush.linearGradient(
-                        listOf(
-                            accent.copy(alpha = if (colors.dark) 0.30f else 0.26f),
-                            prism.tones.payment.copy(alpha = if (colors.dark) 0.18f else 0.16f),
-                        ),
-                    )
-                } else {
-                    Brush.linearGradient(
-                        listOf(
-                            accent.copy(alpha = if (colors.dark) 0.105f else 0.13f),
-                            prism.tones.secondaryContainer.copy(alpha = if (colors.dark) 0.22f else 0.68f),
-                        ),
-                    )
-                },
-                shape,
-            )
-            .border(1.dp, accent.copy(alpha = if (prominent) 0.24f else 0.12f), shape)
+            .background(cellContainer, shape)
+            .border(1.dp, accent.copy(alpha = if (prominent) 0.26f else if (colors.dark) 0.15f else 0.18f), shape)
             .clickable(interactionSource = interactionSource, indication = null, onClick = action.onClick)
             .padding(horizontal = SignalSpacing.x2, vertical = SignalSpacing.x2),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
@@ -829,7 +826,7 @@ private fun SignalPrismAccountActionCell(
             modifier = Modifier
                 .size(if (prominent) 38.dp else 32.dp)
                 .clip(RoundedCornerShape(if (prominent) 15.dp else 13.dp))
-                .background(accent.copy(alpha = if (prominent) 0.28f else 0.18f)),
+                .background(accent.copy(alpha = if (colors.dark) if (prominent) 0.28f else 0.18f else if (prominent) 0.24f else 0.20f)),
             contentAlignment = Alignment.Center,
         ) {
             CompositionLocalProvider(LocalContentColor provides accent) {
@@ -884,6 +881,8 @@ fun SignalPrismQuickTransferRow(
         label = "signal-prism-quick-transfer-press",
     )
     val shape = RoundedCornerShape(30.dp)
+    val transferContainer = prism.tones.quickTransferContainer
+    val transferContent = prism.tones.onQuickTransferContainer
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -892,17 +891,8 @@ fun SignalPrismQuickTransferRow(
                 scaleY = scale
             }
             .clip(shape)
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        prism.tones.secondary.copy(alpha = if (colors.dark) 0.36f else 0.10f),
-                        prism.tones.payment.copy(alpha = if (colors.dark) 0.18f else 0.14f),
-                        prism.tones.accent.copy(alpha = if (colors.dark) 0.12f else 0.09f),
-                    ),
-                ),
-                shape,
-            )
-            .border(BorderStroke(1.dp, prism.overlays.prismBorderSoft.copy(alpha = if (colors.dark) 0.10f else 0.14f)), shape)
+            .background(transferContainer, shape)
+            .border(BorderStroke(1.dp, prism.tones.payment.copy(alpha = 0.22f)), shape)
             .clickable(interactionSource = interactionSource, indication = null, onClick = transfer.onClick)
             .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x3),
         horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
@@ -920,14 +910,14 @@ fun SignalPrismQuickTransferRow(
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
                 text = transfer.title,
-                color = prism.palette.prismTextPrimary,
+                color = transferContent,
                 style = SignalTheme.typography.titleMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
                 text = transfer.subtitle,
-                color = prism.palette.prismTextSecondary,
+                color = transferContent.copy(alpha = 0.74f),
                 style = SignalTheme.typography.rowMeta,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -946,6 +936,7 @@ fun SignalPrismMoneyMovementPreview(
 ) {
     val prism = SignalTheme.prism
     val colors = SignalTheme.colors
+    val containerColor = if (colors.dark) prism.surfaces.prismSurfaceMuted.copy(alpha = 0.58f) else prism.surfaces.prismSurfaceRaised
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
@@ -955,7 +946,8 @@ fun SignalPrismMoneyMovementPreview(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(26.dp))
-                .background(if (colors.dark) prism.surfaces.prismSurfaceMuted.copy(alpha = 0.38f) else prism.surfaces.prismSurfaceFloating.copy(alpha = 0.70f))
+                .background(containerColor)
+                .border(1.dp, prism.overlays.prismBorderSoft.copy(alpha = if (colors.dark) 0.08f else 0.22f), RoundedCornerShape(26.dp))
                 .padding(horizontal = SignalSpacing.x3, vertical = SignalSpacing.x2),
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
@@ -996,13 +988,52 @@ private fun SignalPrismMoneyMovementRow(movement: SignalPrismMoneyMovement) {
             Text(text = movement.title, color = colors.onSurface, style = SignalTheme.typography.rowTitle, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(text = movement.metadata, color = colors.onSurfaceVariant, style = SignalTheme.typography.rowMeta, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
-        Text(
-            text = movement.amount,
+        SignalPrismInlineAmount(
+            value = movement.amount,
             color = tone,
+        )
+    }
+}
+
+@Composable
+private fun SignalPrismInlineAmount(
+    value: String,
+    color: Color,
+) {
+    val parts = value.split(" ").filter { it.isNotBlank() }
+    val currencyFirst = parts.firstOrNull()?.any { it.isLetter() } == true
+    val currency = if (currencyFirst) parts.firstOrNull().orEmpty() else parts.getOrNull(1).orEmpty()
+    val number = if (currencyFirst) parts.getOrNull(1).orEmpty() else parts.firstOrNull().orEmpty()
+    if (currency.isBlank() || number.isBlank()) {
+        Text(
+            text = value,
+            color = color,
             style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
+        return
+    }
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = currency,
+                color = color,
+                style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
+                maxLines = 1,
+            )
+            Spacer(Modifier.width(5.dp))
+            Text(
+                text = number,
+                color = color,
+                style = SignalTheme.typography.rowTitle.copy(fontFeatureSettings = "tnum"),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 
@@ -1054,43 +1085,53 @@ fun SignalPrismCampaignCarousel(
     modifier: Modifier = Modifier,
 ) {
     val prism = SignalTheme.prism
+    val colors = SignalTheme.colors
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2)) {
         SignalPrismSectionHeader(title = title)
-        Row(
-            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
-        ) {
-        campaigns.sortedByDescending { it.priority }.forEach { campaign ->
-            val shape = RoundedCornerShape(30.dp)
-            Column(
-                modifier = Modifier
-                    .width(308.dp)
-                    .clip(shape)
-                    .background(
-                        Brush.linearGradient(
-                            campaign.gradientStops ?: listOf(
-                                prism.palette.prismViolet.copy(alpha = 0.26f),
-                                prism.palette.prismCoral.copy(alpha = 0.13f),
-                                prism.surfaces.prismSurfaceRaised.copy(alpha = 0.58f),
-                            ),
-                        ),
-                        shape,
-                    )
-                    .clickable(onClick = campaign.onClick)
-                    .padding(SignalSpacing.x3),
-                verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+        BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+            val cardWidth = maxWidth * 0.88f
+            Row(
+                modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(SignalSpacing.x3),
             ) {
-                SignalPrismCampaignMedia(
-                    imageUrl = campaign.imageUrl,
-                    description = campaign.imageDescription ?: campaign.title,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 92.dp),
-                )
-                Text(text = campaign.eyebrow, color = prism.palette.prismGold, style = SignalTheme.typography.statusPill, maxLines = 1)
-                Text(text = campaign.title, color = prism.palette.prismTextPrimary, style = SignalTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(text = campaign.message, color = prism.palette.prismTextSecondary, style = SignalTheme.typography.rowMeta, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Text(text = campaign.actionLabel, color = prism.palette.prismCyan, style = SignalTheme.typography.button, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                campaigns.sortedByDescending { it.priority }.forEach { campaign ->
+                    val shape = RoundedCornerShape(34.dp)
+                    val media = campaign.media
+                    Column(
+                        modifier = Modifier
+                            .width(cardWidth)
+                            .heightIn(min = 236.dp)
+                            .clip(shape)
+                            .background(if (colors.dark) prism.surfaces.prismSurfaceRaised else prism.surfaces.prismSurface, shape)
+                            .border(1.dp, prism.overlays.prismBorderSoft.copy(alpha = if (colors.dark) 0.12f else 0.20f), shape)
+                            .clickable(onClick = campaign.onClick)
+                            .padding(SignalSpacing.x4),
+                        verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2),
+                    ) {
+                        if (media != null) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(126.dp)
+                                    .clip(RoundedCornerShape(22.dp))
+                                    .semantics { contentDescription = campaign.imageDescription ?: campaign.title },
+                            ) {
+                                media()
+                            }
+                        } else {
+                            SignalPrismCampaignMedia(
+                                imageUrl = campaign.imageUrl,
+                                description = campaign.imageDescription ?: campaign.title,
+                                modifier = Modifier.fillMaxWidth().height(126.dp),
+                            )
+                        }
+                        Text(text = campaign.eyebrow, color = prism.palette.prismGold, style = SignalTheme.typography.statusPill, maxLines = 1)
+                        Text(text = campaign.title, color = prism.palette.prismTextPrimary, style = SignalTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(text = campaign.message, color = prism.palette.prismTextSecondary, style = SignalTheme.typography.rowMeta, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        Text(text = campaign.actionLabel, color = prism.palette.prismCyan, style = SignalTheme.typography.button, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                }
             }
-        }
         }
     }
 }
@@ -1144,10 +1185,24 @@ fun SignalPrismFinancialTimelinePreview(
     events: List<SignalPrismTimelineEvent>,
     modifier: Modifier = Modifier,
 ) {
+    val prism = SignalTheme.prism
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(SignalSpacing.x2)) {
         SignalPrismSectionHeader(title = title, actionLabel = summary)
-        events.sortedByDescending { it.priority }.take(3).forEachIndexed { index, event ->
-            SignalPrismTimelineEventRow(event = event, emphasized = index == 0)
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = prism.surfaces.prismSurfaceRaised.copy(alpha = if (SignalTheme.colors.dark) 0.68f else 0.90f),
+            contentColor = prism.palette.prismTextPrimary,
+            shape = RoundedCornerShape(28.dp),
+            border = BorderStroke(1.dp, prism.overlays.prismBorderSoft.copy(alpha = if (SignalTheme.colors.dark) 0.16f else 0.28f)),
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = SignalSpacing.x2, vertical = SignalSpacing.x2),
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
+                events.sortedByDescending { it.priority }.take(3).forEachIndexed { index, event ->
+                    SignalPrismTimelineEventRow(event = event, emphasized = index == 0)
+                }
+            }
         }
     }
 }

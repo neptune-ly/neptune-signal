@@ -6,6 +6,11 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+private fun prismContentColorFor(color: Color): Color {
+    val luma = (0.299f * color.red) + (0.587f * color.green) + (0.114f * color.blue)
+    return if (luma > 0.60f) Color(0xFF06111E) else Color.White
+}
+
 enum class SignalPrismAppearance {
     Dark,
     Light,
@@ -82,7 +87,106 @@ data class SignalPrismGradient(
 )
 
 @Immutable
+data class SignalPrismLightPalette(
+    val surface: Color = Color(0xFFF0F7FA),
+    val surfaceBright: Color = Color(0xFFFBFEFF),
+    val surfaceContainerLowest: Color = Color(0xFFFFFFFF),
+    val surfaceContainerLow: Color = Color(0xFFE7F1F5),
+    val surfaceContainer: Color = Color(0xFFDCEAF0),
+    val surfaceContainerHigh: Color = Color(0xFFCFE1E9),
+    val surfaceContainerHighest: Color = Color(0xFFBED4DE),
+    val onSurface: Color = Color(0xFF061A2B),
+    val onSurfaceVariant: Color = Color(0xFF435967),
+    val outline: Color = Color(0xFF95ACB8),
+    val outlineVariant: Color = Color(0xFFB9CCD5),
+    val inverseSurface: Color = Color(0xFF061A2B),
+    val inverseOnSurface: Color = Color(0xFFF6FBFF),
+    val primaryContainerBlend: Float = 0.17f,
+    val secondaryContainerBlend: Float = 0.22f,
+    val tertiaryContainerBlend: Float = 0.16f,
+    val heroGradientIntensity: Float = 0.54f,
+    val ritualGradientIntensity: Float = 0.46f,
+    val fxGradientIntensity: Float = 0.30f,
+) {
+    fun applyTo(colors: SignalColors, brand: SignalBrand): SignalColors {
+        val primaryContainerColor = lerp(surfaceContainerLow, brand.primary, primaryContainerBlend)
+        val secondaryContainerColor = lerp(surfaceContainerLow, brand.secondary, secondaryContainerBlend)
+        val tertiaryContainerColor = lerp(surfaceContainerLow, brand.accent, tertiaryContainerBlend)
+        return colors.copy(
+            dark = false,
+            black = false,
+            primary = brand.primary,
+            onPrimary = prismContentColorFor(brand.primary),
+            primaryContainer = primaryContainerColor,
+            onPrimaryContainer = onSurface,
+            secondary = brand.secondary,
+            onSecondary = prismContentColorFor(brand.secondary),
+            secondaryContainer = secondaryContainerColor,
+            onSecondaryContainer = onSurface,
+            tertiary = brand.accent,
+            onTertiary = prismContentColorFor(brand.accent),
+            tertiaryContainer = tertiaryContainerColor,
+            onTertiaryContainer = onSurface,
+            surface = surface,
+            surfaceDim = surfaceContainerHighest,
+            surfaceBright = surfaceBright,
+            surfaceContainerLowest = surfaceContainerLowest,
+            surfaceContainerLow = surfaceContainerLow,
+            surfaceContainer = surfaceContainer,
+            surfaceContainerHigh = surfaceContainerHigh,
+            surfaceContainerHighest = surfaceContainerHighest,
+            onSurface = onSurface,
+            onSurfaceVariant = onSurfaceVariant,
+            outline = outline,
+            outlineVariant = outlineVariant,
+            inverseSurface = inverseSurface,
+            inverseOnSurface = inverseOnSurface,
+            bankPrimary = brand.primary,
+            bankSecondary = brand.secondary,
+            bankAccent = brand.accent,
+            surfacePaper = surface,
+            surfaceCard = surfaceContainerLowest,
+            surfaceSoft = surfaceContainer,
+            textPrimary = onSurface,
+            textSecondary = onSurfaceVariant,
+            textInverse = inverseOnSurface,
+            borderDefault = outlineVariant,
+        )
+    }
+}
+
+enum class PrismGradientDirection {
+    Horizontal,
+    Vertical,
+    Diagonal,
+    Radial,
+}
+
+@Immutable
+data class PrismGradientSpec(
+    val enabled: Boolean = false,
+    val colors: List<Color> = emptyList(),
+    val direction: PrismGradientDirection = PrismGradientDirection.Diagonal,
+    val intensity: Float = 0f,
+)
+
+@Immutable
+data class SignalPrismGradientLibrary(
+    val heroGradient: PrismGradientSpec,
+    val ritualGradient: PrismGradientSpec,
+    val campaignOverlayGradient: PrismGradientSpec,
+    val fxGradient: PrismGradientSpec = PrismGradientSpec(),
+    val disabled: PrismGradientSpec = PrismGradientSpec(),
+)
+
+@Immutable
 data class SignalPrismGradientTokens(
+    val library: SignalPrismGradientLibrary,
+    val prismGradientStart: Color,
+    val prismGradientEnd: Color,
+    val prismBackgroundPattern: SignalPrismGradient,
+    val prismRadialPrimary: Color,
+    val prismRadialSecondary: Color,
     val prismHeroGradient: SignalPrismGradient,
     val prismAccountGradient: SignalPrismGradient,
     val prismPaymentGradient: SignalPrismGradient,
@@ -123,6 +227,8 @@ data class SignalPrismToneTokens(
     val onPayment: Color,
     val paymentContainer: Color,
     val onPaymentContainer: Color,
+    val quickTransferContainer: Color,
+    val onQuickTransferContainer: Color,
 )
 
 @Immutable
@@ -151,7 +257,9 @@ data class SignalPrismRadiusTokens(
     val prismRadiusMedium: Dp = 18.dp,
     val prismRadiusLarge: Dp = 28.dp,
     val prismRadiusHero: Dp = 34.dp,
-    val prismRadiusFloatingNav: Dp = 34.dp,
+    val prismRadiusFloatingNav: Dp = 36.dp,
+    val prismNavShapeCradleWidth: Dp = 96.dp,
+    val prismNavShapeCradleDepth: Dp = 26.dp,
 )
 
 @Immutable
@@ -170,6 +278,7 @@ data class SignalPrismProfile(
     val cardStyle: SignalPrismCardStyle = SignalPrismCardStyle.GradientHero,
     val density: SignalPrismDensity = SignalPrismDensity.Comfortable,
     val palette: SignalPrismPalette = SignalPrismPalette(),
+    val lightPalette: SignalPrismLightPalette = SignalPrismLightPalette(),
 )
 
 @Immutable
@@ -240,13 +349,7 @@ object SignalPrismDefaults {
                 navStyle = SignalPrismNavStyle.PaymentForward,
             )
         }
-        return base.copy(
-            palette = base.palette.copy(
-                prismDeepNavy = brand.primary,
-                prismOcean = brand.secondary,
-                prismCoral = brand.accent,
-            ),
-        )
+        return base
     }
 
     fun tokens(
@@ -269,28 +372,74 @@ object SignalPrismDefaults {
         )
     }
 
+    fun gradientLibrary(
+        brand: SignalBrand = SignalBrandDefaults.Neptune,
+        appearance: SignalPrismAppearance = SignalPrismAppearance.Dark,
+        profile: SignalPrismProfile = profileFor(brand),
+    ): SignalPrismGradientLibrary {
+        val palette = paletteFor(brand, appearance, profile)
+        return gradientsFor(palette, appearance, profile.gradientIntensity).library
+    }
+
+    fun heroGradientSpec(
+        brand: SignalBrand = SignalBrandDefaults.Neptune,
+        appearance: SignalPrismAppearance = SignalPrismAppearance.Dark,
+        profile: SignalPrismProfile = profileFor(brand),
+    ): PrismGradientSpec = gradientLibrary(brand, appearance, profile).heroGradient
+
+    fun ritualGradientSpec(
+        brand: SignalBrand = SignalBrandDefaults.Neptune,
+        appearance: SignalPrismAppearance = SignalPrismAppearance.Dark,
+        profile: SignalPrismProfile = profileFor(brand),
+    ): PrismGradientSpec = gradientLibrary(brand, appearance, profile).ritualGradient
+
+    fun campaignOverlayGradientSpec(
+        brand: SignalBrand = SignalBrandDefaults.Neptune,
+        appearance: SignalPrismAppearance = SignalPrismAppearance.Dark,
+        profile: SignalPrismProfile = profileFor(brand),
+    ): PrismGradientSpec = gradientLibrary(brand, appearance, profile).campaignOverlayGradient
+
+    fun fxGradientSpec(
+        brand: SignalBrand = SignalBrandDefaults.Neptune,
+        appearance: SignalPrismAppearance = SignalPrismAppearance.Dark,
+        profile: SignalPrismProfile = profileFor(brand),
+    ): PrismGradientSpec = gradientLibrary(brand, appearance, profile).fxGradient
+
     private fun paletteFor(
         brand: SignalBrand,
         appearance: SignalPrismAppearance,
         profile: SignalPrismProfile,
     ): SignalPrismPalette {
+        val bankInfluence = when (profile.personality) {
+            SignalPrismPersonality.ClassicBank -> 0.42f
+            SignalPrismPersonality.CorporateDense -> 0.34f
+            SignalPrismPersonality.IslamicCalm -> 0.30f
+            else -> 0.16f
+        }
+        val accentInfluence = when (profile.personality) {
+            SignalPrismPersonality.ClassicBank -> 0.34f
+            SignalPrismPersonality.CorporateDense -> 0.28f
+            else -> 0.22f
+        }
         val base = profile.palette.copy(
-            prismDeepNavy = brand.primary,
-            prismOcean = brand.secondary,
-            prismCyan = brand.secondary,
-            prismViolet = lerp(brand.primary, brand.accent, 0.55f),
-            prismCoral = brand.accent,
+            prismDeepNavy = lerp(profile.palette.prismDeepNavy, brand.primary, bankInfluence),
+            prismOcean = lerp(profile.palette.prismOcean, brand.secondary, bankInfluence),
+            prismCyan = lerp(profile.palette.prismCyan, brand.secondary, bankInfluence * 0.65f),
+            prismViolet = lerp(profile.palette.prismViolet, lerp(brand.primary, brand.accent, 0.42f), bankInfluence * 0.35f),
+            prismCoral = lerp(profile.palette.prismCoral, brand.accent, accentInfluence),
         )
         return when (appearance) {
             SignalPrismAppearance.Dark -> base
             SignalPrismAppearance.Light -> base.copy(
                 prismInk = Color(0xFF081B2D),
-                prismNight = Color(0xFFF0F6FA),
+                prismNight = profile.lightPalette.surfaceContainerLow,
+                prismMist = profile.lightPalette.surfaceContainer,
+                prismFrost = profile.lightPalette.surface,
                 prismGlass = Color(0xA6FFFFFF),
-                prismStroke = Color(0x26081B2D),
-                prismTextPrimary = Color(0xFF071C2E),
-                prismTextSecondary = Color(0xFF526675),
-                prismTextMuted = Color(0xFF7B8D99),
+                prismStroke = profile.lightPalette.outlineVariant.copy(alpha = 0.72f),
+                prismTextPrimary = profile.lightPalette.onSurface,
+                prismTextSecondary = profile.lightPalette.onSurfaceVariant,
+                prismTextMuted = Color(0xFF607783),
             )
             SignalPrismAppearance.Oled -> base.copy(
                 prismInk = Color(0xFF000000),
@@ -320,16 +469,106 @@ object SignalPrismDefaults {
             SignalPrismAppearance.Light -> factor * 0.84f
             SignalPrismAppearance.Dark -> factor
         }
+        val heroSpec = safeHeroGradientSpec(palette, appearance, darkAlpha)
+        val ritualSpec = safeRitualGradientSpec(palette, appearance, darkAlpha)
+        val fxSpec = safeFxGradientSpec(palette, appearance, darkAlpha)
+        val campaignSpec = safeCampaignOverlayGradientSpec(palette, appearance, darkAlpha)
         return SignalPrismGradientTokens(
-            prismHeroGradient = SignalPrismGradient(listOf(palette.prismNight, palette.prismDeepNavy, palette.prismViolet), darkAlpha),
-            prismAccountGradient = SignalPrismGradient(listOf(palette.prismDeepNavy, palette.prismOcean, palette.prismViolet), darkAlpha),
-            prismPaymentGradient = SignalPrismGradient(listOf(palette.prismCyan, palette.prismViolet, palette.prismCoral), darkAlpha),
+            library = SignalPrismGradientLibrary(
+                heroGradient = heroSpec,
+                ritualGradient = ritualSpec,
+                fxGradient = fxSpec,
+                campaignOverlayGradient = campaignSpec,
+            ),
+            prismGradientStart = palette.prismNight,
+            prismGradientEnd = palette.prismOcean,
+            prismBackgroundPattern = SignalPrismGradient(
+                listOf(palette.prismNight, palette.prismDeepNavy, palette.prismOcean, palette.prismViolet),
+                darkAlpha * 0.28f,
+            ),
+            prismRadialPrimary = palette.prismCyan,
+            prismRadialSecondary = palette.prismCoral,
+            prismHeroGradient = SignalPrismGradient(heroSpec.colors, heroSpec.intensity),
+            prismAccountGradient = SignalPrismGradient(heroSpec.colors, heroSpec.intensity),
+            prismPaymentGradient = SignalPrismGradient(ritualSpec.colors, ritualSpec.intensity),
             prismAccentGradient = SignalPrismGradient(listOf(palette.prismOcean, palette.prismCyan), darkAlpha),
             prismSuccessGradient = SignalPrismGradient(listOf(palette.prismEmerald, palette.prismOcean), darkAlpha),
-            prismCampaignGradient = SignalPrismGradient(listOf(palette.prismDeepNavy, palette.prismCoral), darkAlpha * 0.72f),
+            prismCampaignGradient = SignalPrismGradient(campaignSpec.colors, campaignSpec.intensity),
             prismAmbientWash = SignalPrismGradient(listOf(palette.prismNight, palette.prismOcean, palette.prismViolet), darkAlpha * 0.18f),
             prismCardGlow = SignalPrismGradient(listOf(palette.prismCyan, Color.Transparent), darkAlpha * 0.26f),
-            prismNavSheen = SignalPrismGradient(listOf(Color.White, palette.prismCyan), darkAlpha * 0.10f),
+            prismNavSheen = SignalPrismGradient(emptyList(), 0f),
+        )
+    }
+
+    private fun safeHeroGradientSpec(
+        palette: SignalPrismPalette,
+        appearance: SignalPrismAppearance,
+        alpha: Float,
+    ): PrismGradientSpec {
+        val intensity = when (appearance) {
+            SignalPrismAppearance.Light -> alpha.coerceAtMost(0.54f)
+            SignalPrismAppearance.Dark -> alpha.coerceAtMost(0.82f)
+            SignalPrismAppearance.Oled -> alpha.coerceAtMost(0.52f)
+        }
+        return PrismGradientSpec(
+            enabled = true,
+            colors = listOf(palette.prismDeepNavy, palette.prismOcean, palette.prismViolet.copy(alpha = 0.82f)),
+            direction = PrismGradientDirection.Diagonal,
+            intensity = intensity,
+        )
+    }
+
+    private fun safeRitualGradientSpec(
+        palette: SignalPrismPalette,
+        appearance: SignalPrismAppearance,
+        alpha: Float,
+    ): PrismGradientSpec {
+        val intensity = when (appearance) {
+            SignalPrismAppearance.Light -> alpha.coerceAtMost(0.46f)
+            SignalPrismAppearance.Dark -> alpha.coerceAtMost(0.78f)
+            SignalPrismAppearance.Oled -> alpha.coerceAtMost(0.46f)
+        }
+        return PrismGradientSpec(
+            enabled = true,
+            colors = listOf(palette.prismCyan, palette.prismOcean, palette.prismCoral.copy(alpha = 0.82f)),
+            direction = PrismGradientDirection.Radial,
+            intensity = intensity,
+        )
+    }
+
+    private fun safeCampaignOverlayGradientSpec(
+        palette: SignalPrismPalette,
+        appearance: SignalPrismAppearance,
+        alpha: Float,
+    ): PrismGradientSpec {
+        val intensity = when (appearance) {
+            SignalPrismAppearance.Light -> alpha.coerceAtMost(0.42f)
+            SignalPrismAppearance.Dark -> alpha.coerceAtMost(0.62f)
+            SignalPrismAppearance.Oled -> alpha.coerceAtMost(0.38f)
+        }
+        return PrismGradientSpec(
+            enabled = true,
+            colors = listOf(Color.Black.copy(alpha = 0.18f), palette.prismDeepNavy.copy(alpha = 0.72f), Color.Black.copy(alpha = 0.28f)),
+            direction = PrismGradientDirection.Vertical,
+            intensity = intensity,
+        )
+    }
+
+    private fun safeFxGradientSpec(
+        palette: SignalPrismPalette,
+        appearance: SignalPrismAppearance,
+        alpha: Float,
+    ): PrismGradientSpec {
+        val intensity = when (appearance) {
+            SignalPrismAppearance.Light -> alpha.coerceAtMost(0.30f)
+            SignalPrismAppearance.Dark -> alpha.coerceAtMost(0.52f)
+            SignalPrismAppearance.Oled -> alpha.coerceAtMost(0.30f)
+        }
+        return PrismGradientSpec(
+            enabled = true,
+            colors = listOf(palette.prismDeepNavy, palette.prismEmerald.copy(alpha = 0.76f), palette.prismGold.copy(alpha = 0.54f)),
+            direction = PrismGradientDirection.Diagonal,
+            intensity = intensity,
         )
     }
 
@@ -349,11 +588,11 @@ object SignalPrismDefaults {
         SignalPrismAppearance.Light -> SignalPrismSurfaceTokens(
             prismBackground = palette.prismFrost,
             prismSurface = palette.prismMist,
-            prismSurfaceRaised = lerp(palette.prismFrost, palette.prismCyan, 0.035f),
-            prismSurfaceFloating = lerp(palette.prismFrost, palette.prismDeepNavy, 0.055f),
+            prismSurfaceRaised = lerp(palette.prismFrost, palette.prismDeepNavy, 0.060f),
+            prismSurfaceFloating = lerp(palette.prismFrost, palette.prismOcean, 0.085f),
             prismSurfaceGlass = palette.prismGlass,
-            prismSurfaceMuted = lerp(palette.prismMist, palette.prismDeepNavy, 0.04f),
-            prismSurfaceStrong = lerp(palette.prismMist, palette.prismDeepNavy, 0.10f),
+            prismSurfaceMuted = lerp(palette.prismFrost, palette.prismDeepNavy, 0.050f),
+            prismSurfaceStrong = lerp(palette.prismFrost, palette.prismDeepNavy, 0.105f),
         )
         SignalPrismAppearance.Oled -> SignalPrismSurfaceTokens(
             prismBackground = Color.Black,
@@ -371,17 +610,17 @@ object SignalPrismDefaults {
         appearance: SignalPrismAppearance,
     ): SignalPrismToneTokens {
         val primaryContainerAlpha = when (appearance) {
-            SignalPrismAppearance.Light -> 0.12f
+            SignalPrismAppearance.Light -> 0.17f
             SignalPrismAppearance.Dark -> 0.24f
             SignalPrismAppearance.Oled -> 0.30f
         }
         val secondaryContainerAlpha = when (appearance) {
-            SignalPrismAppearance.Light -> 0.20f
+            SignalPrismAppearance.Light -> 0.22f
             SignalPrismAppearance.Dark -> 0.20f
             SignalPrismAppearance.Oled -> 0.26f
         }
         val accentContainerAlpha = when (appearance) {
-            SignalPrismAppearance.Light -> 0.18f
+            SignalPrismAppearance.Light -> 0.16f
             SignalPrismAppearance.Dark -> 0.18f
             SignalPrismAppearance.Oled -> 0.23f
         }
@@ -403,6 +642,12 @@ object SignalPrismDefaults {
             onPayment = contentColorFor(payment),
             paymentContainer = lerp(palette.prismSurfaceBase(appearance), payment, secondaryContainerAlpha),
             onPaymentContainer = palette.prismTextPrimary,
+            quickTransferContainer = when (appearance) {
+                SignalPrismAppearance.Light -> lerp(palette.prismFrost, payment, 0.16f)
+                SignalPrismAppearance.Dark -> lerp(palette.prismNight, payment, 0.18f)
+                SignalPrismAppearance.Oled -> lerp(Color.Black, payment, 0.16f)
+            },
+            onQuickTransferContainer = palette.prismTextPrimary,
         )
     }
 
@@ -413,8 +658,7 @@ object SignalPrismDefaults {
     }
 
     private fun contentColorFor(color: Color): Color {
-        val luma = (0.299f * color.red) + (0.587f * color.green) + (0.114f * color.blue)
-        return if (luma > 0.60f) Color(0xFF06111E) else Color.White
+        return prismContentColorFor(color)
     }
 
     private fun overlaysFor(

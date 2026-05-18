@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.LocalContentColor
@@ -35,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -50,10 +50,12 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Dp
 import ly.neptune.signal.theme.SignalComponentMetrics
 import ly.neptune.signal.theme.SignalPrismAppearance
+import ly.neptune.signal.theme.SignalPrismNavStyle
 import ly.neptune.signal.theme.SignalSpacing
 import ly.neptune.signal.theme.SignalTheme
 
@@ -382,41 +384,125 @@ fun SignalPrismFloatingNav(
     onSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
     centerAction: SignalNavCenterAction? = null,
+    style: SignalPrismNavStyle = SignalPrismNavStyle.FloatingDock,
 ) {
     val colors = SignalTheme.colors
     val prism = SignalTheme.prism
     val typography = SignalTheme.typography
-    val dockShape = RoundedCornerShape(prism.radii.prismRadiusFloatingNav)
-    val dockHeight = 72.dp
-    val dockContainer = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.surfaces.prismSurfaceFloating
-        SignalPrismAppearance.Dark -> prism.palette.prismDeepNavy
-        SignalPrismAppearance.Oled -> Color(0xFF03070D)
+    val density = LocalDensity.current
+    val dockShape = if (centerAction == null) {
+        RoundedCornerShape(prism.radii.prismRadiusFloatingNav)
+    } else {
+        GenericShape { size, _ ->
+            val tokenRadius = with(density) { prism.radii.prismRadiusFloatingNav.toPx() }
+            val tokenCradleWidth = with(density) { prism.radii.prismNavShapeCradleWidth.toPx() }
+            val tokenCradleDepth = with(density) { prism.radii.prismNavShapeCradleDepth.toPx() }
+            val radius = tokenRadius.coerceIn(size.height * 0.34f, size.height * 0.50f).coerceAtMost(size.width * 0.12f)
+            val cradleWidth = tokenCradleWidth.coerceIn(size.height * 0.92f, size.width * 0.34f)
+            val cradleDepth = tokenCradleDepth.coerceIn(size.height * 0.14f, size.height * 0.34f)
+            val center = size.width / 2f
+            val left = center - cradleWidth / 2f
+            val right = center + cradleWidth / 2f
+
+            moveTo(radius, 0f)
+            lineTo(left, 0f)
+            cubicTo(
+                left + cradleWidth * 0.18f,
+                0f,
+                left + cradleWidth * 0.22f,
+                cradleDepth,
+                center,
+                cradleDepth,
+            )
+            cubicTo(
+                right - cradleWidth * 0.22f,
+                cradleDepth,
+                right - cradleWidth * 0.18f,
+                0f,
+                right,
+                0f,
+            )
+            lineTo(size.width - radius, 0f)
+            quadraticTo(size.width, 0f, size.width, radius)
+            lineTo(size.width, size.height - radius)
+            quadraticTo(size.width, size.height, size.width - radius, size.height)
+            lineTo(radius, size.height)
+            quadraticTo(0f, size.height, 0f, size.height - radius)
+            lineTo(0f, radius)
+            quadraticTo(0f, 0f, radius, 0f)
+            close()
+        }
+    }
+    val dockHeight = when (style) {
+        SignalPrismNavStyle.DenseOperational -> 66.dp
+        else -> 72.dp
+    }
+    val dockContainer = when (style) {
+        SignalPrismNavStyle.ClassicDock -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> prism.surfaces.prismSurface
+            SignalPrismAppearance.Dark -> prism.surfaces.prismSurfaceRaised
+            SignalPrismAppearance.Oled -> Color(0xFF05080C)
+        }
+        SignalPrismNavStyle.FloatingDock -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> colors.surfaceContainerHighest
+            SignalPrismAppearance.Dark -> prism.palette.prismDeepNavy
+            SignalPrismAppearance.Oled -> Color(0xFF03070D)
+        }
+        SignalPrismNavStyle.PaymentForward -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> colors.surfaceContainerHigh
+            SignalPrismAppearance.Dark -> prism.palette.prismDeepNavy
+            SignalPrismAppearance.Oled -> Color(0xFF03070D)
+        }
+        SignalPrismNavStyle.DenseOperational -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> prism.surfaces.prismSurfaceRaised
+            SignalPrismAppearance.Dark -> prism.surfaces.prismSurfaceStrong
+            SignalPrismAppearance.Oled -> Color(0xFF05080C)
+        }
     }
     val dockBorder = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.tones.secondary.copy(alpha = 0.18f)
+        SignalPrismAppearance.Light -> if (style == SignalPrismNavStyle.ClassicDock) {
+            prism.tones.secondary.copy(alpha = 0.14f)
+        } else {
+            prism.tones.secondary.copy(alpha = 0.26f)
+        }
         SignalPrismAppearance.Dark -> prism.overlays.prismBorderLuminous.copy(alpha = 0.05f)
         SignalPrismAppearance.Oled -> prism.overlays.prismBorderSoft.copy(alpha = 0.08f)
     }
-    val activeContainer = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.tones.paymentContainer
-        else -> prism.tones.paymentContainer
+    val activeContainer = when (style) {
+        SignalPrismNavStyle.ClassicDock -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> prism.tones.secondaryContainer
+            else -> prism.tones.paymentContainer
+        }
+        SignalPrismNavStyle.PaymentForward -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> prism.tones.paymentContainer
+            else -> prism.tones.paymentContainer
+        }
+        SignalPrismNavStyle.DenseOperational -> prism.tones.primaryContainer
+        SignalPrismNavStyle.FloatingDock -> when (prism.appearance) {
+            SignalPrismAppearance.Light -> prism.tones.primaryContainer
+            else -> prism.tones.paymentContainer
+        }
     }
-    val activeContent = when (prism.appearance) {
-        SignalPrismAppearance.Light -> prism.tones.onPaymentContainer
-        else -> prism.palette.prismTextPrimary
+    val activeContent = if (prism.appearance == SignalPrismAppearance.Light) {
+        colors.onSurface
+    } else {
+        prism.palette.prismTextPrimary
     }
     val inactiveContent = when (prism.appearance) {
-        SignalPrismAppearance.Light -> colors.onSurfaceVariant
+        SignalPrismAppearance.Light -> if (style == SignalPrismNavStyle.ClassicDock) {
+            prism.palette.prismDeepNavy.copy(alpha = 0.76f)
+        } else {
+            colors.onSurfaceVariant
+        }
         else -> prism.palette.prismTextSecondary.copy(alpha = 0.82f)
     }
-    val paymentSlot = if (centerAction == null) 0.dp else 80.dp
+    val paymentSlot = if (centerAction == null) 0.dp else 88.dp
 
     Box(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .heightIn(min = dockHeight + if (centerAction == null) 14.dp else 30.dp)
+            .heightIn(min = dockHeight + if (centerAction == null) 14.dp else 38.dp)
             .padding(horizontal = 18.dp, vertical = 4.dp),
     ) {
         Box(
@@ -431,15 +517,6 @@ fun SignalPrismFloatingNav(
                 )
                 .clip(dockShape)
                 .background(dockContainer)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            prism.palette.prismCyan.copy(alpha = if (colors.dark) 0.105f else 0.16f),
-                            prism.tones.accent.copy(alpha = if (colors.dark) 0.035f else 0.085f),
-                            Color.White.copy(alpha = 0.0f),
-                        ),
-                    ),
-                )
                 .border(1.dp, dockBorder, dockShape)
                 .padding(horizontal = 8.dp, vertical = 8.dp),
         ) {
@@ -468,9 +545,10 @@ fun SignalPrismFloatingNav(
         if (centerAction != null) {
             SignalPrismPaymentAction(
                 action = centerAction,
+                style = style,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .offset(y = 8.dp),
+                    .offset(y = 0.dp),
             )
         }
     }
@@ -524,31 +602,32 @@ private fun SignalPrismNavItem(
 fun SignalPrismPaymentAction(
     action: SignalNavCenterAction,
     modifier: Modifier = Modifier,
+    style: SignalPrismNavStyle = SignalPrismNavStyle.FloatingDock,
 ) {
     val prism = SignalTheme.prism
+    val colors = SignalTheme.colors
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
     val actionShape = RoundedCornerShape(SignalTheme.shapes.full)
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            prism.palette.prismDeepNavy,
-            prism.tones.payment.copy(alpha = 0.96f),
-            prism.palette.prismViolet.copy(alpha = 0.86f),
-            prism.tones.accent.copy(alpha = 0.68f),
-        ),
-    )
+    val actionContainer = when (style) {
+        SignalPrismNavStyle.ClassicDock,
+        SignalPrismNavStyle.DenseOperational -> prism.tones.primary
+        SignalPrismNavStyle.PaymentForward,
+        SignalPrismNavStyle.FloatingDock -> prism.tones.payment
+    }
+    val actionContent = if (colors.dark) Color.White else prism.tones.onPayment
 
     Box(
         modifier = modifier
-            .size(70.dp)
+            .size(76.dp)
             .graphicsLayer {
                 val scale = if (pressed) 0.972f else 1f
                 scaleX = scale
                 scaleY = scale
             }
-            .shadow(6.dp, actionShape, clip = false)
+            .shadow(if (colors.dark) 10.dp else 14.dp, actionShape, clip = false)
             .clip(actionShape)
-            .background(gradient)
+            .background(actionContainer)
             .border(1.dp, Color.White.copy(alpha = if (pressed) 0.18f else 0.10f), actionShape)
             .semantics {
                 role = Role.Button
@@ -563,12 +642,12 @@ fun SignalPrismPaymentAction(
     ) {
         Box(
             modifier = Modifier
-                .size(48.dp)
+                .size(50.dp)
                 .clip(actionShape)
                 .background(Color.White.copy(alpha = if (pressed) 0.08f else 0.032f)),
             contentAlignment = Alignment.Center,
         ) {
-            CompositionLocalProvider(LocalContentColor provides Color.White) {
+            CompositionLocalProvider(LocalContentColor provides actionContent) {
                 SignalPrismPaymentIcon(size = 30.dp)
             }
         }

@@ -24,17 +24,20 @@ data class SignalExpressiveProfile(
         appearance: SignalAppearanceMode,
     ): SignalThemeOverrides {
         val baseLight = brand.surface
-        val lightSurface = lerp(baseLight, anchor, surfaceTint)
-        val lightLow = lerp(lightSurface, anchor, cardTint * 0.68f)
-        val lightContainer = lerp(lightSurface, anchor, cardTint)
-        val lightHigh = lerp(lightSurface, anchor, navTint)
+        val controlledSurfaceTint = surfaceTint * 0.42f
+        val controlledCardTint = cardTint * 0.58f
+        val controlledNavTint = navTint * 0.72f
+        val lightSurface = lerp(baseLight, anchor, controlledSurfaceTint)
+        val lightLow = lerp(lightSurface, anchor, controlledCardTint * 0.62f)
+        val lightContainer = lerp(lightSurface, anchor, controlledCardTint)
+        val lightHigh = lerp(lightSurface, anchor, controlledNavTint)
         val darkBase = when (appearance) {
             SignalAppearanceMode.Black -> Color(0xFF000000)
             else -> Color(0xFF080B0E)
         }
-        val darkSurface = lerp(darkBase, anchor, darkTint * 0.34f)
-        val darkLow = lerp(darkSurface, anchor, (cardTint + 0.02f).coerceAtMost(0.11f))
-        val darkContainer = lerp(darkSurface, anchor, (navTint + 0.02f).coerceAtMost(0.13f))
+        val darkSurface = lerp(darkBase, anchor, darkTint * 0.26f)
+        val darkLow = lerp(darkSurface, anchor, (controlledCardTint + 0.02f).coerceAtMost(0.09f))
+        val darkContainer = lerp(darkSurface, anchor, (controlledNavTint + 0.02f).coerceAtMost(0.11f))
         val resolvedPrimary = primaryTone ?: brand.primary
         val resolvedSecondary = secondaryTone ?: brand.secondary
         val resolvedAccent = accentTone ?: accentBias
@@ -66,7 +69,7 @@ data class SignalExpressiveProfile(
             },
             surfaceContainerHighest = when (appearance) {
                 SignalAppearanceMode.Dark, SignalAppearanceMode.Black -> lerp(darkContainer, anchor, 0.065f)
-                else -> lerp(lightSurface, anchor, (navTint + 0.08f).coerceAtMost(0.24f))
+                else -> lerp(lightSurface, anchor, (controlledNavTint + 0.06f).coerceAtMost(0.18f))
             },
         )
     }
@@ -79,10 +82,10 @@ object SignalExpressiveProfiles {
         description = "Deep navy with cyan, violet, and coral fintech accents",
         anchor = Color(0xFF082B5A),
         accentBias = Color(0xFFFF6A6A),
-        surfaceTint = 0.018f,
-        navTint = 0.10f,
-        cardTint = 0.060f,
-        darkTint = 0.13f,
+        surfaceTint = 0.040f,
+        navTint = 0.18f,
+        cardTint = 0.105f,
+        darkTint = 0.15f,
         primaryTone = Color(0xFF082B5A),
         secondaryTone = Color(0xFF29D4FF),
         accentTone = Color(0xFFFF6A6A),

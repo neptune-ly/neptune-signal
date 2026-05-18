@@ -34,7 +34,7 @@ object SignalComponentMetrics {
     val rowIconGlyph: Dp = 22.dp
     val bottomNavIcon: Dp = 22.dp
     val smallActionIcon: Dp = 18.dp
-    val iconButtonBox: Dp = 44.dp
+    val iconButtonBox: Dp = 48.dp
     val topBarOverlayReserve: Dp = 76.dp
     val textFieldHeight: Dp = 58.dp
     val buttonHeight: Dp = 52.dp
@@ -51,7 +51,7 @@ object SignalComponentMetrics {
 }
 
 object SignalAuthMetrics {
-    const val contentHeightRatio: Float = 0.70f
+    const val contentHeightRatio: Float = 0.64f
     val contentGap: Dp = 10.dp
     val compactContentGap: Dp = 8.dp
     val headerHeight: Dp = 126.dp
@@ -75,10 +75,10 @@ object SignalAuthMetrics {
     val noteIconBox: Dp = 36.dp
     val noteIconRadius: Dp = 12.dp
     val noteGlyph: Dp = SignalComponentMetrics.smallActionIcon
-    val onboardingMinHeight: Dp = 640.dp
-    val onboardingCompactMinHeight: Dp = 600.dp
-    val onboardingHeroHeight: Dp = 342.dp
-    val onboardingCompactHeroHeight: Dp = 286.dp
+    val onboardingMinHeight: Dp = 580.dp
+    val onboardingCompactMinHeight: Dp = 520.dp
+    val onboardingHeroHeight: Dp = 238.dp
+    val onboardingCompactHeroHeight: Dp = 204.dp
     val onboardingShortDeviceBreakpoint: Dp = 780.dp
 }
 
